@@ -292,7 +292,8 @@ function renderGrid(){
   var g=document.getElementById('productGrid');
   g.innerHTML=items.map(function(p){
     var badge=p.b==='ai'?'<span class="badge badge-ai">AI PICK</span>':p.b==='new'?'<span class="badge badge-new">NEW</span>':p.b==='orig'?'<span class="badge badge-orig">ORIGINAL</span>':'';
-    return '<div class="card" onclick="showProd(\''+p.n.replace(/'/g,"\\'")+'\')"><div class="card-img">'+badge+'<img src="'+CDN+p.img+'&width=600" alt="'+p.n+'" loading="lazy"></div><div class="card-info"><div class="card-name">'+p.n+'</div><div class="card-cat">'+p.cat+'</div><div class="card-price">'+p.p+'</div></div></div>';
+    var sep=p.img.indexOf('?')>-1?'&':'?';
+    return '<div class="card" onclick="showProd(\''+p.n.replace(/'/g,"\\'")+'\')"><div class="card-img">'+badge+'<img src="'+CDN+p.img+sep+'width=600" alt="'+p.n+'" loading="lazy"></div><div class="card-info"><div class="card-name">'+p.n+'</div><div class="card-cat">'+p.cat+'</div><div class="card-price">'+p.p+'</div></div></div>';
   }).join('');
 }
 renderGrid();
@@ -317,7 +318,8 @@ function showProd(name){
   el.innerHTML+='<div class="ai-m bot" id="'+tid+'"><div class="ai-m-ava">N</div><div class="ai-m-bub"><span class="typing" style="font-size:12px;color:var(--light)">Looking up</span></div></div>';
   el.scrollTop=el.scrollHeight;
   setTimeout(function(){
-    document.getElementById(tid).querySelector('.ai-m-bub').innerHTML='<div class="pc"><div class="pc-img"><img src="'+CDN+p.img+'&width=120"></div><div><div class="pc-name">'+p.n+'</div><div class="pc-price">'+p.p+'</div><div class="pc-note">'+p.cat+'</div></div></div>'+p.d+'<br><br>Want me to suggest pieces that pair well with this?';
+    var s=p.img.indexOf('?')>-1?'&':'?';
+    document.getElementById(tid).querySelector('.ai-m-bub').innerHTML='<div class="pc"><div class="pc-img"><img src="'+CDN+p.img+s+'width=120"></div><div><div class="pc-name">'+p.n+'</div><div class="pc-price">'+p.p+'</div><div class="pc-note">'+p.cat+'</div></div></div>'+p.d+'<br><br>Want me to suggest pieces that pair well with this?';
     el.scrollTop=el.scrollHeight;
   },500);
 }
