@@ -3,477 +3,203 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>NoHa Furniture — One Person + One AI = 2NTH | demo.2nth.ai</title>
+  <title>2nth.ai Demos — Working Demonstrations</title>
   <link rel="icon" type="image/svg+xml" href="https://2nth.ai/favicon.svg">
+  <meta name="description" content="Live demos of AI-powered ERP and business systems. One person + one AI = 2NTH.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script>(function(){var t=localStorage.getItem('2nth-theme');if(t==='light')document.documentElement.classList.add('light');})()</script>
   <style>
-    :root{--c-carbon:#0a0a0a;--c-graphite:#141414;--c-gunmetal:#1c1c1e;--c-chassis:#232326;--c-titanium:#fafafa;--c-steel-900:#27272a;--c-steel-800:#3f3f46;--c-steel-700:#52525b;--c-steel-600:#71717a;--c-steel-500:#a1a1aa;--c-steel-400:#c4c4cc;--c-steel-300:#d4d4d8;--c-border:hsla(0,0%,100%,.06);--c-border-s:hsla(0,0%,100%,.1);--c-input-bg:#141414}
-    .light{--c-carbon:#fff;--c-graphite:#f7f8fa;--c-gunmetal:#f0f1f3;--c-chassis:#e8e9eb;--c-titanium:#0a0a0a;--c-steel-900:#e4e4e7;--c-steel-800:#d4d4d8;--c-steel-700:#a1a1aa;--c-steel-600:#71717a;--c-steel-500:#52525b;--c-steel-400:#3f3f46;--c-steel-300:#27272a;--c-border:rgba(0,0,0,.08);--c-border-s:rgba(0,0,0,.12);--c-input-bg:#f7f8fa}
+    :root{--c-carbon:#0a0a0a;--c-graphite:#141414;--c-gunmetal:#1c1c1e;--c-titanium:#fafafa;--c-steel-700:#52525b;--c-steel-600:#71717a;--c-steel-500:#a1a1aa;--c-steel-400:#c4c4cc;--c-steel-300:#d4d4d8;--c-border:hsla(0,0%,100%,.06);--c-border-s:hsla(0,0%,100%,.1);--c-grid-line:hsla(0,0%,100%,.018)}
+    .light{--c-carbon:#fff;--c-graphite:#f7f8fa;--c-gunmetal:#f0f1f3;--c-titanium:#0a0a0a;--c-steel-700:#a1a1aa;--c-steel-600:#71717a;--c-steel-500:#52525b;--c-steel-400:#3f3f46;--c-steel-300:#27272a;--c-border:rgba(0,0,0,.08);--c-border-s:rgba(0,0,0,.12);--c-grid-line:rgba(0,0,0,.03)}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     *{-webkit-font-smoothing:antialiased}
     html{scroll-behavior:smooth}
-    body{font-family:'Barlow',sans-serif;background:var(--c-carbon);color:var(--c-steel-500);height:100vh;display:flex;overflow:hidden;transition:background .3s,color .3s}
+    body{font-family:'Barlow',sans-serif;background:var(--c-carbon);color:var(--c-steel-500);line-height:1.625;transition:background .3s,color .3s}
     a{color:inherit;text-decoration:none}
     .hidden{display:none}
 
-    /* Sidebar */
-    .sb{width:220px;background:var(--c-graphite);border-right:1px solid var(--c-border);display:flex;flex-direction:column;flex-shrink:0}
-    .sb-brand{padding:16px 18px;border-bottom:1px solid var(--c-border)}
-    .sb-brand h1{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.05em;color:var(--c-titanium)}
-    .sb-brand h1 b{color:#06b6d4;font-weight:inherit}
-    .sb-brand span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--c-steel-700)}
-    .sb-nav{padding:10px;flex:1;overflow-y:auto}
-    .sb-sec{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--c-steel-700);padding:14px 8px 5px;font-weight:600}
-    .sb-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:4px;cursor:pointer;font-size:12px;color:var(--c-steel-600);transition:all .15s;margin-bottom:1px}
-    .sb-item:hover{background:var(--c-gunmetal);color:var(--c-steel-400)}
-    .sb-item.active{background:rgba(6,182,212,.08);color:#06b6d4}
-    .sb-item .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-    .sb-item .name{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:500}
-    .sb-item .role{font-size:10px;color:var(--c-steel-700);margin-left:auto;white-space:nowrap}
-    .sb-ft{padding:14px 18px;border-top:1px solid var(--c-border)}
-    .sb-ft a{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--c-steel-700);display:flex;align-items:center;gap:6px;letter-spacing:1px}
-    .sb-ft a span{color:#06b6d4}
-
-    /* Main */
-    .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
-    .topbar{padding:12px 24px;border-bottom:1px solid var(--c-border);display:flex;align-items:center;justify-content:space-between;background:var(--c-graphite);flex-shrink:0}
-    .topbar h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.05em;color:var(--c-titanium)}
-    .topbar-r{display:flex;align-items:center;gap:10px}
-    .pill{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px;font-weight:600;background:rgba(34,197,94,.12);color:#22c55e}
-    .tbtn{display:flex;min-height:32px;min-width:32px;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--c-border);background:none;color:var(--c-steel-600);cursor:pointer}
+    nav{position:fixed;top:0;left:0;right:0;z-index:50;background:var(--c-carbon);border-bottom:1px solid var(--c-border)}
+    @supports(backdrop-filter:blur(12px)){nav{background:color-mix(in srgb,var(--c-carbon) 85%,transparent);backdrop-filter:blur(12px)}}
+    .nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:12px 24px}
+    .nav-brand{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;color:var(--c-titanium)}
+    .nav-brand span{color:#06b6d4}
+    .nav-links{display:flex;align-items:center;gap:20px}
+    .nav-link{font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--c-steel-600);transition:color .15s}
+    .nav-link:hover{color:var(--c-steel-400)}
+    .nav-link.active{color:var(--c-steel-300)}
+    .tbtn{display:flex;min-height:36px;min-width:36px;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--c-border);background:none;color:var(--c-steel-600);cursor:pointer}
     .tbtn:hover{color:var(--c-steel-400);border-color:var(--c-border-s)}
-    .content{flex:1;overflow-y:auto;padding:20px 24px}
-    .page{display:none}.page.active{display:block}
 
-    /* Grid */
-    .g{display:grid;gap:1px;background:var(--c-border);border:1px solid var(--c-border);border-radius:4px;overflow:hidden;margin-bottom:20px}
-    .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}
-    .cell{background:var(--c-graphite);padding:18px}
-
-    /* KPI */
-    .kl{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--c-steel-700);margin-bottom:6px}
-    .kv{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.02em;color:var(--c-titanium);line-height:1;margin-bottom:4px}
-    .kc{font-family:'JetBrains Mono',monospace;font-size:10px}.kc.up{color:#22c55e}.kc.dn{color:#ef4444}.kc.n{color:var(--c-steel-700)}
-
-    /* Tags */
-    .tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;font-weight:600}
-    .tg{background:rgba(34,197,94,.12);color:#22c55e}.ta{background:rgba(245,158,11,.12);color:#f59e0b}.tr{background:rgba(239,68,68,.12);color:#ef4444}.tb{background:rgba(6,182,212,.12);color:#06b6d4}.tp{background:rgba(99,102,241,.12);color:#6366f1}
-
-    /* Tables */
-    .dt{width:100%;border-collapse:collapse;font-size:12px}
-    .dt th{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--c-steel-700);font-weight:500;text-align:left;padding:7px 12px;border-bottom:1px solid var(--c-border);background:var(--c-gunmetal)}
-    .dt td{padding:7px 12px;border-bottom:1px solid var(--c-border);color:var(--c-steel-400)}
-    .dt tr:hover td{background:var(--c-gunmetal)}
-
-    /* ── Worker Profile Card ── */
-    .wp{display:flex;gap:20px;align-items:flex-start;margin-bottom:24px}
-    .wp-avatar{width:64px;height:64px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--c-carbon);flex-shrink:0}
-    .wp-info{flex:1}
-    .wp-name{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.04em;color:var(--c-titanium);line-height:1}
-    .wp-role{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--c-steel-600);margin:4px 0 8px}
-    .wp-desc{font-size:14px;color:var(--c-steel-500);line-height:1.6;max-width:600px}
-    .wp-ai{background:var(--c-graphite);border:1px solid var(--c-border);border-radius:4px;padding:14px 18px;flex-shrink:0;width:260px}
-    .wp-ai-title{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#06b6d4;margin-bottom:6px;font-weight:600;display:flex;align-items:center;gap:6px}
-    .wp-ai-title::before{content:'';width:6px;height:6px;border-radius:50%;background:#06b6d4;animation:blink 2s ease-in-out infinite}
+    .hero{position:relative;padding:120px 24px 60px;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,transparent,transparent 99px,var(--c-grid-line) 99px,var(--c-grid-line) 100px),repeating-linear-gradient(0deg,transparent,transparent 99px,var(--c-grid-line) 99px,var(--c-grid-line) 100px)}
+    .hero-line{position:absolute;width:100%;height:1px;top:55%;background:linear-gradient(90deg,transparent,#6366f1 15%,#0ea5e9 38%,#06b6d4 62%,#10b981 85%,transparent);opacity:.2}
+    .hero-inner{position:relative;max-width:1100px;margin:0 auto}
+    .hero-status{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:#22c55e;margin-bottom:20px;opacity:.7}
+    .hero-status::before{content:'';width:6px;height:6px;border-radius:50%;background:#22c55e;animation:blink 2s ease-in-out infinite}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-    .wp-ai-tools{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c-steel-600);line-height:1.8}
-    .wp-ai-tools code{color:#06b6d4;font-size:10px}
+    .hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,7vw,68px);line-height:.95;letter-spacing:.05em;color:var(--c-titanium);margin-bottom:12px}
+    .hero h1 span{color:#06b6d4}
+    .hero p{font-size:18px;color:var(--c-steel-400);max-width:600px;line-height:1.6;margin-bottom:20px}
 
-    /* ── Two-column: data + AI ── */
-    .split{display:grid;grid-template-columns:1fr 380px;gap:20px;min-height:0}
-    @media(max-width:1100px){.split{grid-template-columns:1fr}}
+    .section{max-width:1100px;margin:0 auto;padding:60px 24px}
+    .sec-label{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#06b6d4;font-weight:600;margin-bottom:8px}
+    .sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,42px);letter-spacing:.05em;color:var(--c-titanium);line-height:.95;margin-bottom:8px}
+    .sec-desc{font-size:15px;color:var(--c-steel-500);max-width:600px;margin-bottom:32px}
 
-    /* ── AI Panel ── */
-    .aip{background:var(--c-graphite);border:1px solid var(--c-border);border-radius:4px;display:flex;flex-direction:column;max-height:calc(100vh - 220px)}
-    .aip-hdr{padding:10px 14px;border-bottom:1px solid var(--c-border);display:flex;align-items:center;gap:8px}
-    .aip-dot{width:7px;height:7px;border-radius:50%;animation:blink 2s ease-in-out infinite}
-    .aip-title{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
-    .aip-msgs{flex:1;overflow-y:auto;padding:12px}
-    .aip-msg{display:flex;gap:8px;margin-bottom:12px;max-width:100%}
-    .aip-msg.user{flex-direction:row-reverse}
-    .aip-ava{width:24px;height:24px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;flex-shrink:0}
-    .aip-msg.bot .aip-ava{background:#06b6d4;color:var(--c-carbon)}
-    .aip-msg.user .aip-ava{color:var(--c-steel-500)}
-    .aip-bub{background:var(--c-gunmetal);border:1px solid var(--c-border);border-radius:4px;padding:10px 14px;font-size:12px;line-height:1.6;color:var(--c-steel-400);max-width:320px}
-    .aip-msg.user .aip-bub{border-color:#06b6d4;color:#06b6d4;background:rgba(6,182,212,.06)}
-    .aip-bub strong{color:var(--c-steel-300)}
-    .aip-bub table{width:100%;border-collapse:collapse;margin:6px 0;font-size:11px}
-    .aip-bub th,.aip-bub td{padding:3px 6px;border:1px solid var(--c-border);text-align:left}
-    .aip-bub th{background:var(--c-graphite);font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;color:var(--c-steel-500)}
-    .aip-prompts{display:flex;flex-wrap:wrap;gap:5px;padding:8px 12px}
-    .aip-p{background:var(--c-gunmetal);border:1px solid var(--c-border);color:var(--c-steel-600);padding:4px 10px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:9px;cursor:pointer;transition:all .15s}
-    .aip-p:hover{border-color:#06b6d4;color:#06b6d4}
-    .aip-input{display:flex;gap:6px;padding:10px 12px;border-top:1px solid var(--c-border)}
-    .aip-input input{flex:1;background:var(--c-input-bg);border:1px solid var(--c-border);color:var(--c-titanium);padding:7px 10px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;outline:none}
-    .aip-input input:focus{border-color:#06b6d4}
-    .aip-input input::placeholder{color:var(--c-steel-700)}
-    .aip-input button{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:7px 14px;border-radius:4px;background:#06b6d4;color:var(--c-carbon);border:none;cursor:pointer;font-weight:600}
-    .typing::after{content:'...';animation:dots 1.5s steps(4,end) infinite}
-    @keyframes dots{0%,20%{content:''}40%{content:'.'}60%{content:'..'}80%,100%{content:'...'}}
+    .demos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1px;background:var(--c-border);border:1px solid var(--c-border);border-radius:4px;overflow:hidden}
+    .demo-card{background:var(--c-graphite);padding:28px;display:flex;flex-direction:column;transition:background .2s}
+    .demo-card:hover{background:var(--c-gunmetal)}
+    .demo-card-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:16px}
+    .demo-icon{width:48px;height:48px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--c-carbon);flex-shrink:0}
+    .demo-tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:4px;font-weight:600}
+    .demo-tag-live{background:rgba(34,197,94,.12);color:#22c55e}
+    .demo-tag-soon{background:rgba(255,255,255,.06);color:var(--c-steel-700)}
+    .light .demo-tag-soon{background:rgba(0,0,0,.04)}
+    .demo-name{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;color:var(--c-titanium);line-height:1;margin-bottom:4px}
+    .demo-client{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--c-steel-600);margin-bottom:10px}
+    .demo-desc{font-size:14px;color:var(--c-steel-500);line-height:1.5;margin-bottom:16px;flex:1}
+    .demo-meta{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+    .demo-meta-tag{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.5px;color:var(--c-steel-700);padding:2px 8px;border:1px solid var(--c-border);border-radius:3px}
+    .demo-footer{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid var(--c-border)}
+    .demo-link{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#06b6d4;font-weight:600}
+    .demo-link:hover{opacity:.8}
+    .demo-stat{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c-steel-700)}
 
-    /* ── Hero/Overview cards ── */
-    .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--c-border);border:1px solid var(--c-border);border-radius:4px;overflow:hidden;margin-bottom:24px}
-    .team-card{background:var(--c-graphite);padding:24px;cursor:pointer;transition:background .2s}
-    .team-card:hover{background:var(--c-gunmetal)}
-    .tc-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
-    .tc-ava{width:40px;height:40px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--c-carbon);flex-shrink:0}
-    .tc-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.04em;color:var(--c-titanium);line-height:1}
-    .tc-role{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--c-steel-600)}
-    .tc-pair{display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c-steel-700);margin-bottom:10px;padding:6px 0;border-bottom:1px solid var(--c-border)}
-    .tc-pair .human{color:var(--c-steel-400)}
-    .tc-pair .plus{color:#06b6d4;font-weight:700}
-    .tc-pair .ai{color:#06b6d4}
-    .tc-desc{font-size:12px;color:var(--c-steel-600);line-height:1.5}
-    .tc-stat{margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c-steel-700)}
-    .tc-stat b{color:var(--c-steel-400)}
+    footer{border-top:1px solid var(--c-border);padding:28px 24px}
+    .footer-inner{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+    .footer-brand{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--c-steel-700)}
+    .footer-links{display:flex;gap:20px}
+    .footer-links a{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--c-steel-700);transition:color .15s}
+    .footer-links a:hover{color:var(--c-steel-400)}
 
-    /* Never / Always boxes */
-    .na-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--c-border);border:1px solid var(--c-border);border-radius:4px;overflow:hidden;margin:12px 0 20px}
-    .na-col{background:var(--c-graphite);padding:16px}
-    .na-title{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;font-weight:600;margin-bottom:8px}
-    .na-title.human{color:var(--c-steel-300)}
-    .na-title.ai{color:#06b6d4}
-    .na-list{font-size:12px;color:var(--c-steel-500);line-height:1.8}
-    .na-list li{list-style:none;padding-left:16px;position:relative}
-    .na-list li::before{content:'';position:absolute;left:0;top:8px;width:5px;height:5px;border-radius:1px}
-    .na-col:first-child .na-list li::before{background:var(--c-steel-400)}
-    .na-col:last-child .na-list li::before{background:#06b6d4}
-
-    footer{border-top:1px solid var(--c-border);padding:10px 24px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--c-steel-700);display:flex;justify-content:space-between;flex-shrink:0;background:var(--c-graphite)}
-    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--c-steel-800);border-radius:3px}
-    @media(max-width:900px){.sb{display:none}.team-grid{grid-template-columns:1fr}.g2,.g3{grid-template-columns:1fr}.na-grid{grid-template-columns:1fr}}
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--c-steel-700);border-radius:3px}
+    @media(max-width:768px){.demos-grid{grid-template-columns:1fr}.footer-inner{flex-direction:column;gap:12px;text-align:center}.nav-links .nav-link{display:none}}
   </style>
 </head>
 <body>
 
-<nav class="sb">
-  <div class="sb-brand">
-    <h1><b>NOHA</b> FURNITURE</h1>
-    <span>Person + AI = 2NTH</span>
-  </div>
-  <div class="sb-nav">
-    <div class="sb-sec">Command</div>
-    <div class="sb-item active" data-page="overview">
-      <div class="dot" style="background:#06b6d4"></div>
-      <span class="name">Overview</span>
-    </div>
-
-    <div class="sb-sec">The Team</div>
-    <div class="sb-item" data-page="thabo">
-      <div class="dot" style="background:#06b6d4"></div>
-      <span class="name">Thabo</span>
-      <span class="role">Production</span>
-    </div>
-    <div class="sb-item" data-page="nomsa">
-      <div class="dot" style="background:#10b981"></div>
-      <span class="name">Nomsa</span>
-      <span class="role">Inventory</span>
-    </div>
-    <div class="sb-item" data-page="james">
-      <div class="dot" style="background:#6366f1"></div>
-      <span class="name">James</span>
-      <span class="role">Sales</span>
-    </div>
-    <div class="sb-item" data-page="lerato">
-      <div class="dot" style="background:#f59e0b"></div>
-      <span class="name">Lerato</span>
-      <span class="role">Quality</span>
-    </div>
-    <div class="sb-item" data-page="sipho">
-      <div class="dot" style="background:#ec4899"></div>
-      <span class="name">Sipho</span>
-      <span class="role">Procurement</span>
-    </div>
-    <div class="sb-item" data-page="zanele">
-      <div class="dot" style="background:#f97316"></div>
-      <span class="name">Zanele</span>
-      <span class="role">Finance</span>
-    </div>
-  </div>
-  <div class="sb-ft">
-    <a href="https://2nth.ai"><span>&larr;</span> 2NTH.AI</a>
-    <div style="margin-top:6px;color:var(--c-steel-800)">ERPNext + MCP + Edge AI</div>
-  </div>
-</nav>
-
-<div class="main">
-  <div class="topbar">
-    <h2 id="pageTitle">THE TEAM</h2>
-    <div class="topbar-r">
-      <span class="pill">6 WORKERS + 6 AIs</span>
-      <button onclick="toggleTheme()" class="tbtn">
-        <svg id="icon-sun" class="hidden" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-        <svg id="icon-moon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+<nav>
+  <div class="nav-inner">
+    <a href="https://2nth.ai" class="nav-brand"><span>2</span>NTH</a>
+    <div class="nav-links">
+      <a href="https://2nth.ai" class="nav-link">Home</a>
+      <a href="/" class="nav-link active">Demos</a>
+      <a href="https://2nth-skills.pages.dev" class="nav-link">Skills</a>
+      <button onclick="toggleTheme()" class="tbtn" title="Toggle theme">
+        <svg id="icon-sun" class="hidden" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="icon-moon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
     </div>
   </div>
+</nav>
 
-  <div class="content">
-    <!-- ═══ OVERVIEW ═══ -->
-    <div class="page active" id="page-overview">
-      <div style="margin-bottom:24px">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,44px);letter-spacing:.05em;color:var(--c-titanium);line-height:.95">ONE PERSON <span style="color:#06b6d4">+ ONE AI</span></div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,5vw,44px);letter-spacing:.05em;color:var(--c-titanium);line-height:.95;margin-bottom:8px">SCALE TO THE <span style="color:#06b6d4">NTH</span></div>
-        <p style="font-size:15px;color:var(--c-steel-400);max-width:640px;line-height:1.6">Each person at NoHa Furniture has their own AI — not to replace them, but to make them extraordinary. The AI handles the data. The human makes the decisions. Together, they're <strong style="color:#06b6d4">2NTH</strong>.</p>
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <div class="hero-inner">
+    <div class="hero-status">LIVE DEMONSTRATIONS</div>
+    <h1>WORKING <span>DEMOS</span></h1>
+    <p>See what AI-powered operations look like in practice. Each demo is a fully interactive prototype showing how one person and their AI can scale to the Nth.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="sec-label">01 — DEMOS</div>
+  <div class="sec-title">CLIENT DEMONSTRATIONS</div>
+  <div class="sec-desc">Interactive prototypes built for specific industries and clients. Click through to explore the full experience.</div>
+
+  <div class="demos-grid">
+
+    <!-- NoHa AI -->
+    <a href="/noha-ai/" class="demo-card">
+      <div class="demo-card-hdr">
+        <div class="demo-icon" style="background:#06b6d4">N</div>
+        <span class="demo-tag demo-tag-live">LIVE</span>
       </div>
-
-      <div class="team-grid">
-        <div class="team-card" onclick="nav('thabo')">
-          <div class="tc-top"><div class="tc-ava" style="background:#06b6d4">T</div><div><div class="tc-name">THABO</div><div class="tc-role">Production Manager</div></div></div>
-          <div class="tc-pair"><span class="human">Thabo</span><span class="plus">+</span><span class="ai">Production AI</span></div>
-          <div class="tc-desc">Decides priorities and handles exceptions. His AI alerts on delays, suggests reschedules, optimizes cut plans, and calculates material needs.</div>
-          <div class="tc-stat">Today: <b>86 units</b> (+12 vs target) &middot; <b>92.4%</b> OEE</div>
-        </div>
-        <div class="team-card" onclick="nav('nomsa')">
-          <div class="tc-top"><div class="tc-ava" style="background:#10b981">N</div><div><div class="tc-name">NOMSA</div><div class="tc-role">Inventory Controller</div></div></div>
-          <div class="tc-pair"><span class="human">Nomsa</span><span class="plus">+</span><span class="ai">Inventory AI</span></div>
-          <div class="tc-desc">Manages warehouse and counts stock. Her AI flags reorder points, drafts POs for approval, spots overstock, and tracks supplier lead times.</div>
-          <div class="tc-stat">Alerts: <b>3 critical</b> &middot; Auto-POs: <b>12 this month</b></div>
-        </div>
-        <div class="team-card" onclick="nav('james')">
-          <div class="tc-top"><div class="tc-ava" style="background:#6366f1">J</div><div><div class="tc-name">JAMES</div><div class="tc-role">Sales Representative</div></div></div>
-          <div class="tc-pair"><span class="human">James</span><span class="plus">+</span><span class="ai">Sales AI</span></div>
-          <div class="tc-desc">Builds relationships and closes deals. His AI scores leads, checks stock for quotes, flags credit limits, and tracks delivery promises.</div>
-          <div class="tc-stat">MTD: <b>R 8.4M</b> (+14.2%) &middot; Leads scored: <b>18</b></div>
-        </div>
-        <div class="team-card" onclick="nav('lerato')">
-          <div class="tc-top"><div class="tc-ava" style="background:#f59e0b">L</div><div><div class="tc-name">LERATO</div><div class="tc-role">QC Inspector</div></div></div>
-          <div class="tc-pair"><span class="human">Lerato</span><span class="plus">+</span><span class="ai">Quality AI</span></div>
-          <div class="tc-desc">Inspects every product and makes pass/fail calls. Her AI pre-fills forms, flags sensor anomalies, and tracks defect patterns across batches.</div>
-          <div class="tc-stat">Pass rate: <b>98.1%</b> &middot; AI catches: <b>6 pre-ship</b></div>
-        </div>
-        <div class="team-card" onclick="nav('sipho')">
-          <div class="tc-top"><div class="tc-ava" style="background:#ec4899">S</div><div><div class="tc-name">SIPHO</div><div class="tc-role">Procurement Buyer</div></div></div>
-          <div class="tc-pair"><span class="human">Sipho</span><span class="plus">+</span><span class="ai">Procurement AI</span></div>
-          <div class="tc-desc">Negotiates with suppliers and manages relationships. His AI compares pricing, drafts POs, alerts on late deliveries, and finds alternatives.</div>
-          <div class="tc-stat">Saved: <b>R 127K</b> this month &middot; At-risk: <b>2 suppliers</b></div>
-        </div>
-        <div class="team-card" onclick="nav('zanele')">
-          <div class="tc-top"><div class="tc-ava" style="background:#f97316">Z</div><div><div class="tc-name">ZANELE</div><div class="tc-role">Financial Controller</div></div></div>
-          <div class="tc-pair"><span class="human">Zanele</span><span class="plus">+</span><span class="ai">Finance AI</span></div>
-          <div class="tc-desc">Makes strategic decisions and manages cash flow. Her AI auto-matches payments, forecasts cash, flags cost variances, and generates reports.</div>
-          <div class="tc-stat">Cash: <b>R 3.8M</b> &middot; Auto-matched: <b>94%</b> of txns</div>
-        </div>
+      <div class="demo-name">NOHA AI</div>
+      <div class="demo-client">NoHa Furniture Manufacturing</div>
+      <div class="demo-desc">6 factory workers, each with their own personal AI. Production, inventory, sales, quality, procurement, and finance — all connected via MCP to ERPNext. The AI never decides. The human always does.</div>
+      <div class="demo-meta">
+        <span class="demo-meta-tag">ERPNext</span>
+        <span class="demo-meta-tag">MCP</span>
+        <span class="demo-meta-tag">Manufacturing</span>
+        <span class="demo-meta-tag">6 Agents</span>
+        <span class="demo-meta-tag">Edge AI</span>
       </div>
+      <div class="demo-footer">
+        <span class="demo-link">LAUNCH DEMO &rarr;</span>
+        <span class="demo-stat">6 workers + 6 AIs</span>
+      </div>
+    </a>
 
-      <div style="font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:2px;color:#06b6d4;font-weight:600;margin-bottom:4px">HOW IT WORKS</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;color:var(--c-titanium);margin-bottom:12px">THE AI NEVER DECIDES. THE HUMAN ALWAYS DOES.</div>
-      <div class="na-grid">
-        <div class="na-col">
-          <div class="na-title human">THE HUMAN DECIDES</div>
-          <ul class="na-list">
-            <li>Approves purchase orders</li>
-            <li>Ships customer orders</li>
-            <li>Passes or fails QC batches</li>
-            <li>Changes the production schedule</li>
-            <li>Negotiates supplier terms</li>
-            <li>Makes strategic investments</li>
-          </ul>
-        </div>
-        <div class="na-col">
-          <div class="na-title ai">THE AI ENABLES</div>
-          <ul class="na-list">
-            <li>Surfaces the right data at the right time</li>
-            <li>Does calculations humans shouldn't waste time on</li>
-            <li>Catches things humans might miss</li>
-            <li>Drafts things for human review</li>
-            <li>Monitors 24/7 when humans can't</li>
-            <li>Learns patterns across thousands of transactions</li>
-          </ul>
-        </div>
+    <!-- Sage Republic -->
+    <a href="/sage-republic/" class="demo-card">
+      <div class="demo-card-hdr">
+        <div class="demo-icon" style="background:#6366f1">R</div>
+        <span class="demo-tag demo-tag-live">LIVE</span>
+      </div>
+      <div class="demo-name">SAGE X3 INTELLIGENCE</div>
+      <div class="demo-client">Republic Umbrella</div>
+      <div class="demo-desc">AI-powered reporting dashboard for a Sage X3 ERP instance. Customer analytics, sales orders, inventory management, natural language AI reports, and a live GraphQL API explorer.</div>
+      <div class="demo-meta">
+        <span class="demo-meta-tag">Sage X3</span>
+        <span class="demo-meta-tag">GraphQL</span>
+        <span class="demo-meta-tag">Reporting</span>
+        <span class="demo-meta-tag">Distribution</span>
+        <span class="demo-meta-tag">Edge AI</span>
+      </div>
+      <div class="demo-footer">
+        <span class="demo-link">LAUNCH DEMO &rarr;</span>
+        <span class="demo-stat">Live API connected</span>
+      </div>
+    </a>
+
+    <!-- Placeholder -->
+    <div class="demo-card" style="opacity:.45;cursor:default">
+      <div class="demo-card-hdr">
+        <div class="demo-icon" style="background:#10b981">+</div>
+        <span class="demo-tag demo-tag-soon">NEXT</span>
+      </div>
+      <div class="demo-name">YOUR BUSINESS</div>
+      <div class="demo-client">Custom Demo</div>
+      <div class="demo-desc">We build custom demos for your ERP, your industry, your team. Show your stakeholders what AI-augmented operations look like before committing to a full build.</div>
+      <div class="demo-meta">
+        <span class="demo-meta-tag">Any ERP</span>
+        <span class="demo-meta-tag">Any Industry</span>
+        <span class="demo-meta-tag">Custom</span>
+      </div>
+      <div class="demo-footer">
+        <a href="https://2nth.ai/join.html" class="demo-link" style="opacity:.6">GET IN TOUCH &rarr;</a>
+        <span class="demo-stat"></span>
       </div>
     </div>
 
-    <!-- ═══ WORKER PAGES (template repeated per person) ═══ -->
-    <script>
-      // Worker data drives all pages
-      var W={
-        thabo:{name:'Thabo',full:'THABO MOKOENA',role:'Production Manager',color:'#06b6d4',letter:'T',
-          desc:'15 years in furniture manufacturing. Manages 4 production lines and a team of 28. His AI handles scheduling math so he can focus on people and problems.',
-          tools:['get_work_orders','update_work_order_status','get_bom','get_production_schedule','get_stock_balance','log_production_entry'],
-          kpis:[{l:'Active WOs',v:'47',c:'On schedule',s:'up'},{l:'Units Today',v:'86',c:'+12 vs target',s:'up'},{l:'OEE',v:'92.4%',c:'World-class',s:'up'},{l:'Material Waste',v:'11.2%',c:'-3.1% after AI',s:'up'}],
-          table:{h:['WO #','Product','Qty','Line','Status','AI Suggestion'],
-            rows:[
-              ['WO-4521','Dining Table 8-seat','30','Line B','<span class="tag tb">In Progress</span>','Rescheduled from Line A — CNC drift detected'],
-              ['WO-4518','Lounge Chair Ash','120','Line A','<span class="tag tg">On Track</span>','No action needed'],
-              ['WO-4515','Bookshelf Walnut','45','Line C','<span class="tag tg">Ahead</span>','Nested with WO-4512 to cut waste by 7%'],
-              ['WO-4509','Bed Frame King Oak','25','Line D','<span class="tag ta">Material Wait</span>','PO-8892 raised for Oak — ETA Apr 07'],
-            ]},
-          prompts:['Am I on track for this week?','Can we fit in 20 more chairs?','What material do I need for WO-4521?','Show me Line B capacity'],
-          aiResp:{'Am I on track for this week?':'<strong>Weekly Status</strong><br><br>You\'re <strong>ahead of target</strong>. 86 units today vs 74 planned. All lines running except Line D (waiting on Oak veneer, ETA Apr 07).<br><br><table><tr><th>Line</th><th>Product</th><th>Status</th></tr><tr><td>A</td><td>Lounge Chair</td><td style="color:#22c55e">On track</td></tr><tr><td>B</td><td>Dining Table</td><td style="color:#06b6d4">Rescheduled</td></tr><tr><td>C</td><td>Bookshelf + Side Table</td><td style="color:#22c55e">Ahead</td></tr><tr><td>D</td><td>Bed Frame</td><td style="color:#f59e0b">Waiting</td></tr></table><br><strong>Your call:</strong> Line D will be idle until Thursday. Want me to pull forward WO-4530 (Bar Stools) to fill the gap?'}
-        },
-        nomsa:{name:'Nomsa',full:'NOMSA DLAMINI',role:'Inventory Controller',color:'#10b981',letter:'N',
-          desc:'Keeps the factory running by making sure the right materials are in the right place. Her AI watches 892 SKUs so she can focus on the exceptions.',
-          tools:['get_stock_balance','list_warehouse_items','create_stock_entry','run_stock_reorder_report','get_item_details','list_purchase_receipts'],
-          kpis:[{l:'Total SKUs',v:'892',c:'Raw + Finished',s:'n'},{l:'Stock Value',v:'R 12.6M',c:'At cost',s:'n'},{l:'Below Reorder',v:'7',c:'3 critical',s:'dn'},{l:'Auto-POs',v:'12',c:'This month by AI',s:'up'}],
-          table:{h:['SKU','Material','On Hand','Reorder','Status','AI Action'],
-            rows:[
-              ['RM-0041','European Oak Veneer','45 m&sup2;','100 m&sup2;','<span class="tag tr">Critical</span>','Drafted PO-8892 for your approval — ETA Apr 07'],
-              ['RM-0055','Ash Hardwood 25mm','280 bf','400 bf','<span class="tag ta">Low</span>','Drafted PO-8895 — waiting for your sign-off'],
-              ['RM-0108','Danish Oil Natural','12 L','20 L','<span class="tag ta">Low</span>','Added to next batch order for your review'],
-              ['HW-2291','Brass Drawer Pull','340','80','<span class="tag ta">Overstock</span>','Flagged: 180-day supply. Markdown?'],
-            ]},
-          prompts:['What needs ordering today?','Show me the Oak situation','Any overstock I should deal with?','What came in this week?'],
-          aiResp:{'What needs ordering today?':'<strong>3 items need your attention:</strong><br><br><table><tr><th>Material</th><th>Gap</th><th>AI Draft</th></tr><tr><td>European Oak Veneer</td><td style="color:#ef4444">-55 m&sup2;</td><td>PO-8892 ready</td></tr><tr><td>Ash Hardwood 25mm</td><td style="color:#f59e0b">-120 bf</td><td>PO-8895 ready</td></tr><tr><td>Danish Oil Natural</td><td style="color:#f59e0b">-8 L</td><td>Batched</td></tr></table><br>I\'ve drafted PO-8892 and PO-8895 with our usual suppliers at last-quarter rates. <strong>They\'re waiting for your approval</strong> — I won\'t send them until you say so.<br><br>Also: the Brass Drawer Pulls (340 units, 180-day supply) — want me to flag that for Sipho to see if we can return some to supplier?'}
-        },
-        james:{name:'James',full:'JAMES VAN DER MERWE',role:'Sales Representative',color:'#6366f1',letter:'J',
-          desc:'Knows every retailer in the country by name. His AI handles the numbers so he can spend time on relationships.',
-          tools:['list_sales_orders','get_order_status','get_customer_credit','create_sales_order','list_pending_deliveries','get_stock_balance'],
-          kpis:[{l:'Revenue MTD',v:'R 8.4M',c:'+14.2%',s:'up'},{l:'Orders',v:'234',c:'+22 vs last month',s:'up'},{l:'Avg Order Value',v:'R 35,900',c:'+6.3%',s:'up'},{l:'Leads Scored',v:'18',c:'Auto-scored by AI',s:'up'}],
-          table:{h:['Order','Customer','Value','Status','AI Assist'],
-            rows:[
-              ['SO-7801','Weylandts JHB','R 892,000','<span class="tag tb">Processing</span>','Checked stock — all items available. Flagged priority to Thabo.'],
-              ['SO-7798','@home Sandton','R 264,000','<span class="tag tg">Shipped</span>','Tracking sent to customer automatically'],
-              ['SO-7790','Coricraft Durban','R 540,000','<span class="tag ta">Partial</span>','24/60 chairs shipped. Rest in production — ETA Apr 02.'],
-              ['SO-7785','Private Designer','R 185,000','<span class="tag tp">Custom</span>','AI generated BOM from designer spec for your review'],
-            ]},
-          prompts:['Can I promise 40 chairs by Friday?','How much credit does Coricraft have?','Who are my hottest leads?','What\'s our bestseller this month?'],
-          aiResp:{'Can I promise 40 chairs by Friday?':'<strong>Let me check.</strong><br><br>Stock: <strong>64 Dining Chairs</strong> in Finished Goods warehouse. 24 are allocated to SO-7790 (Coricraft). That leaves <strong>40 available</strong>.<br><br>So yes — you can promise 40 chairs by Friday. They\'re in stock and unallocated right now.<br><br><strong>But:</strong> if you commit all 40, we\'ll hit zero free stock. Thabo has WO-4518 producing 120 more, due Apr 02. Want me to draft the order for your customer? <strong>You decide whether to hold any buffer.</strong>'}
-        },
-        lerato:{name:'Lerato',full:'LERATO MOLEFE',role:'QC Inspector',color:'#f59e0b',letter:'L',
-          desc:'Her eye catches what machines miss. Her AI pre-fills inspection forms and watches sensor data 24/7 so she can focus on hands-on quality.',
-          tools:['create_quality_inspection','get_inspection_checklist','log_non_conformance','approve_inspection','list_quality_inspections','get_work_order'],
-          kpis:[{l:'Pass Rate',v:'98.1%',c:'+0.4% this month',s:'up'},{l:'Defects MTD',v:'14',c:'-8 vs last month',s:'up'},{l:'Returns',v:'0.3%',c:'Industry best',s:'up'},{l:'AI Catches',v:'6',c:'Pre-ship saves',s:'up'}],
-          table:{h:['Batch','Product','Units','Result','AI Detection'],
-            rows:[
-              ['QC-1187','Dining Chair','24','<span class="tag tg">Pass</span>','All readings within spec — form pre-filled for your sign-off'],
-              ['QC-1185','Side Table','40','<span class="tag tg">Pass</span>','Dimensions, finish, weight all good'],
-              ['QC-1183','Lounge Chair','12','<span class="tag ta">Pass*</span>','Minor grain variance — within tolerance but flagged for you to eyeball'],
-              ['QC-1180','Line A Lacquer','—','<span class="tag tr">Hold</span>','Viscosity anomaly detected. I paused the booth. You resolved in 12 min.'],
-            ]},
-          prompts:['What\'s next in my queue?','Show me the lacquer incident details','Any patterns in this month\'s defects?','Pre-fill QC-1188 for me'],
-          aiResp:{'What\'s next in my queue?':'<strong>2 batches ready for inspection:</strong><br><br><table><tr><th>Batch</th><th>Product</th><th>Units</th><th>Priority</th></tr><tr><td>QC-1188</td><td>Bookshelf Walnut</td><td>15</td><td>Normal</td></tr><tr><td>QC-1189</td><td>Dining Table 8-seat</td><td>10</td><td style="color:#f59e0b">High (Weylandts order)</td></tr></table><br>I\'ve pre-filled both inspection forms with the standard readings template. QC-1189 is for Weylandts (SO-7801) so James flagged it as priority.<br><br>The Bookshelf batch came off Line C — same line that had the grain variance on the Lounge Chairs. <strong>Might be worth extra attention on the timber quality.</strong> Your call.'}
-        },
-        sipho:{name:'Sipho',full:'SIPHO NKOSI',role:'Procurement Buyer',color:'#ec4899',letter:'S',
-          desc:'Gets the best deals without compromising quality. His AI crunches the numbers across 42 suppliers so he can negotiate from strength.',
-          tools:['create_purchase_order','approve_purchase_order','list_supplier_quotations','get_reorder_suggestions','list_purchase_orders','get_supplier_performance'],
-          kpis:[{l:'Active Suppliers',v:'42',c:'Across 6 countries',s:'n'},{l:'Open POs',v:'18',c:'R 2.1M committed',s:'n'},{l:'AI Savings MTD',v:'R 127K',c:'Auto-negotiated',s:'up'},{l:'At-Risk',v:'2',c:'Delivery failures',s:'dn'}],
-          table:{h:['PO','Supplier','Material','Value','AI Contribution'],
-            rows:[
-              ['PO-8892','EuroTimber GmbH','Oak Veneer 200m&sup2;','R 186K','Drafted by AI from Nomsa\'s reorder alert — awaiting your approval'],
-              ['PO-8890','TimberCo SA','Ash Q2 Contract','R 392K','AI found 8% discount vs Q1 — you negotiated final terms'],
-              ['PO-8887','GreenFoam Co','HR Foam 400 sheets','R 48K','AI sourced alt supplier after Foam Supplies missed 2 deliveries'],
-              ['PO-8885','BrassWorks','Custom Pulls 200','R 22K','Standard reorder — AI auto-drafted'],
-            ]},
-          prompts:['Which suppliers are underperforming?','Compare Oak pricing across suppliers','What POs need my approval?','How much have we saved this quarter?'],
-          aiResp:{'Which suppliers are underperforming?':'<strong>2 suppliers flagged:</strong><br><br><table><tr><th>Supplier</th><th>Issue</th><th>Impact</th><th>AI Suggestion</th></tr><tr><td style="color:#ef4444">Foam Supplies Ltd</td><td>2 missed deliveries</td><td>Line D delayed 3 days</td><td>GreenFoam Co sourced as alt</td></tr><tr><td style="color:#f59e0b">Namibia Brass</td><td>Quality variance on last batch</td><td>5% rejection rate</td><td>BrassWorks quoted same price</td></tr></table><br>I\'ve already sourced GreenFoam as an alternative (PO-8887 drafted for your review). For Namibia Brass, BrassWorks can match pricing with 2-day longer lead time.<br><br><strong>Your call</strong> on whether to switch permanently or give Namibia Brass one more chance. I can draft the conversation either way.'}
-        },
-        zanele:{name:'Zanele',full:'ZANELE MTHEMBU',role:'Financial Controller',color:'#f97316',letter:'Z',
-          desc:'Sees the whole picture. Her AI handles transaction matching and reporting so she can focus on strategy and cash management.',
-          tools:['get_profit_loss_report','list_outstanding_invoices','get_cash_flow_summary','run_cost_center_report','match_bank_transactions','get_aged_receivables'],
-          kpis:[{l:'Cash Position',v:'R 3.8M',c:'Healthy',s:'up'},{l:'Receivables',v:'R 4.2M',c:'R 380K overdue',s:'n'},{l:'Gross Margin',v:'42.1%',c:'+1.8% vs budget',s:'up'},{l:'Auto-Matched',v:'94%',c:'Of bank transactions',s:'up'}],
-          table:{h:['Action','Detail','Value','Status'],
-            rows:[
-              ['Payment Matching','14 payments matched to invoices','R 1.84M','<span class="tag tg">Done by AI</span>'],
-              ['Early Settlement','TimberCo: pay 10 days early for 2.5% discount','R 9,800 saved','<span class="tag ta">Your Approval</span>'],
-              ['Overdue Chase','Coricraft — 34 days overdue','R 180K','<span class="tag tb">AI drafted reminder for you</span>'],
-              ['Cost Variance','Line C labour 12% over budget','R 28K','<span class="tag tr">Flagged for review</span>'],
-            ]},
-          prompts:['How\'s our cash flow looking?','Show me aged receivables','What needs my approval today?','Where are we over budget?'],
-          aiResp:{'How\'s our cash flow looking?':'<strong>Cash Flow Summary</strong><br><br>Current: <strong>R 3.8M</strong>. Projected month-end: <strong>R 5.0M</strong> (surplus of R 1.2M).<br><br><table><tr><th>This Week</th><th>In</th><th>Out</th></tr><tr><td>Expected receipts</td><td style="color:#22c55e">R 1.4M</td><td></td></tr><tr><td>Supplier payments due</td><td></td><td>R 620K</td></tr><tr><td>Payroll (Friday)</td><td></td><td>R 480K</td></tr><tr><td>Net</td><td style="color:#22c55e" colspan="2">+R 300K</td></tr></table><br><strong>Opportunity:</strong> If you approve the TimberCo early settlement (R 392K, 10 days early), we save R 9,800. Cash position stays healthy at R 3.4M after payroll.<br><br><strong>Risk:</strong> Coricraft owes R 180K (34 days overdue). I\'ve drafted a reminder email — <strong>want me to show it to you before sending?</strong>'}
-        }
-      };
-    </script>
-
-    <!-- Worker pages generated by JS -->
-    <div class="page" id="page-thabo"></div>
-    <div class="page" id="page-nomsa"></div>
-    <div class="page" id="page-james"></div>
-    <div class="page" id="page-lerato"></div>
-    <div class="page" id="page-sipho"></div>
-    <div class="page" id="page-zanele"></div>
   </div>
+</section>
 
-  <footer>
-    <span>NoHa Furniture — One Person + One AI = 2NTH</span>
-    <span>Powered by <a href="https://2nth-skills.pages.dev" style="color:#06b6d4">2nth.ai Skills</a> + ERPNext MCP</span>
-  </footer>
-</div>
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">&copy; 2026 2NTH.AI — Demos</div>
+    <div class="footer-links">
+      <a href="https://2nth.ai">2nth.ai</a>
+      <a href="https://2nth-skills.pages.dev">Skills</a>
+      <a href="https://github.com/imbilawork">GitHub</a>
+    </div>
+  </div>
+</footer>
 
 <script src="https://2nth.ai/app-switcher.js"></script>
 <script>
-function toggleTheme(){document.documentElement.classList.toggle('light');localStorage.setItem('2nth-theme',document.documentElement.classList.contains('light')?'light':'dark');var l=document.documentElement.classList.contains('light');document.getElementById('icon-sun').classList.toggle('hidden',!l);document.getElementById('icon-moon').classList.toggle('hidden',l)}
+function toggleTheme(){
+  document.documentElement.classList.toggle('light');
+  localStorage.setItem('2nth-theme',document.documentElement.classList.contains('light')?'light':'dark');
+  var l=document.documentElement.classList.contains('light');
+  document.getElementById('icon-sun').classList.toggle('hidden',!l);
+  document.getElementById('icon-moon').classList.toggle('hidden',l);
+}
 (function(){var l=document.documentElement.classList.contains('light');document.getElementById('icon-sun').classList.toggle('hidden',!l);document.getElementById('icon-moon').classList.toggle('hidden',l)})();
-
-// Nav
-function nav(p){
-  document.querySelectorAll('.sb-item').forEach(function(n){n.classList.remove('active')});
-  document.querySelectorAll('.page').forEach(function(pg){pg.classList.remove('active')});
-  var item=document.querySelector('[data-page="'+p+'"]');
-  if(item)item.classList.add('active');
-  document.getElementById('page-'+p).classList.add('active');
-  var w=W[p];
-  document.getElementById('pageTitle').textContent=w?w.full:p==='overview'?'THE TEAM':p.toUpperCase();
-  if(w&&!document.getElementById('page-'+p).dataset.built)buildWorkerPage(p,w);
-}
-document.querySelectorAll('.sb-item').forEach(function(i){i.addEventListener('click',function(){nav(i.dataset.page)})});
-
-// Build worker page
-function buildWorkerPage(id,w){
-  var el=document.getElementById('page-'+id);
-  var h='';
-
-  // Profile
-  h+='<div class="wp">';
-  h+='<div class="wp-avatar" style="background:'+w.color+'">'+w.letter+'</div>';
-  h+='<div class="wp-info"><div class="wp-name">'+w.full+'</div><div class="wp-role">'+w.role+'</div><div class="wp-desc">'+w.desc+'</div></div>';
-  h+='<div class="wp-ai"><div class="wp-ai-title">'+w.name+'\'s AI</div><div class="wp-ai-tools">MCP Tools:<br>';
-  w.tools.forEach(function(t){h+='<code>'+t+'</code><br>'});
-  h+='</div></div></div>';
-
-  // KPIs
-  h+='<div class="g" style="grid-template-columns:repeat('+w.kpis.length+',1fr)">';
-  w.kpis.forEach(function(k){h+='<div class="cell"><div class="kl">'+k.l+'</div><div class="kv"'+(k.s==='up'?' style="color:#22c55e"':k.s==='dn'?' style="color:#ef4444"':'')+'>'+k.v+'</div><div class="kc '+k.s+'">'+k.c+'</div></div>'});
-  h+='</div>';
-
-  // Split: table + AI
-  h+='<div class="split">';
-
-  // Data table
-  h+='<div class="g" style="grid-template-columns:1fr;margin-bottom:0"><div class="cell" style="padding:0"><div style="padding:12px 16px;border-bottom:1px solid var(--c-border)"><span style="font-family:\'JetBrains Mono\',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:var(--c-steel-500);font-weight:600">'+w.name+'\'s Dashboard</span></div><table class="dt"><thead><tr>';
-  w.table.h.forEach(function(th){h+='<th>'+th+'</th>'});
-  h+='</tr></thead><tbody>';
-  w.table.rows.forEach(function(r){h+='<tr>';r.forEach(function(c){h+='<td>'+c+'</td>'});h+='</tr>'});
-  h+='</tbody></table></div></div>';
-
-  // AI panel
-  h+='<div class="aip" id="aip-'+id+'">';
-  h+='<div class="aip-hdr"><div class="aip-dot" style="background:'+w.color+'"></div><div class="aip-title" style="color:'+w.color+'">'+w.name+'\'s AI</div></div>';
-  h+='<div class="aip-prompts" id="aip-prompts-'+id+'">';
-  w.prompts.forEach(function(p){h+='<div class="aip-p" onclick="askWorkerAI(\''+id+'\',this.textContent)">'+p+'</div>'});
-  h+='</div>';
-  h+='<div class="aip-msgs" id="aip-msgs-'+id+'">';
-  h+='<div class="aip-msg bot"><div class="aip-ava">AI</div><div class="aip-bub">Hey '+w.name+'. I\'m watching your ERPNext data via MCP. Ask me anything — I\'ll pull the numbers, <strong>you make the calls</strong>.</div></div>';
-  h+='</div>';
-  h+='<div class="aip-input"><input id="aip-in-'+id+'" placeholder="Ask your AI..." onkeydown="if(event.key===\'Enter\')askWorkerAI(\''+id+'\')"><button onclick="askWorkerAI(\''+id+'\')">ASK</button></div>';
-  h+='</div>';
-
-  h+='</div>'; // close split
-
-  el.innerHTML=h;
-  el.dataset.built='1';
-}
-
-function askWorkerAI(id,text){
-  var inp=document.getElementById('aip-in-'+id);
-  var msg=text||inp.value.trim();if(!msg)return;inp.value='';
-  var prompts=document.getElementById('aip-prompts-'+id);if(prompts)prompts.style.display='none';
-  var el=document.getElementById('aip-msgs-'+id);
-  var w=W[id];
-  el.innerHTML+='<div class="aip-msg user"><div class="aip-ava">'+w.letter+'</div><div class="aip-bub">'+msg+'</div></div>';
-  var tid='t'+Date.now();
-  el.innerHTML+='<div class="aip-msg bot" id="'+tid+'"><div class="aip-ava">AI</div><div class="aip-bub"><span class="typing" style="font-family:\'JetBrains Mono\',monospace;font-size:9px;color:var(--c-steel-600)">Querying ERPNext via MCP</span></div></div>';
-  el.scrollTop=el.scrollHeight;
-  setTimeout(function(){
-    var te=document.getElementById(tid);
-    var r=w.aiResp[msg];
-    te.querySelector('.aip-bub').innerHTML=r||'<strong>Looking into that.</strong><br><br>I\'d query ERPNext via <code>'+w.tools[0]+'</code> and <code>'+w.tools[1]+'</code> to answer this. In production, this runs live against your ERPNext instance through MCP on Cloudflare Workers.<br><br><strong>What would you like to do with the results?</strong>';
-    el.scrollTop=el.scrollHeight;
-  },800+Math.random()*1200);
-}
 </script>
 </body>
 </html>

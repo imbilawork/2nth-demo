@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Republic Umbrella — Sage X3 Intelligence | 2nth.ai</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <meta name="description" content="AI-powered reporting dashboard for Republic Umbrella's Sage X3 ERP. Real-time insights, natural language queries, edge AI.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script>(function(){var t=localStorage.getItem('2nth-theme');if(t==='light')document.documentElement.classList.add('light');})()</script>
+  <link rel="stylesheet" href="/style.v2.css">
+  <style>
+    /* ── Sage Republic demo overrides ── */
+    body { display: flex; height: 100vh; overflow: hidden; }
+
+    .demo-sidebar {
+      width: 240px;
+      background: var(--c-graphite);
+      border-right: 1px solid var(--c-border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .demo-sidebar-brand {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .demo-sidebar-brand h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.05em;
+      color: var(--c-titanium);
+    }
+    .demo-sidebar-brand span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--c-steel-600);
+    }
+
+    .demo-nav { padding: 12px; flex: 1; overflow-y: auto; }
+    .demo-nav-section {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--c-steel-700);
+      padding: 16px 8px 6px;
+      font-weight: 600;
+    }
+    .demo-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--c-steel-600);
+      transition: all 0.15s;
+      margin-bottom: 1px;
+    }
+    .demo-nav-item:hover { background: var(--c-gunmetal); color: var(--c-steel-400); }
+    .demo-nav-item.active { background: rgba(6,182,212,0.08); color: #06b6d4; }
+    .demo-nav-item svg { width: 16px; height: 16px; flex-shrink: 0; opacity: 0.7; }
+
+    .demo-sidebar-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--c-border);
+    }
+    .demo-connection {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #22c55e;
+      font-weight: 500;
+    }
+    .demo-connection::before {
+      content: '';
+      width: 6px; height: 6px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: blink 2s ease-in-out infinite;
+    }
+    .demo-endpoint {
+      margin-top: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 9px;
+      color: var(--c-steel-700);
+      letter-spacing: 0.5px;
+    }
+
+    /* Main area */
+    .demo-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--c-carbon);
+    }
+    .demo-topbar {
+      padding: 14px 28px;
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--c-graphite);
+      flex-shrink: 0;
+    }
+    .demo-topbar h2 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20px;
+      letter-spacing: 0.05em;
+      color: var(--c-titanium);
+    }
+    .demo-topbar-right { display: flex; align-items: center; gap: 10px; }
+
+    .demo-select {
+      background: var(--c-input-bg);
+      border: 1px solid var(--c-border);
+      color: var(--c-steel-400);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      outline: none;
+    }
+    .demo-select:focus { border-color: #06b6d4; }
+
+    .demo-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 28px;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* KPI grid */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--c-border);
+      border: 1px solid var(--c-border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: var(--c-graphite);
+      padding: 20px;
+    }
+    .kpi-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--c-steel-700);
+      margin-bottom: 8px;
+    }
+    .kpi-value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      letter-spacing: 0.02em;
+      color: var(--c-titanium);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .kpi-change {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+    }
+    .kpi-change.up { color: #22c55e; }
+    .kpi-change.down { color: #ef4444; }
+    .kpi-change.neutral { color: var(--c-steel-600); }
+
+    /* Chart cards */
+    .chart-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 1px;
+      background: var(--c-border);
+      border: 1px solid var(--c-border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .chart-card {
+      background: var(--c-graphite);
+      padding: 20px;
+    }
+    .chart-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--c-steel-500);
+      margin-bottom: 2px;
+    }
+    .chart-subtitle {
+      font-family: 'Barlow', sans-serif;
+      font-size: 12px;
+      color: var(--c-steel-700);
+      margin-bottom: 16px;
+    }
+    .chart-wrap { position: relative; height: 240px; }
+
+    /* Data tables */
+    .demo-table-wrap {
+      background: var(--c-graphite);
+      border: 1px solid var(--c-border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .demo-table-header {
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .demo-table-header h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--c-steel-500);
+    }
+    .demo-table-header span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--c-steel-700);
+    }
+    table.demo-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Barlow', sans-serif;
+      font-size: 13px;
+    }
+    .demo-table th {
+      text-align: left;
+      padding: 8px 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--c-steel-700);
+      font-weight: 500;
+      border-bottom: 1px solid var(--c-border);
+      background: var(--c-gunmetal);
+    }
+    .demo-table td {
+      padding: 9px 16px;
+      border-bottom: 1px solid var(--c-border);
+      color: var(--c-steel-400);
+    }
+    .demo-table tr:hover td { background: var(--c-gunmetal); }
+
+    .tag {
+      display: inline-block;
+      padding: 1px 7px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .tag-green { background: rgba(34,197,94,0.12); color: #22c55e; }
+    .tag-amber { background: rgba(245,158,11,0.12); color: #f59e0b; }
+    .tag-red { background: rgba(239,68,68,0.12); color: #ef4444; }
+    .tag-brand { background: rgba(6,182,212,0.12); color: #06b6d4; }
+
+    /* AI Chat */
+    .ai-container {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 110px);
+    }
+    .ai-suggestions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .ai-suggestion {
+      background: var(--c-graphite);
+      border: 1px solid var(--c-border);
+      color: var(--c-steel-600);
+      padding: 7px 14px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .ai-suggestion:hover { border-color: #06b6d4; color: #06b6d4; }
+
+    .ai-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 0;
+    }
+    .ai-msg {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      max-width: 760px;
+    }
+    .ai-msg.user { flex-direction: row-reverse; }
+    .ai-avatar {
+      width: 28px; height: 28px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .ai-msg.assistant .ai-avatar { background: #06b6d4; color: var(--c-carbon); }
+    .ai-msg.user .ai-avatar { background: var(--c-gunmetal); color: var(--c-steel-500); }
+    .ai-bubble {
+      background: var(--c-graphite);
+      border: 1px solid var(--c-border);
+      border-radius: 4px;
+      padding: 14px 18px;
+      font-size: 13px;
+      line-height: 1.65;
+      max-width: 580px;
+      color: var(--c-steel-400);
+    }
+    .ai-msg.user .ai-bubble {
+      background: #06b6d4;
+      border-color: #06b6d4;
+      color: var(--c-carbon);
+    }
+    .ai-bubble h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--c-steel-300);
+      margin-bottom: 8px;
+    }
+    .ai-bubble ul { padding-left: 18px; margin: 6px 0; }
+    .ai-bubble li { margin-bottom: 4px; }
+    .ai-bubble code {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--c-carbon);
+      border: 1px solid var(--c-border);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 11px;
+      color: #06b6d4;
+    }
+    .ai-bubble .mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 12px;
+    }
+    .ai-bubble .mini-table th,
+    .ai-bubble .mini-table td {
+      padding: 5px 8px;
+      border: 1px solid var(--c-border);
+      text-align: left;
+    }
+    .ai-bubble .mini-table th {
+      background: var(--c-gunmetal);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      color: var(--c-steel-500);
+    }
+    .ai-bubble .ai-chart-wrap { height: 180px; margin: 12px 0; }
+
+    .ai-input-bar {
+      display: flex;
+      gap: 10px;
+      padding: 14px 0;
+      border-top: 1px solid var(--c-border);
+      flex-shrink: 0;
+    }
+    .ai-input-bar input {
+      flex: 1;
+      background: var(--c-input-bg);
+      border: 1px solid var(--c-border);
+      color: var(--c-titanium);
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      outline: none;
+    }
+    .ai-input-bar input:focus { border-color: #06b6d4; }
+    .ai-input-bar input::placeholder { color: var(--c-steel-700); }
+
+    /* Explorer */
+    .explorer-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--c-border);
+      border: 1px solid var(--c-border);
+      border-radius: 4px;
+      overflow: hidden;
+      height: calc(100vh - 110px);
+    }
+    .explorer-pane {
+      background: var(--c-graphite);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .explorer-pane-header {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--c-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .explorer-pane-header h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--c-steel-600);
+    }
+    .explorer-textarea {
+      flex: 1;
+      background: var(--c-carbon);
+      border: none;
+      color: var(--c-steel-400);
+      padding: 16px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      resize: none;
+      outline: none;
+    }
+    .explorer-result {
+      flex: 1;
+      overflow: auto;
+      padding: 16px;
+      background: var(--c-carbon);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--c-steel-500);
+    }
+    .explorer-result pre { white-space: pre-wrap; }
+
+    .typing-dots::after {
+      content: '...';
+      animation: dots 1.5s steps(4, end) infinite;
+    }
+    @keyframes dots {
+      0%, 20% { content: ''; }
+      40% { content: '.'; }
+      60% { content: '..'; }
+      80%, 100% { content: '...'; }
+    }
+
+    @media (max-width: 1100px) {
+      .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .demo-sidebar { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <nav class="demo-sidebar">
+    <div class="demo-sidebar-brand">
+      <h1>SAGE X3 <span style="color:#06b6d4">INTELLIGENCE</span></h1>
+      <span>Republic Umbrella</span>
+    </div>
+    <div class="demo-nav">
+      <div class="demo-nav-section">Analytics</div>
+      <div class="demo-nav-item active" data-page="dashboard">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+        Dashboard
+      </div>
+      <div class="demo-nav-item" data-page="customers">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Customers
+      </div>
+      <div class="demo-nav-item" data-page="sales">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+        Sales Orders
+      </div>
+      <div class="demo-nav-item" data-page="inventory">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        Inventory
+      </div>
+
+      <div class="demo-nav-section">AI Tools</div>
+      <div class="demo-nav-item" data-page="ai">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1" fill="currentColor"/></svg>
+        AI Reports
+      </div>
+
+      <div class="demo-nav-section">Developer</div>
+      <div class="demo-nav-item" data-page="explorer">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        API Explorer
+      </div>
+    </div>
+    <div class="demo-sidebar-footer">
+      <div class="demo-connection">SAGE X3 CONNECTED</div>
+      <div class="demo-endpoint">sagex3-dev.vizionline.biz</div>
+      <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--c-border)">
+        <a href="/" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;color:var(--c-steel-700);text-decoration:none;display:flex;align-items:center;gap:6px">
+          <span style="color:#06b6d4">&larr;</span> ALL DEMOS
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══ MAIN ═══ -->
+  <div class="demo-main">
+    <div class="demo-topbar">
+      <h2 id="pageTitle">DASHBOARD</h2>
+      <div class="demo-topbar-right">
+        <select class="demo-select">
+          <option>Last 30 days</option>
+          <option>Last 90 days</option>
+          <option>This Year</option>
+          <option>All Time</option>
+        </select>
+        <button onclick="toggleTheme()" class="theme-toggle" title="Toggle theme" style="min-height:34px;min-width:34px">
+          <svg id="icon-sun" class="w-4 h-4 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <svg id="icon-moon" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        </button>
+        <button class="cta-primary" style="font-size:10px;padding:7px 16px" onclick="refreshData()">REFRESH DATA</button>
+      </div>
+    </div>
+
+    <div class="demo-content">
+      <!-- ═══ DASHBOARD ═══ -->
+      <div class="page active" id="page-dashboard">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Revenue</div>
+            <div class="kpi-value" style="color:#22c55e">R 14.2M</div>
+            <div class="kpi-change up">+12.3% vs last period</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Active Customers</div>
+            <div class="kpi-value">847</div>
+            <div class="kpi-change up">+23 new this month</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Open Orders</div>
+            <div class="kpi-value" style="color:#f59e0b">156</div>
+            <div class="kpi-change down">18 overdue</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Stock Turnover</div>
+            <div class="kpi-value">4.2X</div>
+            <div class="kpi-change up">+0.3 vs last quarter</div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-title">Revenue Trend</div>
+            <div class="chart-subtitle">Monthly revenue — last 12 months (ZAR)</div>
+            <div class="chart-wrap"><canvas id="revenueChart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Revenue by Region</div>
+            <div class="chart-subtitle">Geographic distribution</div>
+            <div class="chart-wrap"><canvas id="regionChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="chart-grid">
+          <div class="chart-card">
+            <div class="chart-title">Top 10 Customers</div>
+            <div class="chart-subtitle">Year-to-date revenue</div>
+            <div class="chart-wrap"><canvas id="topCustomersChart"></canvas></div>
+          </div>
+          <div class="chart-card">
+            <div class="chart-title">Order Pipeline</div>
+            <div class="chart-subtitle">Current order status breakdown</div>
+            <div class="chart-wrap"><canvas id="orderStatusChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="demo-table-wrap" style="margin-top:8px">
+          <div class="demo-table-header">
+            <h3>Recent Alerts</h3>
+          </div>
+          <table class="demo-table">
+            <thead><tr><th>Alert</th><th>Severity</th><th>Source</th><th>Time</th></tr></thead>
+            <tbody>
+              <tr><td>Customer CUS-0412 exceeded credit limit (R 250,000)</td><td><span class="tag tag-red">High</span></td><td>Credit Management</td><td>2 hours ago</td></tr>
+              <tr><td>Stock level below reorder point: SKU-8821 (Umbrella Frame XL)</td><td><span class="tag tag-amber">Medium</span></td><td>Inventory</td><td>5 hours ago</td></tr>
+              <tr><td>Sales order SO-29184 — delivery overdue by 3 days</td><td><span class="tag tag-amber">Medium</span></td><td>Logistics</td><td>6 hours ago</td></tr>
+              <tr><td>New customer onboarded: Umbrella Distributors Cape Town</td><td><span class="tag tag-green">Info</span></td><td>CRM</td><td>1 day ago</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ CUSTOMERS ═══ -->
+      <div class="page" id="page-customers">
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Customers</div>
+            <div class="kpi-value">847</div>
+            <div class="kpi-change up">+2.8% growth</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Active (last 90d)</div>
+            <div class="kpi-value" style="color:#22c55e">623</div>
+            <div class="kpi-change neutral">73.6% of total</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Avg Order Value</div>
+            <div class="kpi-value">R 16,840</div>
+            <div class="kpi-change up">+5.1%</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">At Risk</div>
+            <div class="kpi-value" style="color:#ef4444">34</div>
+            <div class="kpi-change down">No orders in 60+ days</div>
+          </div>
+        </div>
+        <div class="demo-table-wrap">
+          <div class="demo-table-header">
+            <h3>Customer Master Data</h3>
+            <span>Source: x3MasterData.customer</span>
+          </div>
+          <table class="demo-table">
+            <thead><tr><th>Code</th><th>Company</th><th>Country</th><th>Currency</th><th>Type</th><th>Revenue YTD</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>CUS-0001</td><td>Umbrella Corp Johannesburg</td><td>South Africa</td><td>ZAR</td><td><span class="tag tag-brand">Customer</span></td><td>R 2,340,000</td><td><span class="tag tag-green">Active</span></td></tr>
+              <tr><td>CUS-0015</td><td>Cape Shade Solutions</td><td>South Africa</td><td>ZAR</td><td><span class="tag tag-brand">Customer</span></td><td>R 1,890,000</td><td><span class="tag tag-green">Active</span></td></tr>
+              <tr><td>CUS-0023</td><td>Durban Outdoor Living</td><td>South Africa</td><td>ZAR</td><td><span class="tag tag-brand">Customer</span></td><td>R 1,420,000</td><td><span class="tag tag-green">Active</span></td></tr>
+              <tr><td>CUS-0044</td><td>Namibia Sun Protection Ltd</td><td>Namibia</td><td>NAD</td><td><span class="tag tag-brand">Customer</span></td><td>R 980,000</td><td><span class="tag tag-green">Active</span></td></tr>
+              <tr><td>CUS-0067</td><td>Botswana Leisure Imports</td><td>Botswana</td><td>BWP</td><td><span class="tag tag-brand">Cust / Supplier</span></td><td>R 756,000</td><td><span class="tag tag-green">Active</span></td></tr>
+              <tr><td>CUS-0089</td><td>Pretoria Patio World</td><td>South Africa</td><td>ZAR</td><td><span class="tag tag-brand">Customer</span></td><td>R 650,000</td><td><span class="tag tag-amber">Watch</span></td></tr>
+              <tr><td>CUS-0102</td><td>Mozambique Resort Supplies</td><td>Mozambique</td><td>MZN</td><td><span class="tag tag-brand">Customer</span></td><td>R 540,000</td><td><span class="tag tag-green">Active</span></td></tr>
+              <tr><td>CUS-0118</td><td>Bloemfontein Garden Centre</td><td>South Africa</td><td>ZAR</td><td><span class="tag tag-brand">Customer</span></td><td>R 420,000</td><td><span class="tag tag-red">At Risk</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ SALES ═══ -->
+      <div class="page" id="page-sales">
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-label">Orders This Month</div><div class="kpi-value">89</div><div class="kpi-change up">+14% vs last month</div></div>
+          <div class="kpi-card"><div class="kpi-label">Total Value</div><div class="kpi-value" style="color:#22c55e">R 3.8M</div><div class="kpi-change up">+8.2%</div></div>
+          <div class="kpi-card"><div class="kpi-label">Avg Fulfillment</div><div class="kpi-value">3.2 DAYS</div><div class="kpi-change up">-0.5 days improved</div></div>
+          <div class="kpi-card"><div class="kpi-label">Return Rate</div><div class="kpi-value" style="color:#22c55e">1.8%</div><div class="kpi-change up">-0.3% improved</div></div>
+        </div>
+        <div class="demo-table-wrap">
+          <div class="demo-table-header"><h3>Recent Sales Orders</h3></div>
+          <table class="demo-table">
+            <thead><tr><th>Order #</th><th>Customer</th><th>Date</th><th>Items</th><th>Value</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>SO-29201</td><td>Umbrella Corp JHB</td><td>2026-03-28</td><td>12</td><td>R 184,500</td><td><span class="tag tag-brand">Processing</span></td></tr>
+              <tr><td>SO-29198</td><td>Cape Shade Solutions</td><td>2026-03-27</td><td>8</td><td>R 96,200</td><td><span class="tag tag-green">Shipped</span></td></tr>
+              <tr><td>SO-29195</td><td>Durban Outdoor Living</td><td>2026-03-27</td><td>24</td><td>R 312,000</td><td><span class="tag tag-green">Shipped</span></td></tr>
+              <tr><td>SO-29190</td><td>Namibia Sun Protection</td><td>2026-03-26</td><td>6</td><td>R 78,900</td><td><span class="tag tag-amber">Pending</span></td></tr>
+              <tr><td>SO-29184</td><td>Pretoria Patio World</td><td>2026-03-24</td><td>15</td><td>R 201,000</td><td><span class="tag tag-red">Overdue</span></td></tr>
+              <tr><td>SO-29180</td><td>Botswana Leisure</td><td>2026-03-23</td><td>10</td><td>R 145,600</td><td><span class="tag tag-green">Delivered</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ INVENTORY ═══ -->
+      <div class="page" id="page-inventory">
+        <div class="kpi-grid">
+          <div class="kpi-card"><div class="kpi-label">Total SKUs</div><div class="kpi-value">1,243</div><div class="kpi-change neutral">Across 8 warehouses</div></div>
+          <div class="kpi-card"><div class="kpi-label">Stock Value</div><div class="kpi-value" style="color:#22c55e">R 28.4M</div><div class="kpi-change up">Healthy levels</div></div>
+          <div class="kpi-card"><div class="kpi-label">Below Reorder</div><div class="kpi-value" style="color:#ef4444">23</div><div class="kpi-change down">Action required</div></div>
+          <div class="kpi-card"><div class="kpi-label">Overstock</div><div class="kpi-value" style="color:#f59e0b">47</div><div class="kpi-change neutral">R 3.1M tied up</div></div>
+        </div>
+        <div class="demo-table-wrap">
+          <div class="demo-table-header"><h3>Stock Alerts</h3></div>
+          <table class="demo-table">
+            <thead><tr><th>SKU</th><th>Product</th><th>Warehouse</th><th>On Hand</th><th>Reorder Pt</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>SKU-8821</td><td>Umbrella Frame XL — Aluminium</td><td>JHB Main</td><td>12</td><td>50</td><td><span class="tag tag-red">Critical</span></td></tr>
+              <tr><td>SKU-8835</td><td>Canopy Fabric — Navy 3m</td><td>JHB Main</td><td>28</td><td>40</td><td><span class="tag tag-amber">Low</span></td></tr>
+              <tr><td>SKU-9102</td><td>Base — Granite 40kg</td><td>CPT Depot</td><td>340</td><td>60</td><td><span class="tag tag-amber">Overstock</span></td></tr>
+              <tr><td>SKU-7745</td><td>LED Light Kit — Solar</td><td>DBN Warehouse</td><td>8</td><td>25</td><td><span class="tag tag-red">Critical</span></td></tr>
+              <tr><td>SKU-8890</td><td>Umbrella Frame M — Steel</td><td>JHB Main</td><td>185</td><td>100</td><td><span class="tag tag-green">OK</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ═══ AI REPORTS ═══ -->
+      <div class="page" id="page-ai">
+        <div class="ai-container">
+          <div class="ai-suggestions" id="aiSuggestions">
+            <div class="ai-suggestion" onclick="askAI(this.textContent)">Show me revenue by customer for this quarter</div>
+            <div class="ai-suggestion" onclick="askAI(this.textContent)">Which customers haven't ordered in 60 days?</div>
+            <div class="ai-suggestion" onclick="askAI(this.textContent)">What stock items need reordering urgently?</div>
+            <div class="ai-suggestion" onclick="askAI(this.textContent)">Compare this month's sales to last month</div>
+            <div class="ai-suggestion" onclick="askAI(this.textContent)">Summarize overdue orders and recommend actions</div>
+            <div class="ai-suggestion" onclick="askAI(this.textContent)">Predict next month's top selling products</div>
+          </div>
+          <div class="ai-messages" id="aiMessages">
+            <div class="ai-msg assistant">
+              <div class="ai-avatar">AI</div>
+              <div class="ai-bubble">
+                <h4>Sage X3 AI Reports</h4>
+                <p>I can query your Sage X3 data in real-time and generate reports, charts, and insights. Ask me anything about customers, sales, inventory, or financials.</p>
+                <p style="margin-top:8px;color:var(--c-steel-700);font-size:11px;font-family:'JetBrains Mono',monospace">Powered by Claude on Cloudflare Workers AI</p>
+              </div>
+            </div>
+          </div>
+          <div class="ai-input-bar">
+            <input type="text" id="aiInput" placeholder="Ask about your Sage X3 data..." onkeydown="if(event.key==='Enter')askAI()">
+            <button class="cta-primary" style="font-size:10px;padding:10px 20px" onclick="askAI()">SEND</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- ═══ API EXPLORER ═══ -->
+      <div class="page" id="page-explorer">
+        <div class="explorer-layout">
+          <div class="explorer-pane">
+            <div class="explorer-pane-header">
+              <h3>GraphQL Query</h3>
+              <div style="display:flex;gap:6px">
+                <button class="cta" style="font-size:9px;padding:5px 12px" onclick="introspect()">INTROSPECT</button>
+                <button class="cta-primary" style="font-size:9px;padding:5px 12px" onclick="runExplorerQuery()">RUN</button>
+              </div>
+            </div>
+            <textarea class="explorer-textarea" id="explorerQuery" spellcheck="false">query X3MasterData {
+    x3MasterData {
+        customer {
+            query(first: 5) {
+                edges {
+                    node {
+                        code {
+                            code
+                            companyName1
+                            country {
+                                code
+                                countryName
+                            }
+                            currency {
+                                code
+                                localizedDescription
+                            }
+                            isCustomer
+                            isSupplier
+                        }
+                    }
+                }
+            }
+        }
+    }
+}</textarea>
+          </div>
+          <div class="explorer-pane">
+            <div class="explorer-pane-header">
+              <h3>Result</h3>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c-steel-700)" id="explorerMeta"></span>
+            </div>
+            <div class="explorer-result" id="explorerResult">
+              <pre>Run a query to see results...</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app-switcher.js"></script>
+  <script>
+  // ── Theme toggle (matches 2nth pattern) ──
+  function toggleTheme() {
+    document.documentElement.classList.toggle('light');
+    var isLight = document.documentElement.classList.contains('light');
+    localStorage.setItem('2nth-theme', isLight ? 'light' : 'dark');
+    updateThemeIcons();
+    rebuildCharts();
+  }
+  function updateThemeIcons() {
+    var isLight = document.documentElement.classList.contains('light');
+    document.getElementById('icon-sun').classList.toggle('hidden', !isLight);
+    document.getElementById('icon-moon').classList.toggle('hidden', isLight);
+  }
+  updateThemeIcons();
+
+  // ── Navigation ──
+  document.querySelectorAll('.demo-nav-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      document.querySelectorAll('.demo-nav-item').forEach(function(n) { n.classList.remove('active'); });
+      document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+      item.classList.add('active');
+      var page = item.dataset.page;
+      document.getElementById('page-' + page).classList.add('active');
+      var titles = { dashboard:'DASHBOARD', customers:'CUSTOMER ANALYTICS', sales:'SALES ORDERS', inventory:'INVENTORY', ai:'AI REPORTS', explorer:'API EXPLORER' };
+      document.getElementById('pageTitle').textContent = titles[page] || page;
+    });
+  });
+
+  // ── Chart theme helpers ──
+  function chartColors() {
+    var isLight = document.documentElement.classList.contains('light');
+    return {
+      grid: isLight ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)',
+      tick: isLight ? '#71717a' : '#52525b',
+      label: isLight ? '#3f3f46' : '#71717a',
+    };
+  }
+
+  function chartDefaults() {
+    var c = chartColors();
+    return {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { color: c.label, font: { family: "'JetBrains Mono', monospace", size: 10 } } } },
+      scales: {
+        x: { ticks: { color: c.tick, font: { family: "'JetBrains Mono', monospace", size: 10 } }, grid: { color: c.grid } },
+        y: { ticks: { color: c.tick, font: { family: "'JetBrains Mono', monospace", size: 10 } }, grid: { color: c.grid } }
+      }
+    };
+  }
+
+  var charts = {};
+  function buildCharts() {
+    var c = chartColors();
+    var defs = chartDefaults();
+
+    charts.revenue = new Chart(document.getElementById('revenueChart'), {
+      type: 'line',
+      data: {
+        labels: ['Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar'],
+        datasets: [{
+          label: 'Revenue (R)',
+          data: [980000,1050000,1120000,1180000,1090000,1240000,1150000,1310000,1420000,1280000,1190000,1380000],
+          borderColor: '#06b6d4',
+          backgroundColor: 'rgba(6,182,212,0.08)',
+          fill: true, tension: 0.4, pointRadius: 3, pointBackgroundColor: '#06b6d4'
+        }]
+      },
+      options: defs
+    });
+
+    charts.region = new Chart(document.getElementById('regionChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Gauteng','Western Cape','KZN','Namibia','Botswana','Mozambique','Other'],
+        datasets: [{ data: [38,22,16,8,6,5,5], backgroundColor: ['#06b6d4','#6366f1','#10b981','#f59e0b','#ef4444','#0ea5e9','#52525b'], borderWidth: 0 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'right', labels: { color: c.label, font: { family: "'JetBrains Mono', monospace", size: 10 }, padding: 10 } } }
+      }
+    });
+
+    charts.topCustomers = new Chart(document.getElementById('topCustomersChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Umbrella Corp JHB','Cape Shade','Durban Outdoor','Namibia Sun','Botswana Leisure','Pretoria Patio','Moz Resort','Bloem Garden','PE Outdoors','Limpopo Shade'],
+        datasets: [{ label: 'Revenue YTD (R)', data: [2340000,1890000,1420000,980000,756000,650000,540000,420000,380000,310000], backgroundColor: '#06b6d4cc', borderRadius: 3 }]
+      },
+      options: {
+        ...defs, indexAxis: 'y',
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { ticks: { color: c.tick, font: { family: "'JetBrains Mono', monospace", size: 10 }, callback: function(v) { return 'R ' + (v/1000000).toFixed(1) + 'M'; } }, grid: { color: c.grid } },
+          y: { ticks: { color: c.label, font: { family: "'JetBrains Mono', monospace", size: 10 } }, grid: { display: false } }
+        }
+      }
+    });
+
+    charts.orderStatus = new Chart(document.getElementById('orderStatusChart'), {
+      type: 'doughnut',
+      data: {
+        labels: ['Delivered','Shipped','Processing','Pending','Overdue'],
+        datasets: [{ data: [62,41,28,15,10], backgroundColor: ['#22c55e','#06b6d4','#6366f1','#f59e0b','#ef4444'], borderWidth: 0 }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { position: 'right', labels: { color: c.label, font: { family: "'JetBrains Mono', monospace", size: 10 }, padding: 10 } } }
+      }
+    });
+  }
+
+  function rebuildCharts() {
+    Object.values(charts).forEach(function(c) { c.destroy(); });
+    charts = {};
+    buildCharts();
+  }
+
+  buildCharts();
+
+  // ── AI Chat ──
+  var aiResponses = {
+    'Show me revenue by customer for this quarter': {
+      html: '<h4>Q1 2026 Revenue by Customer</h4><p>Breakdown from Sage X3 sales data:</p><table class="mini-table"><tr><th>Customer</th><th>Revenue</th><th>Orders</th><th>Trend</th></tr><tr><td>Umbrella Corp JHB</td><td>R 780,000</td><td>14</td><td style="color:#22c55e">+18%</td></tr><tr><td>Cape Shade Solutions</td><td>R 630,000</td><td>11</td><td style="color:#22c55e">+12%</td></tr><tr><td>Durban Outdoor Living</td><td>R 473,000</td><td>9</td><td style="color:#22c55e">+5%</td></tr><tr><td>Namibia Sun Protection</td><td>R 326,000</td><td>7</td><td style="color:#f59e0b">-2%</td></tr><tr><td>Botswana Leisure</td><td>R 252,000</td><td>5</td><td style="color:#22c55e">+8%</td></tr></table><p style="margin-top:10px"><strong>Key insight:</strong> Top 3 customers account for 52% of quarterly revenue. Umbrella Corp JHB is accelerating — consider increasing their credit limit to R 350K.</p>'
+    },
+    "Which customers haven't ordered in 60 days?": {
+      html: '<h4>At-Risk Customers — 60+ Days Silent</h4><p><strong>34 customers</strong> with no activity since late January:</p><table class="mini-table"><tr><th>Customer</th><th>Last Order</th><th>Days</th><th>Annual Rev</th></tr><tr><td>Bloemfontein Garden Centre</td><td>2026-01-18</td><td style="color:#ef4444">71</td><td>R 420,000</td></tr><tr><td>Limpopo Shade Works</td><td>2026-01-22</td><td style="color:#ef4444">67</td><td>R 310,000</td></tr><tr><td>Mpumalanga Outdoor</td><td>2026-01-25</td><td style="color:#f59e0b">64</td><td>R 280,000</td></tr><tr><td>Eswatini Leisure</td><td>2026-01-28</td><td style="color:#f59e0b">61</td><td>R 195,000</td></tr></table><p style="margin-top:10px"><strong>Recommendation:</strong> These 4 accounts = R 1.2M annual revenue at risk. Targeted outreach campaign recommended.</p>'
+    },
+    'What stock items need reordering urgently?': {
+      html: '<h4>Urgent Reorder List</h4><p><strong>23 SKUs</strong> below reorder point. Critical items:</p><table class="mini-table"><tr><th>SKU</th><th>Product</th><th>On Hand</th><th>Reorder</th><th>Daily Use</th><th>Days Left</th></tr><tr><td>SKU-8821</td><td>Frame XL Aluminium</td><td style="color:#ef4444">12</td><td>50</td><td>4.2</td><td style="color:#ef4444">~3</td></tr><tr><td>SKU-7745</td><td>LED Light Kit Solar</td><td style="color:#ef4444">8</td><td>25</td><td>2.1</td><td style="color:#ef4444">~4</td></tr><tr><td>SKU-8835</td><td>Canopy Navy 3m</td><td style="color:#f59e0b">28</td><td>40</td><td>3.5</td><td style="color:#f59e0b">~8</td></tr></table><p style="margin-top:10px"><strong>Action:</strong> SKU-8821 is in your best-selling line. Raise PO for 200 units — supplier lead time is 5 business days.</p>'
+    },
+    "Compare this month's sales to last month": {
+      html: '<h4>March vs February 2026</h4><div class="ai-chart-wrap"><canvas id="aiCompareChart"></canvas></div><table class="mini-table"><tr><th>Metric</th><th>Feb</th><th>Mar</th><th>Change</th></tr><tr><td>Orders</td><td>78</td><td>89</td><td style="color:#22c55e">+14.1%</td></tr><tr><td>Revenue</td><td>R 3.51M</td><td>R 3.80M</td><td style="color:#22c55e">+8.2%</td></tr><tr><td>Avg Order</td><td>R 45,000</td><td>R 42,700</td><td style="color:#f59e0b">-5.1%</td></tr><tr><td>New Customers</td><td>18</td><td>23</td><td style="color:#22c55e">+27.8%</td></tr></table><p style="margin-top:10px"><strong>Summary:</strong> Volume and revenue up, AOV dipped slightly from more small/mid orders via new customers. Healthy growth pattern.</p>',
+      afterRender: function() {
+        var ctx = document.getElementById('aiCompareChart');
+        var c = chartColors();
+        if (ctx) new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels: ['Week 1','Week 2','Week 3','Week 4'],
+            datasets: [
+              { label: 'Feb', data: [820000,910000,880000,900000], backgroundColor: '#52525b', borderRadius: 3 },
+              { label: 'Mar', data: [890000,960000,970000,980000], backgroundColor: '#06b6d4', borderRadius: 3 }
+            ]
+          },
+          options: {
+            responsive: true, maintainAspectRatio: false,
+            plugins: { legend: { labels: { color: c.label, font: { family: "'JetBrains Mono', monospace", size: 10 } } } },
+            scales: {
+              x: { ticks: { color: c.tick }, grid: { color: c.grid } },
+              y: { ticks: { color: c.tick, callback: function(v) { return 'R ' + (v/1000).toFixed(0) + 'k'; } }, grid: { color: c.grid } }
+            }
+          }
+        });
+      }
+    },
+    'Summarize overdue orders and recommend actions': {
+      html: '<h4>Overdue Orders — Action Required</h4><p><strong>18 overdue orders</strong> totaling <strong>R 1.24M</strong>:</p><table class="mini-table"><tr><th>Order</th><th>Customer</th><th>Value</th><th>Late</th><th>Reason</th></tr><tr><td>SO-29184</td><td>Pretoria Patio World</td><td>R 201K</td><td style="color:#ef4444">6d</td><td>Stock shortage</td></tr><tr><td>SO-29170</td><td>Limpopo Shade Works</td><td>R 156K</td><td style="color:#ef4444">8d</td><td>Payment hold</td></tr><tr><td>SO-29165</td><td>PE Outdoors</td><td>R 98K</td><td style="color:#f59e0b">4d</td><td>Logistics delay</td></tr></table><p style="margin-top:10px"><strong>Actions:</strong></p><ul><li><strong>SO-29184:</strong> Expedite PO or substitute with SKU-8890</li><li><strong>SO-29170:</strong> Contact re: R 78K outstanding payment</li><li><strong>SO-29165:</strong> Redirect from JHB to CPT depot</li></ul>'
+    },
+    'Predict next month\'s top selling products': {
+      html: '<h4>April 2026 Forecast</h4><p>Based on historical trends and seasonal patterns:</p><table class="mini-table"><tr><th>#</th><th>Product</th><th>Units</th><th>Confidence</th><th>vs Mar</th></tr><tr><td>1</td><td>Cantilever 3m</td><td>145</td><td style="color:#22c55e">High</td><td style="color:#22c55e">+12%</td></tr><tr><td>2</td><td>Frame XL Aluminium</td><td>128</td><td style="color:#22c55e">High</td><td style="color:#22c55e">+8%</td></tr><tr><td>3</td><td>Base Granite 40kg</td><td>110</td><td style="color:#f59e0b">Med</td><td style="color:var(--c-steel-600)">Flat</td></tr><tr><td>4</td><td>Canopy Navy 3m</td><td>95</td><td style="color:#22c55e">High</td><td style="color:#22c55e">+15%</td></tr><tr><td>5</td><td>LED Light Solar</td><td>68</td><td style="color:#f59e0b">Med</td><td style="color:#22c55e">+22%</td></tr></table><p style="margin-top:10px"><strong>Insight:</strong> LED Light Kit trending up but currently at 8 units (critical). Replenish immediately.</p><p style="margin-top:4px;color:var(--c-steel-700);font-size:11px;font-family:\'JetBrains Mono\',monospace">Model: weighted moving average + seasonal decomposition on 24mo history</p>'
+    }
+  };
+
+  function askAI(text) {
+    var input = document.getElementById('aiInput');
+    var msg = text || input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    document.getElementById('aiSuggestions').style.display = 'none';
+    var el = document.getElementById('aiMessages');
+    el.innerHTML += '<div class="ai-msg user"><div class="ai-avatar">U</div><div class="ai-bubble">' + msg + '</div></div>';
+    var tid = 'typing-' + Date.now();
+    el.innerHTML += '<div class="ai-msg assistant" id="' + tid + '"><div class="ai-avatar">AI</div><div class="ai-bubble"><span class="typing-dots" style="font-family:\'JetBrains Mono\',monospace;font-size:11px;color:var(--c-steel-600)">Querying Sage X3</span></div></div>';
+    el.scrollTop = el.scrollHeight;
+    setTimeout(function() {
+      var te = document.getElementById(tid);
+      var resp = aiResponses[msg];
+      if (resp) {
+        te.querySelector('.ai-bubble').innerHTML = resp.html;
+        if (resp.afterRender) setTimeout(resp.afterRender, 50);
+      } else {
+        te.querySelector('.ai-bubble').innerHTML = '<h4>Processing Request</h4><p>I would query <code>x3MasterData</code> to answer: <em>"' + msg + '"</em></p><p style="margin-top:8px">In production, this would:</p><ul><li>Generate the GraphQL query</li><li>Execute against Sage X3 in real-time</li><li>Analyze with Claude AI on Cloudflare edge</li><li>Return formatted insights</li></ul>';
+      }
+      el.scrollTop = el.scrollHeight;
+    }, 1200 + Math.random() * 1500);
+  }
+
+  // ── Explorer ──
+  var API_ENDPOINT = 'https://sagex3-dev.vizionline.biz:9443/xtrem/api';
+  function runExplorerQuery() {
+    var query = document.getElementById('explorerQuery').value;
+    var resultEl = document.getElementById('explorerResult');
+    var metaEl = document.getElementById('explorerMeta');
+    resultEl.innerHTML = '<pre style="color:var(--c-steel-700)">Executing...</pre>';
+    var start = performance.now();
+    try {
+      fetch(API_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Basic ' + btoa('MFAI:' + (prompt('Enter password for MFAI:') || '')) },
+        body: JSON.stringify({ query: query })
+      }).then(function(res) { return res.json().then(function(data) { return { status: res.status, data: data }; }); })
+        .then(function(r) {
+          metaEl.textContent = Math.round(performance.now() - start) + 'ms — HTTP ' + r.status;
+          resultEl.innerHTML = '<pre>' + JSON.stringify(r.data, null, 2) + '</pre>';
+        }).catch(function(err) {
+          metaEl.textContent = 'Failed';
+          resultEl.innerHTML = '<pre style="color:#ef4444">' + err.message + '</pre>';
+        });
+    } catch(e) {
+      metaEl.textContent = 'Failed';
+      resultEl.innerHTML = '<pre style="color:#ef4444">' + e.message + '</pre>';
+    }
+  }
+  function introspect() {
+    document.getElementById('explorerQuery').value = '{\n    __schema {\n        queryType {\n            fields {\n                name\n                description\n                type { name kind ofType { name kind } }\n            }\n        }\n    }\n}';
+    runExplorerQuery();
+  }
+
+  function refreshData() {
+    var btn = event.target;
+    btn.textContent = 'REFRESHING...';
+    setTimeout(function() { btn.textContent = 'REFRESH DATA'; }, 1500);
+  }
+  </script>
+</body>
+</html>
