@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NoHa Furniture — AI-Powered Manufacturing | demo.2nth.ai</title>
+  <link rel="icon" type="image/svg+xml" href="https://2nth.ai/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script>(function(){var t=localStorage.getItem('2nth-theme');if(t==='light')document.documentElement.classList.add('light');})()</script>
+  <style>
+    :root{--c-carbon:#0a0a0a;--c-graphite:#141414;--c-gunmetal:#1c1c1e;--c-chassis:#232326;--c-titanium:#fafafa;--c-steel-900:#27272a;--c-steel-800:#3f3f46;--c-steel-700:#52525b;--c-steel-600:#71717a;--c-steel-500:#a1a1aa;--c-steel-400:#c4c4cc;--c-steel-300:#d4d4d8;--c-border:hsla(0,0%,100%,.06);--c-border-s:hsla(0,0%,100%,.1);--c-input-bg:#141414}
+    .light{--c-carbon:#fff;--c-graphite:#f7f8fa;--c-gunmetal:#f0f1f3;--c-chassis:#e8e9eb;--c-titanium:#0a0a0a;--c-steel-900:#e4e4e7;--c-steel-800:#d4d4d8;--c-steel-700:#a1a1aa;--c-steel-600:#71717a;--c-steel-500:#52525b;--c-steel-400:#3f3f46;--c-steel-300:#27272a;--c-border:rgba(0,0,0,.08);--c-border-s:rgba(0,0,0,.12);--c-input-bg:#f7f8fa}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    *{-webkit-font-smoothing:antialiased}
+    html{scroll-behavior:smooth}
+    body{font-family:'Barlow',sans-serif;background:var(--c-carbon);color:var(--c-steel-500);height:100vh;display:flex;overflow:hidden;transition:background .3s,color .3s}
+    a{color:inherit;text-decoration:none}
+    .hidden{display:none}
+
+    /* Sidebar */
+    .sidebar{width:220px;background:var(--c-graphite);border-right:1px solid var(--c-border);display:flex;flex-direction:column;flex-shrink:0}
+    .sb-brand{padding:16px 18px;border-bottom:1px solid var(--c-border)}
+    .sb-brand h1{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.05em;color:var(--c-titanium)}
+    .sb-brand h1 b{color:#06b6d4;font-weight:inherit}
+    .sb-brand span{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--c-steel-700)}
+    .sb-nav{padding:10px;flex:1;overflow-y:auto}
+    .sb-section{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:2px;color:var(--c-steel-700);padding:14px 8px 5px;font-weight:600}
+    .sb-item{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--c-steel-600);transition:all .15s;margin-bottom:1px}
+    .sb-item:hover{background:var(--c-gunmetal);color:var(--c-steel-400)}
+    .sb-item.active{background:rgba(6,182,212,.08);color:#06b6d4}
+    .sb-item svg{width:15px;height:15px;flex-shrink:0;opacity:.7}
+    .sb-item .agent-dot{width:6px;height:6px;border-radius:50%;margin-left:auto;flex-shrink:0}
+    .sb-item .agent-dot.pulse{animation:blink 2s ease-in-out infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    .sb-footer{padding:14px 18px;border-top:1px solid var(--c-border);font-family:'JetBrains Mono',monospace;font-size:9px}
+    .sb-footer a{color:var(--c-steel-700);display:flex;align-items:center;gap:6px;letter-spacing:1px}
+    .sb-footer a span{color:#06b6d4}
+
+    /* Main */
+    .main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+    .topbar{padding:12px 24px;border-bottom:1px solid var(--c-border);display:flex;align-items:center;justify-content:space-between;background:var(--c-graphite);flex-shrink:0}
+    .topbar h2{font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.05em;color:var(--c-titanium)}
+    .topbar-right{display:flex;align-items:center;gap:10px}
+    .theme-toggle{display:flex;min-height:32px;min-width:32px;align-items:center;justify-content:center;border-radius:4px;border:1px solid var(--c-border);background:none;color:var(--c-steel-600);cursor:pointer}
+    .theme-toggle:hover{color:var(--c-steel-400);border-color:var(--c-border-s)}
+    .pill{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;padding:4px 10px;border-radius:4px;font-weight:600}
+    .pill-live{background:rgba(34,197,94,.12);color:#22c55e}
+    .pill-brand{background:rgba(6,182,212,.12);color:#06b6d4}
+    .content{flex:1;overflow-y:auto;padding:20px 24px}
+
+    /* Pages */
+    .page{display:none}.page.active{display:block}
+
+    /* Grid system */
+    .g{display:grid;gap:1px;background:var(--c-border);border:1px solid var(--c-border);border-radius:4px;overflow:hidden;margin-bottom:20px}
+    .g2{grid-template-columns:1fr 1fr}
+    .g3{grid-template-columns:1fr 1fr 1fr}
+    .g4{grid-template-columns:1fr 1fr 1fr 1fr}
+    .g23{grid-template-columns:2fr 1fr}
+    .cell{background:var(--c-graphite);padding:18px}
+
+    /* KPI */
+    .kl{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--c-steel-700);margin-bottom:6px}
+    .kv{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:.02em;color:var(--c-titanium);line-height:1;margin-bottom:4px}
+    .kc{font-family:'JetBrains Mono',monospace;font-size:10px}
+    .kc.up{color:#22c55e}.kc.down{color:#ef4444}.kc.neutral{color:var(--c-steel-700)}
+
+    /* Section header */
+    .sh{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#06b6d4;font-weight:600;margin-bottom:3px}
+    .st{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;color:var(--c-titanium);line-height:1;margin-bottom:12px}
+
+    /* Agent card */
+    .agent-card{background:var(--c-graphite);padding:16px;display:flex;flex-direction:column;gap:10px}
+    .agent-hdr{display:flex;align-items:center;gap:8px}
+    .agent-icon{width:28px;height:28px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;color:var(--c-carbon);flex-shrink:0}
+    .agent-name{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--c-steel-300);font-weight:600}
+    .agent-status{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--c-steel-700);margin-left:auto}
+    .agent-feed{font-size:12px;color:var(--c-steel-500);line-height:1.6}
+    .agent-feed .action{color:var(--c-steel-300);font-weight:500}
+    .agent-feed .timestamp{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c-steel-700);display:block;margin-top:2px}
+    .agent-feed .entry{padding:8px 0;border-bottom:1px solid var(--c-border)}
+    .agent-feed .entry:last-child{border-bottom:none}
+
+    /* Tables */
+    .dt{width:100%;border-collapse:collapse;font-size:12px}
+    .dt th{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--c-steel-700);font-weight:500;text-align:left;padding:7px 12px;border-bottom:1px solid var(--c-border);background:var(--c-gunmetal)}
+    .dt td{padding:7px 12px;border-bottom:1px solid var(--c-border);color:var(--c-steel-400)}
+    .dt tr:hover td{background:var(--c-gunmetal)}
+    .tag{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:3px;font-weight:600}
+    .tag-g{background:rgba(34,197,94,.12);color:#22c55e}
+    .tag-a{background:rgba(245,158,11,.12);color:#f59e0b}
+    .tag-r{background:rgba(239,68,68,.12);color:#ef4444}
+    .tag-b{background:rgba(6,182,212,.12);color:#06b6d4}
+    .tag-p{background:rgba(99,102,241,.12);color:#6366f1}
+
+    /* Chart */
+    .chart-w{position:relative;height:200px}
+
+    /* AI chat */
+    .ai-box{background:var(--c-graphite);border:1px solid var(--c-border);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;height:calc(100vh - 100px)}
+    .ai-hdr{padding:12px 16px;border-bottom:1px solid var(--c-border);display:flex;align-items:center;gap:8px}
+    .ai-hdr-dot{width:8px;height:8px;border-radius:50%;background:#06b6d4;animation:blink 2s ease-in-out infinite}
+    .ai-hdr-title{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--c-steel-400);font-weight:600}
+    .ai-msgs{flex:1;overflow-y:auto;padding:16px}
+    .ai-msg{display:flex;gap:10px;margin-bottom:16px;max-width:700px}
+    .ai-msg.user{flex-direction:row-reverse}
+    .ai-ava{width:26px;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;flex-shrink:0}
+    .ai-msg.bot .ai-ava{background:#06b6d4;color:var(--c-carbon)}
+    .ai-msg.user .ai-ava{background:var(--c-gunmetal);color:var(--c-steel-500)}
+    .ai-bub{background:var(--c-gunmetal);border:1px solid var(--c-border);border-radius:4px;padding:12px 16px;font-size:13px;line-height:1.6;max-width:540px;color:var(--c-steel-400)}
+    .ai-msg.user .ai-bub{background:#06b6d4;border-color:#06b6d4;color:var(--c-carbon)}
+    .ai-bub strong{color:var(--c-steel-300)}
+    .ai-bub code{font-family:'JetBrains Mono',monospace;font-size:11px;background:var(--c-carbon);border:1px solid var(--c-border);padding:1px 4px;border-radius:3px;color:#06b6d4}
+    .ai-bub table{width:100%;border-collapse:collapse;margin:8px 0;font-size:11px}
+    .ai-bub th,.ai-bub td{padding:4px 8px;border:1px solid var(--c-border);text-align:left}
+    .ai-bub th{background:var(--c-graphite);font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.5px;font-weight:600;color:var(--c-steel-500)}
+    .ai-input{display:flex;gap:8px;padding:12px 16px;border-top:1px solid var(--c-border)}
+    .ai-input input{flex:1;background:var(--c-input-bg);border:1px solid var(--c-border);color:var(--c-titanium);padding:9px 14px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:11px;outline:none}
+    .ai-input input:focus{border-color:#06b6d4}
+    .ai-input input::placeholder{color:var(--c-steel-700)}
+    .ai-input button{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:9px 18px;border-radius:4px;background:#06b6d4;color:var(--c-carbon);border:none;cursor:pointer;font-weight:600}
+    .ai-input button:hover{background:#0891b2}
+    .ai-prompts{display:flex;flex-wrap:wrap;gap:6px;padding:0 16px 12px}
+    .ai-prompt{background:var(--c-gunmetal);border:1px solid var(--c-border);color:var(--c-steel-600);padding:5px 12px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:10px;cursor:pointer;transition:all .15s}
+    .ai-prompt:hover{border-color:#06b6d4;color:#06b6d4}
+
+    .typing::after{content:'...';animation:dots 1.5s steps(4,end) infinite}
+    @keyframes dots{0%,20%{content:''}40%{content:'.'}60%{content:'..'}80%,100%{content:'...'}}
+
+    footer{border-top:1px solid var(--c-border);padding:10px 24px;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--c-steel-700);display:flex;justify-content:space-between;flex-shrink:0;background:var(--c-graphite)}
+
+    ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--c-steel-800);border-radius:3px}
+    @media(max-width:900px){.sidebar{display:none}.g2,.g3,.g4,.g23{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sb-brand">
+    <h1><b>NOHA</b> FURNITURE</h1>
+    <span>AI-Managed ERP</span>
+  </div>
+  <div class="sb-nav">
+    <div class="sb-section">Command</div>
+    <div class="sb-item active" data-page="overview">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Overview
+      <div class="agent-dot pulse" style="background:#22c55e"></div>
+    </div>
+
+    <div class="sb-section">AI Agents</div>
+    <div class="sb-item" data-page="production">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 20h20M5 20V10l7-7 7 7v10"/><rect x="9" y="14" width="6" height="6"/></svg>
+      Production
+      <div class="agent-dot pulse" style="background:#06b6d4"></div>
+    </div>
+    <div class="sb-item" data-page="inventory">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+      Inventory
+      <div class="agent-dot pulse" style="background:#10b981"></div>
+    </div>
+    <div class="sb-item" data-page="sales">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+      Sales
+      <div class="agent-dot pulse" style="background:#6366f1"></div>
+    </div>
+    <div class="sb-item" data-page="quality">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Quality
+      <div class="agent-dot pulse" style="background:#f59e0b"></div>
+    </div>
+    <div class="sb-item" data-page="procurement">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      Procurement
+      <div class="agent-dot pulse" style="background:#ec4899"></div>
+    </div>
+    <div class="sb-item" data-page="finance">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+      Finance
+      <div class="agent-dot pulse" style="background:#f97316"></div>
+    </div>
+
+    <div class="sb-section">AI Tools</div>
+    <div class="sb-item" data-page="ai">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.95-1.4 3.58-3.25 3.93L12 22"/><path d="M12 2a4 4 0 0 0-4 4c0 1.95 1.4 3.58 3.25 3.93"/><circle cx="12" cy="6" r="1" fill="currentColor"/></svg>
+      Operations AI
+      <div class="agent-dot pulse" style="background:#06b6d4"></div>
+    </div>
+  </div>
+  <div class="sb-footer">
+    <a href="https://2nth.ai"><span>&larr;</span> 2NTH.AI</a>
+    <div style="margin-top:6px;color:var(--c-steel-800)">Powered by Sage X3 + Edge AI</div>
+  </div>
+</nav>
+
+<div class="main">
+  <div class="topbar">
+    <h2 id="pageTitle">OPERATIONS OVERVIEW</h2>
+    <div class="topbar-right">
+      <span class="pill pill-live">6 AGENTS ACTIVE</span>
+      <span class="pill pill-brand">SAGE X3 CONNECTED</span>
+      <button onclick="toggleTheme()" class="theme-toggle">
+        <svg id="icon-sun" class="hidden" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="icon-moon" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="content">
+    <!-- ═══ OVERVIEW ═══ -->
+    <div class="page active" id="page-overview">
+      <div class="g g4">
+        <div class="cell"><div class="kl">Monthly Revenue</div><div class="kv" style="color:#22c55e">R 8.4M</div><div class="kc up">+14.2% vs last month</div></div>
+        <div class="cell"><div class="kl">Production Efficiency</div><div class="kv">92.4%</div><div class="kc up">+2.1% this week</div></div>
+        <div class="cell"><div class="kl">Active Orders</div><div class="kv" style="color:#06b6d4">234</div><div class="kc up">38 shipped today</div></div>
+        <div class="cell"><div class="kl">Quality Score</div><div class="kv">98.1%</div><div class="kc up">0 defects this week</div></div>
+      </div>
+
+      <div class="sh">AGENT STATUS</div>
+      <div class="st">AI AGENTS — LIVE FEED</div>
+
+      <div class="g g3">
+        <div class="agent-card">
+          <div class="agent-hdr">
+            <div class="agent-icon" style="background:#06b6d4">P</div>
+            <div class="agent-name">Production Agent</div>
+            <div class="agent-status" style="color:#22c55e">Active</div>
+          </div>
+          <div class="agent-feed">
+            <div class="entry"><span class="action">Rescheduled WO-4521</span> — shifted Dining Table batch to Line B after CNC delay detected. ETA recovered to original delivery date.<span class="timestamp">2 min ago</span></div>
+            <div class="entry"><span class="action">Optimized cut plan</span> for Walnut boards — reduced waste from 18% to 11% by nesting Bookshelf components with Side Table parts.<span class="timestamp">14 min ago</span></div>
+          </div>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-hdr">
+            <div class="agent-icon" style="background:#10b981">I</div>
+            <div class="agent-name">Inventory Agent</div>
+            <div class="agent-status" style="color:#22c55e">Active</div>
+          </div>
+          <div class="agent-feed">
+            <div class="entry"><span class="action">Auto-raised PO-8892</span> — 200m&sup2; European Oak veneer. Stock hit reorder point at 45m&sup2;, lead time 8 days.<span class="timestamp">8 min ago</span></div>
+            <div class="entry"><span class="action">Flagged overstock</span> — 340 brass drawer pulls (SKU-2291). 180-day supply at current run rate. Recommended markdown.<span class="timestamp">1 hr ago</span></div>
+          </div>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-hdr">
+            <div class="agent-icon" style="background:#6366f1">S</div>
+            <div class="agent-name">Sales Agent</div>
+            <div class="agent-status" style="color:#22c55e">Active</div>
+          </div>
+          <div class="agent-feed">
+            <div class="entry"><span class="action">Scored lead NL-4401</span> — Cape Town interior designer, 85% conversion probability. Auto-assigned to Rep MK. Sent product catalog.<span class="timestamp">22 min ago</span></div>
+            <div class="entry"><span class="action">Price alert</span> — competitor dropped Dining Table range by 12%. Recommended holding price, our margin is healthy at 42%.<span class="timestamp">2 hr ago</span></div>
+          </div>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-hdr">
+            <div class="agent-icon" style="background:#f59e0b">Q</div>
+            <div class="agent-name">Quality Agent</div>
+            <div class="agent-status" style="color:#22c55e">Active</div>
+          </div>
+          <div class="agent-feed">
+            <div class="entry"><span class="action">Passed batch QC-1187</span> — 24x NoHa Dining Chairs. Surface finish, joint strength, dimensions all within spec.<span class="timestamp">35 min ago</span></div>
+            <div class="entry"><span class="action">Detected anomaly</span> in lacquer viscosity on Line A. Auto-paused spray booth and alerted maintenance. Resolved in 12 min.<span class="timestamp">3 hr ago</span></div>
+          </div>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-hdr">
+            <div class="agent-icon" style="background:#ec4899">R</div>
+            <div class="agent-name">Procurement Agent</div>
+            <div class="agent-status" style="color:#22c55e">Active</div>
+          </div>
+          <div class="agent-feed">
+            <div class="entry"><span class="action">Negotiated 8% discount</span> with TimberCo on Q2 Ash hardwood contract. Saved R 34K vs last quarter pricing.<span class="timestamp">1 hr ago</span></div>
+            <div class="entry"><span class="action">Supplier risk alert</span> — Foam Supplies Ltd missed 2 deliveries this month. Sourcing alternative from GreenFoam Co.<span class="timestamp">4 hr ago</span></div>
+          </div>
+        </div>
+
+        <div class="agent-card">
+          <div class="agent-hdr">
+            <div class="agent-icon" style="background:#f97316">F</div>
+            <div class="agent-name">Finance Agent</div>
+            <div class="agent-status" style="color:#22c55e">Active</div>
+          </div>
+          <div class="agent-feed">
+            <div class="entry"><span class="action">Matched 14 payments</span> to invoices from bank feed. 3 flagged for manual review (partial payments).<span class="timestamp">45 min ago</span></div>
+            <div class="entry"><span class="action">Cash flow forecast</span> — projected R 1.2M surplus by month end. Recommended early settlement of 2 supplier invoices for 2.5% discount.<span class="timestamp">2 hr ago</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="g g23" style="margin-top:4px">
+        <div class="cell">
+          <div class="kl">Production Output — Last 7 Days</div>
+          <div class="chart-w"><canvas id="outputChart"></canvas></div>
+        </div>
+        <div class="cell">
+          <div class="kl">Revenue by Product Line</div>
+          <div class="chart-w"><canvas id="revenueChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PRODUCTION ═══ -->
+    <div class="page" id="page-production">
+      <div class="g g4">
+        <div class="cell"><div class="kl">Active Work Orders</div><div class="kv">47</div><div class="kc up">On schedule</div></div>
+        <div class="cell"><div class="kl">Units Today</div><div class="kv" style="color:#06b6d4">86</div><div class="kc up">+12 vs target</div></div>
+        <div class="cell"><div class="kl">OEE</div><div class="kv">92.4%</div><div class="kc up">World-class</div></div>
+        <div class="cell"><div class="kl">Material Waste</div><div class="kv" style="color:#22c55e">11.2%</div><div class="kc up">-3.1% after AI nesting</div></div>
+      </div>
+      <div class="g" style="grid-template-columns:1fr">
+        <div class="cell">
+          <div class="kl">Work Order Schedule</div>
+          <table class="dt">
+            <thead><tr><th>WO #</th><th>Product</th><th>Qty</th><th>Line</th><th>Start</th><th>Due</th><th>Status</th><th>AI Action</th></tr></thead>
+            <tbody>
+              <tr><td>WO-4521</td><td>NoHa Dining Table 8-seater</td><td>30</td><td>Line B</td><td>Mar 28</td><td>Apr 04</td><td><span class="tag tag-b">In Progress</span></td><td>Rescheduled from Line A</td></tr>
+              <tr><td>WO-4518</td><td>NoHa Lounge Chair — Ash</td><td>120</td><td>Line A</td><td>Mar 27</td><td>Apr 02</td><td><span class="tag tag-g">On Track</span></td><td>—</td></tr>
+              <tr><td>WO-4515</td><td>NoHa Bookshelf — Walnut</td><td>45</td><td>Line C</td><td>Mar 26</td><td>Mar 31</td><td><span class="tag tag-g">Ahead</span></td><td>Nested with WO-4512</td></tr>
+              <tr><td>WO-4512</td><td>NoHa Side Table — Walnut</td><td>80</td><td>Line C</td><td>Mar 26</td><td>Apr 01</td><td><span class="tag tag-g">On Track</span></td><td>Nested with WO-4515</td></tr>
+              <tr><td>WO-4509</td><td>NoHa Bed Frame — King Oak</td><td>25</td><td>Line D</td><td>Mar 25</td><td>Apr 03</td><td><span class="tag tag-a">Material Wait</span></td><td>PO-8892 raised for Oak</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ INVENTORY ═══ -->
+    <div class="page" id="page-inventory">
+      <div class="g g4">
+        <div class="cell"><div class="kl">Total SKUs</div><div class="kv">892</div><div class="kc neutral">Raw + Finished</div></div>
+        <div class="cell"><div class="kl">Stock Value</div><div class="kv" style="color:#22c55e">R 12.6M</div><div class="kc neutral">At cost</div></div>
+        <div class="cell"><div class="kl">Below Reorder</div><div class="kv" style="color:#ef4444">7</div><div class="kc down">3 critical</div></div>
+        <div class="cell"><div class="kl">Auto-POs Raised</div><div class="kv" style="color:#06b6d4">12</div><div class="kc up">This month by AI</div></div>
+      </div>
+      <div class="g" style="grid-template-columns:1fr">
+        <div class="cell">
+          <div class="kl">AI Inventory Alerts</div>
+          <table class="dt">
+            <thead><tr><th>SKU</th><th>Material</th><th>On Hand</th><th>Reorder</th><th>Status</th><th>AI Action</th></tr></thead>
+            <tbody>
+              <tr><td>RM-0041</td><td>European Oak Veneer</td><td>45 m&sup2;</td><td>100 m&sup2;</td><td><span class="tag tag-r">Critical</span></td><td>PO-8892 raised, ETA Apr 07</td></tr>
+              <tr><td>RM-0055</td><td>Ash Hardwood 25mm</td><td>280 bf</td><td>400 bf</td><td><span class="tag tag-a">Low</span></td><td>PO-8895 pending approval</td></tr>
+              <tr><td>RM-0108</td><td>Danish Oil — Natural</td><td>12 L</td><td>20 L</td><td><span class="tag tag-a">Low</span></td><td>Added to next order batch</td></tr>
+              <tr><td>FG-0312</td><td>NoHa Dining Chair (finished)</td><td>64</td><td>40</td><td><span class="tag tag-g">OK</span></td><td>—</td></tr>
+              <tr><td>HW-2291</td><td>Brass Drawer Pull</td><td>340</td><td>80</td><td><span class="tag tag-a">Overstock</span></td><td>Flagged for markdown review</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ SALES ═══ -->
+    <div class="page" id="page-sales">
+      <div class="g g4">
+        <div class="cell"><div class="kl">Revenue MTD</div><div class="kv" style="color:#22c55e">R 8.4M</div><div class="kc up">+14.2%</div></div>
+        <div class="cell"><div class="kl">Orders MTD</div><div class="kv">234</div><div class="kc up">+22 vs last month</div></div>
+        <div class="cell"><div class="kl">Avg Order Value</div><div class="kv">R 35,900</div><div class="kc up">+6.3%</div></div>
+        <div class="cell"><div class="kl">Lead Score Pipeline</div><div class="kv" style="color:#6366f1">18</div><div class="kc up">Auto-scored by AI</div></div>
+      </div>
+      <div class="g" style="grid-template-columns:1fr">
+        <div class="cell">
+          <div class="kl">Recent Orders</div>
+          <table class="dt">
+            <thead><tr><th>Order</th><th>Customer</th><th>Products</th><th>Value</th><th>Status</th><th>AI Action</th></tr></thead>
+            <tbody>
+              <tr><td>SO-7801</td><td>Weylandts JHB</td><td>40x Dining Chair, 10x Table</td><td>R 892,000</td><td><span class="tag tag-b">Processing</span></td><td>Priority scheduled on Line A</td></tr>
+              <tr><td>SO-7798</td><td>@home Sandton</td><td>24x Lounge Chair</td><td>R 264,000</td><td><span class="tag tag-g">Shipped</span></td><td>—</td></tr>
+              <tr><td>SO-7795</td><td>Block & Chisel CPT</td><td>15x Bookshelf, 30x Side Table</td><td>R 517,500</td><td><span class="tag tag-g">Shipped</span></td><td>—</td></tr>
+              <tr><td>SO-7790</td><td>Coricraft Durban</td><td>60x Dining Chair</td><td>R 540,000</td><td><span class="tag tag-a">Partial Ship</span></td><td>24 shipped, 36 in production</td></tr>
+              <tr><td>SO-7785</td><td>Private — Cape Town Designer</td><td>Custom Dining Set</td><td>R 185,000</td><td><span class="tag tag-p">Design</span></td><td>AI generated BOM from spec</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ QUALITY ═══ -->
+    <div class="page" id="page-quality">
+      <div class="g g4">
+        <div class="cell"><div class="kl">Pass Rate</div><div class="kv" style="color:#22c55e">98.1%</div><div class="kc up">+0.4% this month</div></div>
+        <div class="cell"><div class="kl">Defects MTD</div><div class="kv">14</div><div class="kc up">-8 vs last month</div></div>
+        <div class="cell"><div class="kl">Returns</div><div class="kv" style="color:#22c55e">0.3%</div><div class="kc up">Industry best</div></div>
+        <div class="cell"><div class="kl">AI Interventions</div><div class="kv" style="color:#f59e0b">6</div><div class="kc up">Issues caught pre-ship</div></div>
+      </div>
+      <div class="g" style="grid-template-columns:1fr">
+        <div class="cell">
+          <div class="kl">Recent QC Events</div>
+          <table class="dt">
+            <thead><tr><th>Batch</th><th>Product</th><th>Units</th><th>Result</th><th>AI Detection</th></tr></thead>
+            <tbody>
+              <tr><td>QC-1187</td><td>NoHa Dining Chair</td><td>24</td><td><span class="tag tag-g">Pass</span></td><td>All within spec</td></tr>
+              <tr><td>QC-1185</td><td>NoHa Side Table</td><td>40</td><td><span class="tag tag-g">Pass</span></td><td>—</td></tr>
+              <tr><td>QC-1183</td><td>NoHa Lounge Chair</td><td>12</td><td><span class="tag tag-a">Pass*</span></td><td>Minor grain variance — within tolerance, logged for review</td></tr>
+              <tr><td>QC-1180</td><td>Line A — Lacquer</td><td>—</td><td><span class="tag tag-r">Hold</span></td><td>Viscosity anomaly detected. Booth paused. Resolved 12 min.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ PROCUREMENT ═══ -->
+    <div class="page" id="page-procurement">
+      <div class="g g4">
+        <div class="cell"><div class="kl">Active Suppliers</div><div class="kv">42</div><div class="kc neutral">Across 6 countries</div></div>
+        <div class="cell"><div class="kl">Open POs</div><div class="kv" style="color:#06b6d4">18</div><div class="kc neutral">R 2.1M committed</div></div>
+        <div class="cell"><div class="kl">AI Savings MTD</div><div class="kv" style="color:#22c55e">R 127K</div><div class="kc up">Auto-negotiated</div></div>
+        <div class="cell"><div class="kl">At-Risk Suppliers</div><div class="kv" style="color:#ef4444">2</div><div class="kc down">Delivery failures</div></div>
+      </div>
+      <div class="g" style="grid-template-columns:1fr">
+        <div class="cell">
+          <div class="kl">Purchase Orders</div>
+          <table class="dt">
+            <thead><tr><th>PO</th><th>Supplier</th><th>Material</th><th>Value</th><th>ETA</th><th>AI Action</th></tr></thead>
+            <tbody>
+              <tr><td>PO-8892</td><td>EuroTimber GmbH</td><td>European Oak Veneer 200m&sup2;</td><td>R 186,000</td><td>Apr 07</td><td>Auto-raised on reorder trigger</td></tr>
+              <tr><td>PO-8890</td><td>TimberCo SA</td><td>Ash Hardwood Q2 Contract</td><td>R 392,000</td><td>Apr 15</td><td>Negotiated 8% discount</td></tr>
+              <tr><td>PO-8887</td><td>GreenFoam Co</td><td>HR Foam 50mm — 400 sheets</td><td>R 48,000</td><td>Apr 03</td><td>Alt supplier — Foam Supplies unreliable</td></tr>
+              <tr><td>PO-8885</td><td>BrassWorks</td><td>Custom Drawer Pulls — 200</td><td>R 22,000</td><td>Apr 10</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ FINANCE ═══ -->
+    <div class="page" id="page-finance">
+      <div class="g g4">
+        <div class="cell"><div class="kl">Cash Position</div><div class="kv" style="color:#22c55e">R 3.8M</div><div class="kc up">Healthy</div></div>
+        <div class="cell"><div class="kl">Receivables</div><div class="kv">R 4.2M</div><div class="kc neutral">R 380K overdue</div></div>
+        <div class="cell"><div class="kl">Gross Margin</div><div class="kv">42.1%</div><div class="kc up">+1.8% vs budget</div></div>
+        <div class="cell"><div class="kl">AI Auto-Matched</div><div class="kv" style="color:#06b6d4">94%</div><div class="kc up">Of bank transactions</div></div>
+      </div>
+      <div class="g" style="grid-template-columns:1fr">
+        <div class="cell">
+          <div class="kl">AI Finance Actions</div>
+          <table class="dt">
+            <thead><tr><th>Action</th><th>Detail</th><th>Value</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>Payment Matching</td><td>14 bank payments matched to invoices</td><td>R 1.84M</td><td><span class="tag tag-g">Complete</span></td></tr>
+              <tr><td>Early Settlement</td><td>Recommended paying TimberCo 10 days early for 2.5% discount</td><td>R 9,800 saved</td><td><span class="tag tag-a">Pending Approval</span></td></tr>
+              <tr><td>Overdue Chase</td><td>Auto-sent reminder to Coricraft — 34 days overdue</td><td>R 180,000</td><td><span class="tag tag-b">Sent</span></td></tr>
+              <tr><td>Cash Forecast</td><td>Projected R 1.2M surplus by month end</td><td>—</td><td><span class="tag tag-g">Updated</span></td></tr>
+              <tr><td>Variance Flag</td><td>Line C labour cost 12% above budget — investigating overtime</td><td>R 28,000</td><td><span class="tag tag-r">Review</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ AI CHAT ═══ -->
+    <div class="page" id="page-ai">
+      <div class="ai-box">
+        <div class="ai-hdr">
+          <div class="ai-hdr-dot"></div>
+          <div class="ai-hdr-title">NoHa Operations AI</div>
+          <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--c-steel-700)">Sage X3 + Claude on Cloudflare Edge</span>
+        </div>
+        <div class="ai-prompts" id="aiPrompts">
+          <div class="ai-prompt" onclick="askAI(this.textContent)">What's our production status today?</div>
+          <div class="ai-prompt" onclick="askAI(this.textContent)">Which materials need reordering?</div>
+          <div class="ai-prompt" onclick="askAI(this.textContent)">Show me this month's top customers</div>
+          <div class="ai-prompt" onclick="askAI(this.textContent)">Any quality issues this week?</div>
+          <div class="ai-prompt" onclick="askAI(this.textContent)">What did the procurement agent save us?</div>
+          <div class="ai-prompt" onclick="askAI(this.textContent)">Give me a full operations summary</div>
+        </div>
+        <div class="ai-msgs" id="aiMsgs">
+          <div class="ai-msg bot">
+            <div class="ai-ava">AI</div>
+            <div class="ai-bub">
+              <strong>NoHa Operations AI</strong><br>
+              I have access to all 6 specialist agents and live Sage X3 data. Ask me anything about production, inventory, sales, quality, procurement, or finance.
+            </div>
+          </div>
+        </div>
+        <div class="ai-input">
+          <input id="aiIn" placeholder="Ask about NoHa operations..." onkeydown="if(event.key==='Enter')askAI()">
+          <button onclick="askAI()">SEND</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <span>NoHa Furniture — AI-Managed ERP Demo</span>
+    <span>Powered by <a href="https://2nth-skills.pages.dev" style="color:#06b6d4">2nth.ai Skills</a> + Sage X3</span>
+  </footer>
+</div>
+
+<script src="https://2nth.ai/app-switcher.js"></script>
+<script>
+function toggleTheme(){document.documentElement.classList.toggle('light');localStorage.setItem('2nth-theme',document.documentElement.classList.contains('light')?'light':'dark');updateIcons();buildCharts()}
+function updateIcons(){var l=document.documentElement.classList.contains('light');document.getElementById('icon-sun').classList.toggle('hidden',!l);document.getElementById('icon-moon').classList.toggle('hidden',l)}
+updateIcons();
+
+// Nav
+document.querySelectorAll('.sb-item').forEach(function(i){i.addEventListener('click',function(){
+  document.querySelectorAll('.sb-item').forEach(function(n){n.classList.remove('active')});
+  document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
+  i.classList.add('active');
+  var p=i.dataset.page;
+  document.getElementById('page-'+p).classList.add('active');
+  var t={overview:'OPERATIONS OVERVIEW',production:'PRODUCTION AGENT',inventory:'INVENTORY AGENT',sales:'SALES AGENT',quality:'QUALITY AGENT',procurement:'PROCUREMENT AGENT',finance:'FINANCE AGENT',ai:'OPERATIONS AI'};
+  document.getElementById('pageTitle').textContent=t[p]||p;
+})});
+
+// Charts
+function cc(){var l=document.documentElement.classList.contains('light');return{grid:l?'rgba(0,0,0,.06)':'rgba(255,255,255,.04)',tick:l?'#71717a':'#52525b',label:l?'#3f3f46':'#71717a'}}
+var charts={};
+function buildCharts(){
+  Object.values(charts).forEach(function(c){c.destroy()});charts={};
+  var c=cc();
+  charts.output=new Chart(document.getElementById('outputChart'),{type:'bar',data:{labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],datasets:[{label:'Chairs',data:[42,38,45,40,48,22,0],backgroundColor:'#06b6d4',borderRadius:3},{label:'Tables',data:[12,10,14,11,15,8,0],backgroundColor:'#6366f1',borderRadius:3},{label:'Other',data:[18,22,16,20,23,12,0],backgroundColor:'#10b981',borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{color:c.label,font:{family:"'JetBrains Mono',monospace",size:10}}}},scales:{x:{stacked:true,ticks:{color:c.tick,font:{family:"'JetBrains Mono',monospace",size:10}},grid:{color:c.grid}},y:{stacked:true,ticks:{color:c.tick,font:{family:"'JetBrains Mono',monospace",size:10}},grid:{color:c.grid}}}}});
+  charts.revenue=new Chart(document.getElementById('revenueChart'),{type:'doughnut',data:{labels:['Dining','Lounge','Bedroom','Storage','Custom'],datasets:[{data:[38,24,18,12,8],backgroundColor:['#06b6d4','#6366f1','#10b981','#f59e0b','#ec4899'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{color:c.label,font:{family:"'JetBrains Mono',monospace",size:10},padding:8}}}}});
+}
+buildCharts();
+
+// AI
+var aiR={
+  "What's our production status today?":'<strong>Production Summary — Today</strong><br><br>5 work orders active across 4 lines. <strong>86 units completed</strong> (12 ahead of target).<br><br><table><tr><th>Line</th><th>Product</th><th>Status</th></tr><tr><td>A</td><td>Lounge Chair Ash</td><td style="color:#22c55e">On track</td></tr><tr><td>B</td><td>Dining Table 8-seat</td><td style="color:#06b6d4">Rescheduled (CNC)</td></tr><tr><td>C</td><td>Bookshelf + Side Table</td><td style="color:#22c55e">Ahead</td></tr><tr><td>D</td><td>Bed Frame King Oak</td><td style="color:#f59e0b">Waiting material</td></tr></table><br><strong>AI action:</strong> WO-4521 moved to Line B after I detected a CNC calibration drift on Line A. No delivery dates impacted. Material waste reduced 7% via cross-WO nesting on Line C.',
+  "Which materials need reordering?":'<strong>Reorder Alerts — 3 Critical Items</strong><br><br><table><tr><th>Material</th><th>On Hand</th><th>Need</th><th>Action</th></tr><tr><td>European Oak Veneer</td><td style="color:#ef4444">45 m&sup2;</td><td>100 m&sup2;</td><td>PO-8892 raised</td></tr><tr><td>Ash Hardwood 25mm</td><td style="color:#f59e0b">280 bf</td><td>400 bf</td><td>PO pending</td></tr><tr><td>Danish Oil Natural</td><td style="color:#f59e0b">12 L</td><td>20 L</td><td>Batched</td></tr></table><br><strong>Also flagged:</strong> 340 Brass Drawer Pulls are overstocked (180-day supply). Recommend moving 200 units to markdown or reallocating to custom orders.',
+  "Show me this month's top customers":'<strong>Top Customers — March 2026</strong><br><br><table><tr><th>Customer</th><th>Orders</th><th>Revenue</th><th>Trend</th></tr><tr><td>Weylandts JHB</td><td>3</td><td>R 1,420,000</td><td style="color:#22c55e">+24%</td></tr><tr><td>Coricraft National</td><td>5</td><td>R 1,180,000</td><td style="color:#22c55e">+8%</td></tr><tr><td>Block & Chisel CPT</td><td>2</td><td>R 890,000</td><td style="color:#22c55e">+15%</td></tr><tr><td>@home Group</td><td>4</td><td>R 764,000</td><td style="color:#f59e0b">-3%</td></tr><tr><td>Private / Designers</td><td>12</td><td>R 620,000</td><td style="color:#22c55e">+42%</td></tr></table><br><strong>Insight:</strong> Private/designer segment growing fastest at +42%. The Sales Agent auto-scored 18 new leads this month, 85% from Instagram referrals. Recommend expanding custom program.',
+  "Any quality issues this week?":'<strong>Quality Report — This Week</strong><br><br>Pass rate: <strong>98.1%</strong> (up 0.4% vs last month). Zero customer returns.<br><br>One incident: Lacquer viscosity anomaly on Line A spray booth. The Quality Agent detected it via sensor data, <strong>auto-paused the booth in under 30 seconds</strong>, and alerted maintenance. Root cause: ambient temperature spike. Resolved in 12 minutes, no product affected.<br><br>Batch QC-1183 (Lounge Chairs) had minor grain variance — within tolerance but logged. May indicate a new timber lot from supplier — monitoring.',
+  "What did the procurement agent save us?":'<strong>Procurement AI Savings — March 2026</strong><br><br>Total savings: <strong>R 127,000</strong><br><br><table><tr><th>Action</th><th>Saving</th></tr><tr><td>TimberCo Q2 contract — negotiated 8% discount</td><td>R 34,000</td></tr><tr><td>Switched to GreenFoam (better price, reliable)</td><td>R 18,000</td></tr><tr><td>Bulk hardware order consolidation</td><td>R 12,000</td></tr><tr><td>Early settlement discounts (Finance Agent collab)</td><td>R 28,000</td></tr><tr><td>Waste reduction via cut plan optimization</td><td>R 35,000</td></tr></table><br>Also flagged Foam Supplies Ltd as at-risk supplier (2 missed deliveries). Already sourced alternative. No production impact.',
+  "Give me a full operations summary":'<strong>NoHa Operations Summary — 30 March 2026</strong><br><br><strong>Production:</strong> 86 units today (+12 vs target). 47 WOs active. OEE 92.4%. One reschedule (CNC issue on Line A), no delays. Material waste at 11.2% after AI nesting optimization.<br><br><strong>Sales:</strong> R 8.4M MTD (+14.2%). 234 orders. Avg order value R 35.9K (+6.3%). 18 leads auto-scored. Weylandts and Coricraft leading. Custom segment growing +42%.<br><br><strong>Inventory:</strong> 3 materials below reorder (POs raised). 1 overstock flagged. 12 auto-POs this month.<br><br><strong>Quality:</strong> 98.1% pass rate. 1 incident (lacquer viscosity — auto-resolved in 12 min). Zero returns.<br><br><strong>Procurement:</strong> R 127K saved via negotiations, supplier switching, and consolidation. 2 at-risk suppliers flagged.<br><br><strong>Finance:</strong> R 3.8M cash. 42.1% gross margin (+1.8% vs budget). 94% of bank transactions auto-matched. R 1.2M projected surplus by month end.<br><br><strong>Overall: All 6 agents nominal. No blockers. Business is healthy.</strong>'
+};
+
+function askAI(t){
+  var inp=document.getElementById('aiIn');var msg=t||inp.value.trim();if(!msg)return;inp.value='';
+  document.getElementById('aiPrompts').style.display='none';
+  var el=document.getElementById('aiMsgs');
+  el.innerHTML+='<div class="ai-msg user"><div class="ai-ava">U</div><div class="ai-bub">'+msg+'</div></div>';
+  var tid='t'+Date.now();
+  el.innerHTML+='<div class="ai-msg bot" id="'+tid+'"><div class="ai-ava">AI</div><div class="ai-bub"><span class="typing" style="font-family:\'JetBrains Mono\',monospace;font-size:10px;color:var(--c-steel-600)">Querying 6 agents</span></div></div>';
+  el.scrollTop=el.scrollHeight;
+  setTimeout(function(){
+    var te=document.getElementById(tid);
+    var r=aiR[msg];
+    te.querySelector('.ai-bub').innerHTML=r||'<strong>Processing</strong><br>I\'d query all 6 specialist agents via <code>x3MasterData</code>, <code>x3Sales</code>, <code>x3Stock</code>, and <code>x3Accounting</code> to answer: <em>"'+msg+'"</em><br><br>In production this runs on Cloudflare Workers with live Sage X3 data.';
+    el.scrollTop=el.scrollHeight;
+  },1000+Math.random()*1500);
+}
+</script>
+</body>
+</html>
