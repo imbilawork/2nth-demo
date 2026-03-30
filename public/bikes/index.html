@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VELDT Cycles — South Africa's D2C Cycling Brand | demo.2nth.ai</title>
+  <link rel="icon" type="image/svg+xml" href="https://2nth.ai/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0f0f0d;--surface:#181816;--surface2:#202020;
+      --text:#f0efe8;--dim:#8a8880;--light:#4a4a48;
+      --accent:#c8e640;--accent-dark:#9ab830;
+      --border:rgba(240,239,232,.06);--border-s:rgba(240,239,232,.12);
+      --ai:#06b6d4;--maxw:1280px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    *{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    html{scroll-behavior:smooth}
+    body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit;cursor:pointer;border:none;background:none}
+
+    /* Announcement */
+    .ann{background:var(--accent);color:#0c1400;padding:9px 24px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;font-weight:700;display:flex;align-items:center;justify-content:center;gap:16px}
+    .ann a{color:#0c1400;text-decoration:underline;opacity:.65}
+
+    /* Nav */
+    nav{position:sticky;top:0;z-index:50;background:rgba(15,15,13,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+    .nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px}
+    .brand{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.14em;color:var(--text);display:flex;align-items:center;gap:4px}
+    .brand-dot{color:var(--accent);font-size:32px;line-height:0;margin-top:4px}
+    .nav-links{display:flex;gap:24px}
+    .nav-link{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);transition:color .15s}
+    .nav-link:hover{color:var(--text)}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .ai-pill{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;background:rgba(6,182,212,.1);color:var(--ai);border:1px solid rgba(6,182,212,.2);border-radius:3px;font-weight:600}
+    @media(max-width:768px){.nav-links{display:none}}
+
+    /* Hero */
+    .hero{min-height:92vh;display:flex;align-items:flex-end;padding:0 24px 80px;position:relative;overflow:hidden}
+    .hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(200,230,64,.06) 0%,transparent 60%),linear-gradient(160deg,#0c1400 0%,#0f0f0d 50%,#0d0d0b 100%)}
+    .hero-lines{position:absolute;inset:0;overflow:hidden}
+    .hero-lines::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(90deg,rgba(200,230,64,.025) 0,rgba(200,230,64,.025) 1px,transparent 1px,transparent 80px);pointer-events:none}
+    .hero-lines::after{content:'';position:absolute;bottom:0;left:0;right:0;height:300px;background:linear-gradient(to top,var(--bg),transparent)}
+    .hero-veldt{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Bebas Neue',sans-serif;font-size:clamp(120px,22vw,320px);letter-spacing:.08em;color:rgba(200,230,64,.03);white-space:nowrap;pointer-events:none;user-select:none}
+    .hero-content{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;width:100%}
+    .hero-eye{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--accent);margin-bottom:16px;font-weight:600;display:flex;align-items:center;gap:10px}
+    .hero-eye::before{content:'';display:block;width:32px;height:1px;background:var(--accent)}
+    h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(72px,14vw,180px);line-height:.88;letter-spacing:.02em;color:var(--text);margin-bottom:8px}
+    h1 .lime{color:var(--accent)}
+    .hero-sub{font-size:17px;color:var(--dim);max-width:520px;line-height:1.65;margin-bottom:40px;margin-top:16px}
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:64px}
+    .btn{font-family:'JetBrains Mono',monospace;font-size:12px;text-transform:uppercase;letter-spacing:1.5px;padding:14px 28px;border-radius:2px;cursor:pointer;transition:all .2s;font-weight:700}
+    .btn-lime{background:var(--accent);color:#0c1400;border:none}
+    .btn-lime:hover{background:#d6f040;transform:translateY(-1px)}
+    .btn-ghost{background:transparent;color:var(--text);border:1px solid var(--border-s)}
+    .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+    .hero-stats{display:flex;gap:48px;flex-wrap:wrap}
+    .stat{padding-left:18px;border-left:2px solid var(--accent)}
+    .stat-n{font-family:'Bebas Neue',sans-serif;font-size:36px;color:var(--text);line-height:1}
+    .stat-l{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);margin-top:2px}
+
+    /* Section */
+    .sec{max-width:var(--maxw);margin:0 auto;padding:72px 24px}
+    .sec-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:12px}
+    .sec-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.04em;color:var(--text)}
+    .sec-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim)}
+
+    /* Collection tabs */
+    .ctabs{display:flex;gap:2px;margin-bottom:32px;background:var(--surface);border-radius:3px;padding:4px;width:fit-content;border:1px solid var(--border)}
+    .ctab{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:8px 18px;border-radius:2px;color:var(--dim);transition:all .15s;font-weight:600}
+    .ctab:hover{color:var(--text)}
+    .ctab.on{background:var(--accent);color:#0c1400}
+
+    /* Product grid */
+    .pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+    @media(max-width:1100px){.pgrid{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:768px){.pgrid{grid-template-columns:repeat(2,1fr);gap:8px}}
+    .pcard{background:var(--surface);border:1px solid var(--border);border-radius:3px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .2s}
+    .pcard:hover{border-color:var(--border-s);transform:translateY(-2px)}
+    .pcard-img{aspect-ratio:4/3;position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .pcard-img svg{width:72%;opacity:.85}
+    .pcat{position:absolute;top:10px;left:10px;font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.8px;padding:3px 8px;border-radius:2px;font-weight:700}
+    .pcat-g{background:rgba(200,230,64,.14);color:var(--accent);border:1px solid rgba(200,230,64,.25)}
+    .pcat-m{background:rgba(74,222,128,.12);color:#4ade80;border:1px solid rgba(74,222,128,.2)}
+    .pcat-r{background:rgba(129,140,248,.12);color:#818cf8;border:1px solid rgba(129,140,248,.2)}
+    .pcat-k{background:rgba(6,182,212,.12);color:var(--ai);border:1px solid rgba(6,182,212,.2)}
+    .pnew{position:absolute;top:10px;right:10px;font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:.5px;padding:2px 7px;background:var(--accent);color:#0c1400;border-radius:2px;font-weight:700}
+    .pcard-body{padding:14px}
+    .pname{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.06em;color:var(--text);line-height:1;margin-bottom:2px}
+    .pbio{font-size:12px;color:var(--dim);margin-bottom:10px}
+    .pfoot{display:flex;align-items:center;justify-content:space-between}
+    .pprice{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text)}
+    .pbtn{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:6px 14px;background:var(--accent);color:#0c1400;border-radius:2px;font-weight:700;transition:background .15s}
+    .pbtn:hover{background:#d6f040}
+
+    /* AI Command Centre */
+    .ai-zone{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:80px 24px}
+    .ai-inner{max-width:var(--maxw);margin:0 auto}
+    .ai-head{margin-bottom:48px}
+    .ai-eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:3px;color:var(--ai);font-weight:600;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+    .ai-eyebrow::before{content:'';display:block;width:24px;height:1px;background:var(--ai)}
+    .ai-zone h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6vw,68px);letter-spacing:.04em;color:var(--text);line-height:.92}
+    .ai-zone h2 span{color:var(--ai)}
+    .ai-desc{font-size:16px;color:var(--dim);max-width:560px;margin-top:12px;line-height:1.65}
+
+    .ai-layout{display:grid;grid-template-columns:260px 1fr;gap:20px;align-items:start}
+    @media(max-width:900px){.ai-layout{grid-template-columns:1fr}}
+
+    /* Agent sidebar */
+    .agent-sidebar{background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden}
+    .agent-hdr{padding:16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+    .agent-av{width:38px;height:38px;border-radius:50%;background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+    .agent-av svg{color:var(--ai)}
+    .agent-name{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--text);font-weight:600;margin-bottom:2px}
+    .agent-live{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ai);display:flex;align-items:center;gap:5px}
+    .dot{width:5px;height:5px;border-radius:50%;background:var(--ai);animation:pulse 2s ease-in-out infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+    .agent-role-tabs{padding:10px;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:4px}
+    .art{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:.5px;padding:4px 10px;border-radius:2px;color:var(--dim);transition:all .15s;font-weight:600;border:1px solid transparent}
+    .art:hover{border-color:var(--border-s);color:var(--text)}
+    .art.on{background:rgba(6,182,212,.12);color:var(--ai);border-color:rgba(6,182,212,.2)}
+    .agent-tools{padding:12px}
+    .tools-label{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--light);margin-bottom:8px;font-weight:600}
+    .tool-line{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);padding:5px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:6px}
+    .tool-line:last-child{border-bottom:none}
+    .tool-line::before{content:'›';color:var(--ai);flex-shrink:0}
+
+    /* Chat panel */
+    .chat-panel{background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden;display:flex;flex-direction:column}
+    .chat-msgs{padding:20px;height:380px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+    .chat-msgs::-webkit-scrollbar{width:4px}
+    .chat-msgs::-webkit-scrollbar-thumb{background:var(--light);border-radius:2px}
+    .msg{display:flex;gap:8px;align-items:flex-start;max-width:90%}
+    .msg.human{align-self:flex-end;flex-direction:row-reverse}
+    .msg-av{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px}
+    .msg-av.ai{background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.2);color:var(--ai)}
+    .msg-av.hu{background:rgba(200,230,64,.1);border:1px solid rgba(200,230,64,.2);color:var(--accent)}
+    .msg-bubble{font-size:13px;line-height:1.65;padding:10px 14px;border-radius:3px}
+    .msg.ai .msg-bubble{background:var(--surface);color:var(--text);border:1px solid var(--border)}
+    .msg.human .msg-bubble{background:rgba(6,182,212,.08);color:var(--text);border:1px solid rgba(6,182,212,.15)}
+    .chat-prompts{border-top:1px solid var(--border);padding:12px 14px;background:var(--surface);display:flex;gap:6px;flex-wrap:wrap}
+    .prompt{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);background:var(--bg);border:1px solid var(--border);padding:5px 12px;border-radius:2px;cursor:pointer;transition:all .15s;text-align:left}
+    .prompt:hover,.prompt.on{border-color:var(--ai);color:var(--ai)}
+
+    /* Roles */
+    .roles-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:4px}
+    @media(max-width:900px){.roles-grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:560px){.roles-grid{grid-template-columns:1fr}}
+    .rcard{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:20px;transition:border-color .2s}
+    .rcard:hover{border-color:var(--border-s)}
+    .rcard-top{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+    .rbadge{font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:.08em;padding:4px 10px;border-radius:2px;line-height:1}
+    .rname{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);font-weight:600}
+    .rsplit{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .rcol-h{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1px;color:var(--light);margin-bottom:6px;font-weight:600}
+    .rcol ul{list-style:none;padding:0}
+    .rcol li{font-size:12px;color:var(--dim);padding:3px 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:4px}
+    .rcol li:last-child{border-bottom:none}
+    .rcol li::before{content:'–';color:var(--light);margin-right:2px;flex-shrink:0}
+
+    /* Skill CTA */
+    .skill-strip{margin:0 24px 72px;background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:48px 40px;display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+    .skill-strip-left{flex:1;min-width:260px}
+    .skill-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--ai);margin-bottom:8px;font-weight:600}
+    .skill-title{font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:.04em;color:var(--text);line-height:1;margin-bottom:6px}
+    .skill-sub{font-size:14px;color:var(--dim);line-height:1.6}
+    .skill-strip-right{display:flex;flex-direction:column;gap:10px;min-width:320px}
+    .install-box{background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .install-cmd{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ai)}
+    .copy-btn{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:5px 12px;color:var(--dim);background:var(--surface);border:1px solid var(--border);border-radius:2px;cursor:pointer;transition:all .15s;white-space:nowrap}
+    .copy-btn:hover{color:var(--text);border-color:var(--border-s)}
+    .skill-link{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);transition:color .15s;text-align:right}
+    .skill-link:hover{color:var(--ai)}
+
+    /* Footer */
+    footer{background:var(--surface);border-top:1px solid var(--border);padding:32px 24px}
+    .footer-in{max-width:var(--maxw);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px}
+    .footer-brand{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.14em;color:var(--text)}
+    .footer-brand span{color:var(--accent)}
+    .footer-by{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)}
+    .footer-by a{color:var(--ai);transition:color .15s}
+    .footer-by a:hover{color:var(--text)}
+    .footer-links{display:flex;gap:20px}
+    .footer-links a{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);transition:color .15s}
+    .footer-links a:hover{color:var(--text)}
+  </style>
+</head>
+<body>
+
+<!-- Announcement -->
+<div class="ann">
+  SA'S D2C CYCLING BRAND — BUILT ON SHOPIFY + <a href="https://2nth-skills.pages.dev/skills/shopify-ai" target="_blank">2NTH.AI SHOPIFY SKILL</a>
+  &nbsp;&nbsp;|&nbsp;&nbsp; FREE DELIVERY JHB · CPT · DBN
+</div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-in">
+    <div class="brand">VELDT<span class="brand-dot">·</span></div>
+    <div class="nav-links">
+      <a href="#shop" class="nav-link">Shop</a>
+      <a href="#gravel" class="nav-link">Gravel</a>
+      <a href="#mountain" class="nav-link">Mountain</a>
+      <a href="#road" class="nav-link">Road</a>
+      <a href="#ai-demo" class="nav-link">AI Demo</a>
+    </div>
+    <div class="nav-right">
+      <span class="ai-pill">AI POWERED</span>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-lines"></div>
+  <div class="hero-veldt">VELDT</div>
+  <div class="hero-content">
+    <div class="hero-eye">South Africa's D2C Cycling Brand</div>
+    <h1>BUILT FOR SA.<br><span class="lime">SOLD DIRECT.</span></h1>
+    <p class="hero-sub">Premium bikes designed for Karoo gravel, Drakensberg trails, and Cape roads. No dealers. No middlemen. No markups.</p>
+    <div class="hero-ctas">
+      <button class="btn btn-lime" onclick="document.getElementById('shop').scrollIntoView({behavior:'smooth'})">SHOP BIKES</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('ai-demo').scrollIntoView({behavior:'smooth'})">VIEW AI DEMO</button>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-n">3</div><div class="stat-l">Categories</div></div>
+      <div class="stat"><div class="stat-n">R14K</div><div class="stat-l">Starting from</div></div>
+      <div class="stat"><div class="stat-n">100%</div><div class="stat-l">Made for SA</div></div>
+      <div class="stat"><div class="stat-n">D2C</div><div class="stat-l">No dealers</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Shop -->
+<section class="sec" id="shop">
+  <div class="sec-top">
+    <div class="sec-title">THE RANGE</div>
+    <div class="sec-sub" id="prod-count">12 PRODUCTS</div>
+  </div>
+  <div class="ctabs">
+    <button class="ctab on" data-cat="all">All</button>
+    <button class="ctab" data-cat="gravel" id="gravel">Gravel</button>
+    <button class="ctab" data-cat="mountain" id="mountain">Mountain</button>
+    <button class="ctab" data-cat="road" id="road">Road</button>
+    <button class="ctab" data-cat="kit">Kits</button>
+  </div>
+  <div class="pgrid" id="pgrid"></div>
+</section>
+
+<!-- AI Command Centre -->
+<div class="ai-zone" id="ai-demo">
+  <div class="ai-inner">
+    <div class="ai-head">
+      <div class="ai-eyebrow">2nth.ai Shopify AI Skill</div>
+      <h2>YOUR BRAND.<br><span>YOUR AI PARTNER.</span></h2>
+      <p class="ai-desc">Every person on the VELDT team gets their own AI partner. The AI surfaces data, drafts copy, and catches what humans miss. The human always decides.</p>
+    </div>
+
+    <div class="ai-layout">
+      <!-- Agent sidebar -->
+      <div class="agent-sidebar">
+        <div class="agent-hdr">
+          <div class="agent-av">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          </div>
+          <div>
+            <div class="agent-name">VELDT Agent</div>
+            <div class="agent-live"><span class="dot"></span>LIVE</div>
+          </div>
+        </div>
+        <div class="agent-role-tabs" id="role-tabs">
+          <button class="art on" data-role="owner">Owner</button>
+          <button class="art" data-role="merch">Merch</button>
+          <button class="art" data-role="marketing">Marketing</button>
+          <button class="art" data-role="support">Support</button>
+          <button class="art" data-role="content">Content</button>
+        </div>
+        <div class="agent-tools">
+          <div class="tools-label">Active Tools</div>
+          <div id="tool-list"></div>
+        </div>
+      </div>
+
+      <!-- Chat panel -->
+      <div class="chat-panel">
+        <div class="chat-msgs" id="chat-msgs"></div>
+        <div class="chat-prompts" id="chat-prompts"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Roles grid -->
+<section class="sec">
+  <div class="sec-top">
+    <div class="sec-title">THE 2NTH MODEL</div>
+    <div class="sec-sub">ONE PERSON + ONE AI</div>
+  </div>
+  <div class="roles-grid">
+
+    <div class="rcard">
+      <div class="rcard-top">
+        <div class="rbadge" style="background:rgba(200,230,64,.12);color:var(--accent)">OWNER</div>
+        <div class="rname">Store Owner</div>
+      </div>
+      <div class="rsplit">
+        <div class="rcol">
+          <div class="rcol-h">Human decides</div>
+          <ul>
+            <li>Pricing strategy</li>
+            <li>Brand direction</li>
+            <li>Product launches</li>
+            <li>Capital allocation</li>
+          </ul>
+        </div>
+        <div class="rcol">
+          <div class="rcol-h">AI enables</div>
+          <ul>
+            <li>Revenue dashboards</li>
+            <li>Restock alerts</li>
+            <li>Race calendar prep</li>
+            <li>Cash flow visibility</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-top">
+        <div class="rbadge" style="background:rgba(74,222,128,.12);color:#4ade80">MERCH</div>
+        <div class="rname">Merchandiser</div>
+      </div>
+      <div class="rsplit">
+        <div class="rcol">
+          <div class="rcol-h">Human decides</div>
+          <ul>
+            <li>Collection curation</li>
+            <li>Featured products</li>
+            <li>Seasonal drops</li>
+            <li>Range expansion</li>
+          </ul>
+        </div>
+        <div class="rcol">
+          <div class="rcol-h">AI enables</div>
+          <ul>
+            <li>SEO audits</li>
+            <li>Auto-tagging</li>
+            <li>Slow mover alerts</li>
+            <li>Conversion data</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-top">
+        <div class="rbadge" style="background:rgba(129,140,248,.12);color:#818cf8">CONTENT</div>
+        <div class="rname">Content Creator</div>
+      </div>
+      <div class="rsplit">
+        <div class="rcol">
+          <div class="rcol-h">Human decides</div>
+          <ul>
+            <li>Brand voice</li>
+            <li>Creative direction</li>
+            <li>Final approval</li>
+            <li>Channel tone</li>
+          </ul>
+        </div>
+        <div class="rcol">
+          <div class="rcol-h">AI enables</div>
+          <ul>
+            <li>Description drafts</li>
+            <li>Alt text & SEO</li>
+            <li>Blog outlines</li>
+            <li>Social rewrites</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-top">
+        <div class="rbadge" style="background:rgba(6,182,212,.12);color:var(--ai)">SUPPORT</div>
+        <div class="rname">Customer Service</div>
+      </div>
+      <div class="rsplit">
+        <div class="rcol">
+          <div class="rcol-h">Human decides</div>
+          <ul>
+            <li>Escalations</li>
+            <li>Refund approvals</li>
+            <li>Policy exceptions</li>
+            <li>VIP relationships</li>
+          </ul>
+        </div>
+        <div class="rcol">
+          <div class="rcol-h">AI enables</div>
+          <ul>
+            <li>Order lookup</li>
+            <li>Tracking status</li>
+            <li>Draft responses</li>
+            <li>Damage claims</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-top">
+        <div class="rbadge" style="background:rgba(251,146,60,.12);color:#fb923c">MKTG</div>
+        <div class="rname">Marketing Manager</div>
+      </div>
+      <div class="rsplit">
+        <div class="rcol">
+          <div class="rcol-h">Human decides</div>
+          <ul>
+            <li>Campaign strategy</li>
+            <li>Budget allocation</li>
+            <li>Message approval</li>
+            <li>Audience targeting</li>
+          </ul>
+        </div>
+        <div class="rcol">
+          <div class="rcol-h">AI enables</div>
+          <ul>
+            <li>Segmentation</li>
+            <li>Race calendar ops</li>
+            <li>A/B copy variants</li>
+            <li>Performance data</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="rcard">
+      <div class="rcard-top">
+        <div class="rbadge" style="background:rgba(244,114,182,.12);color:#f472b6">OPS</div>
+        <div class="rname">Operations</div>
+      </div>
+      <div class="rsplit">
+        <div class="rcol">
+          <div class="rcol-h">Human decides</div>
+          <ul>
+            <li>Carrier selection</li>
+            <li>Exception handling</li>
+            <li>Warehouse priorities</li>
+            <li>Fraud call</li>
+          </ul>
+        </div>
+        <div class="rcol">
+          <div class="rcol-h">AI enables</div>
+          <ul>
+            <li>Overdue alerts</li>
+            <li>Freight routing</li>
+            <li>Fulfillment prep</li>
+            <li>Fraud scoring</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Skill CTA -->
+<div class="skill-strip">
+  <div class="skill-strip-left">
+    <div class="skill-eyebrow">Install the skill</div>
+    <div class="skill-title">SHOPIFY AI SKILL</div>
+    <div class="skill-sub">Give your AI agent the full Shopify Admin API, all 6 role patterns, and proven integration blueprints for a D2C cycling brand like VELDT.</div>
+  </div>
+  <div class="skill-strip-right">
+    <div class="install-box">
+      <code class="install-cmd">npx skills add imbilawork/2nth-skills@shopify-ai</code>
+      <button class="copy-btn" onclick="navigator.clipboard.writeText('npx skills add imbilawork/2nth-skills@shopify-ai');this.textContent='COPIED';setTimeout(()=>this.textContent='COPY',1800)">COPY</button>
+    </div>
+    <a href="https://2nth-skills.pages.dev/skills/shopify-ai" target="_blank" class="skill-link">VIEW FULL SKILL DOCS → 2nth-skills.pages.dev/skills/shopify-ai</a>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-in">
+    <div>
+      <div class="footer-brand">VELDT<span>·</span></div>
+      <div class="footer-by" style="margin-top:4px">Demo by <a href="https://2nth.ai" target="_blank">2nth.ai</a> — Shopify AI for D2C brands</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://demo.2nth.ai">All Demos</a>
+      <a href="https://2nth-skills.pages.dev/skills/shopify-ai">Shopify AI Skill</a>
+      <a href="https://2nth.ai">2nth.ai</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://2nth.ai/app-switcher.js"></script>
+<script>
+// ─── Products ───────────────────────────────────────────────────────
+const PRODUCTS = [
+  {id:1,name:'KAROO GR PRO',cat:'gravel',price:'R 29,995',bio:'Carbon. Karoo-tested. 9.1kg.',isNew:false},
+  {id:2,name:'KAROO GR SPORT',cat:'gravel',price:'R 19,995',bio:'Alloy gravel. Most popular.',isNew:false},
+  {id:3,name:'NAMAQUA LITE',cat:'gravel',price:'R 14,995',bio:'Entry gravel. Ideal first bike.',isNew:false},
+  {id:4,name:'DRAKENSBERG XC',cat:'mountain',price:'R 24,995',bio:'XC race geometry. 100mm.',isNew:false},
+  {id:5,name:'MAGALIES ENDURO',cat:'mountain',price:'R 27,995',bio:'160mm travel. Downhill ready.',isNew:true},
+  {id:6,name:'BUSHVELD TRAIL',cat:'mountain',price:'R 18,995',bio:'All-day trail geometry.',isNew:false},
+  {id:7,name:'CAPE AERO',cat:'road',price:'R 32,995',bio:'Full aero. Built for the Argus.',isNew:true},
+  {id:8,name:'HIGHVELD RACE',cat:'road',price:'R 24,995',bio:'Race geometry. 7.8kg.',isNew:false},
+  {id:9,name:'SWARTBERG ENDURANCE',cat:'road',price:'R 21,995',bio:'Endurance fit. Gran Fondo ready.',isNew:false},
+  {id:10,name:'VELDT PRO KIT',cat:'kit',price:'R 2,895',bio:'Jersey + bibs. Summer weight.',isNew:false},
+  {id:11,name:'VELDT GRAVEL KIT',cat:'kit',price:'R 2,495',bio:'Merino blend. All-conditions.',isNew:false},
+  {id:12,name:'VELDT CLUB KIT',cat:'kit',price:'R 1,895',bio:'Club jersey + bib shorts.',isNew:false},
+];
+
+const CAT_META = {
+  gravel:   {cls:'pcat-g', bg:'linear-gradient(135deg,#1a1f00 0%,#141908 100%)', color:'var(--accent)'},
+  mountain: {cls:'pcat-m', bg:'linear-gradient(135deg,#001a0a 0%,#0a1410 100%)', color:'#4ade80'},
+  road:     {cls:'pcat-r', bg:'linear-gradient(135deg,#0f0e1a 0%,#141230 100%)', color:'#818cf8'},
+  kit:      {cls:'pcat-k', bg:'linear-gradient(135deg,#001518 0%,#0a1418 100%)', color:'#06b6d4'},
+};
+
+function bikeSVG(col){
+  return `<svg viewBox="0 0 140 90" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="28" cy="62" r="22"/>
+    <circle cx="112" cy="62" r="22"/>
+    <line x1="28" y1="62" x2="66" y2="62"/>
+    <line x1="28" y1="62" x2="60" y2="28"/>
+    <line x1="66" y1="62" x2="60" y2="28"/>
+    <line x1="66" y1="62" x2="94" y2="35"/>
+    <line x1="60" y1="28" x2="90" y2="25"/>
+    <line x1="90" y1="25" x2="94" y2="35"/>
+    <line x1="94" y1="35" x2="112" y2="62"/>
+    <line x1="90" y1="25" x2="90" y2="16"/>
+    <line x1="84" y1="16" x2="98" y2="16"/>
+    <line x1="60" y1="28" x2="58" y2="17"/>
+    <line x1="52" y1="17" x2="67" y2="17"/>
+  </svg>`;
+}
+
+function kitSVG(col){
+  return `<svg viewBox="0 0 100 80" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 20 L15 35 L30 40 L30 65 L70 65 L70 40 L85 35 L80 20"/>
+    <path d="M20 20 Q50 8 80 20"/>
+    <path d="M20 20 L30 28 Q50 20 70 28 L80 20"/>
+    <path d="M30 40 L70 40"/>
+  </svg>`;
+}
+
+function renderProducts(cat){
+  const list = cat === 'all' ? PRODUCTS : PRODUCTS.filter(p=>p.cat===cat);
+  document.getElementById('prod-count').textContent = list.length + ' PRODUCTS';
+  const g = document.getElementById('pgrid');
+  g.innerHTML = list.map(p=>{
+    const m = CAT_META[p.cat];
+    const icon = p.cat==='kit' ? kitSVG(m.color) : bikeSVG(m.color);
+    return `<div class="pcard">
+      <div class="pcard-img" style="background:${m.bg}">
+        ${icon}
+        <span class="pcat ${m.cls}">${p.cat.toUpperCase()}</span>
+        ${p.isNew?'<span class="pnew">NEW</span>':''}
+      </div>
+      <div class="pcard-body">
+        <div class="pname">${p.name}</div>
+        <div class="pbio">${p.bio}</div>
+        <div class="pfoot">
+          <div class="pprice">${p.price}</div>
+          <button class="pbtn">ADD TO CART</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Init products
+renderProducts('all');
+document.querySelectorAll('.ctab').forEach(t=>{
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.ctab').forEach(x=>x.classList.remove('on'));
+    this.classList.add('on');
+    renderProducts(this.dataset.cat);
+  });
+});
+
+// ─── Agent Conversations ─────────────────────────────────────────────
+const ROLES = {
+  owner: {
+    tools: ['get_revenue_dashboard','get_top_products','get_inventory_value','get_refund_summary','compare_periods','get_stockout_forecast'],
+    prompts: ['How did we track this week?','Cape Epic is in 3 weeks — prep?','Who are our top customers?','What needs restocking?'],
+    convos: [
+      [{r:'human',t:'How did we track this week?'},{r:'ai',t:'Revenue R 184K — up 34% vs last week. 23 bikes sold, AOV R 7,995. Best seller: Karoo GR Sport (7 units). Cape Town traffic up 40% — Cycle Tour effect already building. Two flags: Karoo GR Pro down to 2 units (velocity 4/week, 3 days to stockout). 3 Magalies Enduro orders unfulfilled 36h+ — they need a freight carrier, not courier, for Joburg oversized delivery. Want me to pre-build the fulfillment requests?'}],
+      [{r:'human',t:'Cape Epic is in 3 weeks — what\'s the plan?'},{r:'ai',t:'Cape Epic starts March 17. Last year revenue spiked 280% in the 3 weeks prior. Current stock: Drakensberg XC 6 units (sold 18 pre-Epic last year — reorder now), Magalies Enduro 4 units. Prep suggestions: (1) Reorder trail range by this Friday. (2) "Epic Ready" campaign targeting JHB — 68% of entrants are Gauteng-based. (3) Activate your 3 ambassadors — combined 47K Strava followers. Want me to draft the campaign brief and reorder quantities?'}],
+      [{r:'human',t:'Who are our top customers?'},{r:'ai',t:'Top 3 by lifetime value: Dariusz K. — R 94K, 3 bikes annually, JHB Trail Rider, bought Karoo GR Pro Jan 15. Team Silverback CC — R 67K, bulk kit orders, suggest a Club Account programme. Phumzile M. — R 52K, trail specialist, 4 orders, posts rides every weekend (strong brand ambassador). Your top 20 customers account for 38% of revenue — none are on a VIP programme. Want me to tag them in Shopify and draft a VELDT Club invite?'}],
+      [{r:'human',t:'What needs restocking urgently?'},{r:'ai',t:'3 critical items: Karoo GR Pro — 2 units, 3 days to stockout at current velocity. Drakensberg XC — 6 units, pre-Epic demand building (sell 18+ pre-event historically). Pro Kit size M — 1 unit, your highest-converting kit size. Secondary watch: Magalies Enduro (4 units, stable 2 weeks) and Namaqua Lite (3 units, stable). Suggest combining the GR Pro + XC reorder this week to consolidate freight from your Joburg warehouse. Ready to prepare the purchase order?'}],
+    ]
+  },
+  merch: {
+    tools: ['list_products','get_seo_audit','auto_tag_products','get_slow_movers','get_conversion_by_product','manage_collection'],
+    prompts: ['Which products need SEO work?','Show me slow movers','Suggest collection order?'],
+    convos: [
+      [{r:'human',t:'Which products need SEO work?'},{r:'ai',t:'6 products have gaps. Biggest opportunity: Magalies Enduro — 890 views last month, zero meta description. Drakensberg XC has a duplicate H1 and title tag. 4 products missing alt text (all Kit SKUs). Also flagged: your "Gravel Bikes" collection page doesn\'t rank for "gravel bikes South Africa" — Bike Hub and Trek SA dominate that term. I can draft fixes for all 6 and a keyword strategy for the collection page. Nothing publishes until you approve.'}],
+      [{r:'human',t:'Show me slow movers'},{r:'ai',t:'Zero sales in 30+ days: Swartberg Endurance (your road buyers skew aero — it\'s in position 7 of 8 in the Road collection, consider moving it to position 2 with a "best for long rides" tag), Veldt Club Kit in XL (consider a size-inclusive social post), Namaqua Lite in blue colourway (sand and slate move fine — blue may be discontinued). Swartberg has the best opportunity — good margin, poor placement. Want me to reorder the Road collection and draft a re-launch email for it?'}],
+      [{r:'human',t:'Suggest better collection ordering?'},{r:'ai',t:'Based on conversion rates this month — Gravel: lead with Karoo GR Sport (4.2% CVR, highest in range), then GR Pro, Namaqua Lite. Mountain: Drakensberg XC first (Strava-savvy XC riders convert best), then Magalies, Bushveld. Road: Cape Aero leads on views but Highveld Race converts better (margin 12% higher) — worth featuring equally. Kits: Pro Kit always first. Also: you\'re missing a "Best Sellers" collection — comparable Shopify stores drive 18% of revenue from it. Want me to create it?'}],
+    ]
+  },
+  marketing: {
+    tools: ['get_sales_report','get_customer_segments','generate_campaign_copy','get_channel_performance','get_abandoned_carts'],
+    prompts: ['Campaign ideas for next month?','Best customer segments?','Cape Tour campaign?'],
+    convos: [
+      [{r:'human',t:'What campaigns should we run right now?'},{r:'ai',t:'3 high-impact opportunities: (1) Cape Town Cycle Tour (March 10, 35K riders) — launch "Race Ready" kit bundle for 240 Western Cape customers this week. (2) Strava KOM targeting — your ambassador Dariusz holds 3 KOMs on popular JHB routes. A "Ride like Dariusz" email to segment followers can drive trail bike conversions. (3) Karoo Gravel Season — peak conditions April–June, start warming the gravel audience now. Best send time: Tuesday 7am (post-morning-ride check).'}],
+      [{r:'human',t:'Who are our best customer segments?'},{r:'ai',t:'4 core segments: JHB Trail Riders — 38% of revenue, male 28–42, ride Tue/Thu/Sat mornings, buy trail + gravel, high LTV R 24K avg. CPT Road Racers — 24% of revenue, event-driven (Cycle Tour, Cape Classic), strong seasonal spikes. Durban Commuters — small but growing (7%), buy kits + accessories, no bike purchases yet — opportunity to convert. Club Buyers — bulk kit, low margin but high volume. Recommendation: build a VELDT Club portal for segment 4 — clubs talk to other clubs.'}],
+      [{r:'human',t:'Build a Cape Town Cycle Tour campaign'},{r:'ai',t:'Cape Tour is March 10 — 35K riders, 18K from Gauteng driving down. Three angles: (1) "Train Together, Race Together" — group kit for clubs, 10% bulk discount closing Feb 15. (2) "Cape Aero — Built for the Argus descent" — product-led email to your CPT road segment. (3) "First Cycle Tour, First VELDT" — acquisition targeting Cape cycling Facebook groups. Budget split: 50% retargeting existing CPT customers, 30% lookalike, 20% cold Cape cycling interest. Best send: Tuesday 6:45am. Draft copy?'}],
+    ]
+  },
+  support: {
+    tools: ['search_orders','get_order_status','search_customers','draft_response','create_return','get_customer_history'],
+    prompts: ['Look up order #2847','Customer has damaged bike','Draft response for late order'],
+    convos: [
+      [{r:'human',t:'Customer asking about order #2847'},{r:'ai',t:'Order #2847: Karoo GR Pro in Drakensberg Slate, R 29,995. Placed Feb 24. Status: Shipped via The Courier Guy, waybill TCG-448821. Last scan: JHB depot Feb 26 07:14. Expected delivery: today by 18:00. Customer: Marcus V., 2nd order (first was Pro Kit R 2,895 in Jan). Draft: "Hi Marcus, your Karoo GR Pro is out for delivery today and should arrive by 6pm. Tracking: TCG-448821. Let me know if you need anything else — and enjoy the first ride." Send as-is or adjust?'}],
+      [{r:'human',t:'Customer says her bike arrived damaged'},{r:'ai',t:'Flagging for human escalation — this needs your attention. Customer: Phumzile M. — R 52K lifetime value, 4 orders, trail specialist who posts rides regularly. High-risk for churn if not handled well. Steps: (1) Request photos of damage (frame, packaging, component level). (2) TCG auto-insures orders over R 10K — lodge claim immediately. (3) Standard resolution: replacement or full refund — your call. I\'ve pre-filled the return form. Want me to draft a personal response from the founder for your review?'}],
+      [{r:'human',t:'Draft response for order running 48h late'},{r:'ai',t:'Draft: "Hi [Name], I\'m following up personally on your VELDT order #[number]. We\'re sorry for the delay — your [product] is currently with our courier and we\'re pushing for delivery by tomorrow morning. I\'ve escalated this with CourierGuy directly. As an apology, I\'m adding a R 200 store credit to your account automatically. We\'ll make this right. — VELDT Team." Want me to adjust the tone, check the order status, or apply the store credit in Shopify?'}],
+    ]
+  },
+  content: {
+    tools: ['get_product','generate_product_copy','update_product_description','update_seo_metadata','generate_alt_text'],
+    prompts: ['Write description for Karoo GR Pro','Draft SEO for Drakensberg XC','Alt text for bike images?'],
+    convos: [
+      [{r:'human',t:'Write a description for the Karoo GR Pro'},{r:'ai',t:'Here\'s a draft:\n\n"Where tar ends, Karoo begins. The VELDT Karoo GR Pro is built for the riders who seek South Africa\'s silence — days of dust, corrugated dirt, and sunsets with no finish line in sight.\n\nHand-laid carbon frame, shaped by 14,000km of Karoo road testing. Geometry that sits you upright enough to drink in the landscape, low enough to carve any descent. Mounts for two bottles, a frame bag, a top tube pack. 38mm tyre clearance.\n\nSpecs: 9.1kg. SRAM Rival 12sp. 700c × 38mm clearance. Flat-mount disc. Available in Karoo Sand, Drakensberg Slate, Veldt Lime."\n\nWant me to adjust the tone, trim it, or draft the meta description and alt text?'}],
+      [{r:'human',t:'Draft SEO title and meta for Drakensberg XC'},{r:'ai',t:'Current title: "Drakensberg XC" — too thin, missing keywords.\n\nSuggested SEO title (58 chars): "Drakensberg XC Mountain Bike — Trail Hardtail | VELDT"\n\nSuggested meta description (152 chars): "SA-built XC hardtail for Joburg singletrack to Cape mountain trails. 100mm fork, race geometry, direct to your door. From R 24,995."\n\nPrimary keyword: "XC mountain bike South Africa" (medium competition, 1,200 monthly searches). Suggest also adding tags: hardtail, XC, 100mm, trail, South Africa. Apply?'}],
+      [{r:'human',t:'Generate alt text for bike images'},{r:'ai',t:'Here\'s alt text for the current product images:\n\nKaroo GR Pro (hero): "VELDT Karoo GR Pro carbon gravel bike in Drakensberg Slate colourway on Karoo dirt road"\n\nDrakensberg XC: "VELDT Drakensberg XC hardtail mountain bike on technical singletrack, Magaliesberg"\n\nCape Aero: "VELDT Cape Aero road bike in Veldt Lime on Cape coastal road with mountain backdrop"\n\nMagalies Enduro: "VELDT Magalies Enduro full-suspension mountain bike, 160mm travel, Magaliesberg trail"\n\n4 images updated. The remaining 8 products still need alt text — shall I batch process them?'}],
+    ]
+  }
+};
+
+let currentRole = 'owner';
+let currentPrompt = 0;
+
+function renderRole(role){
+  currentRole = role;
+  currentPrompt = 0;
+  const R = ROLES[role];
+
+  // Update role tab active state
+  document.querySelectorAll('.art').forEach(t=>t.classList.toggle('on', t.dataset.role===role));
+
+  // Tools
+  document.getElementById('tool-list').innerHTML = R.tools.map(t=>`<div class="tool-line">${t}</div>`).join('');
+
+  // Initial conversation
+  renderConvo(0);
+
+  // Prompts
+  const pp = document.getElementById('chat-prompts');
+  pp.innerHTML = R.prompts.map((p,i)=>`<button class="prompt${i===0?' on':''}" data-idx="${i}">${p}</button>`).join('');
+  pp.querySelectorAll('.prompt').forEach(btn=>{
+    btn.addEventListener('click',function(){
+      pp.querySelectorAll('.prompt').forEach(x=>x.classList.remove('on'));
+      this.classList.add('on');
+      renderConvo(parseInt(this.dataset.idx));
+    });
+  });
+}
+
+function renderConvo(idx){
+  currentPrompt = idx;
+  const msgs = ROLES[currentRole].convos[idx] || ROLES[currentRole].convos[0];
+  const container = document.getElementById('chat-msgs');
+  container.innerHTML = msgs.map(m=>{
+    const isAI = m.r === 'ai';
+    // Replace \n with <br> in text
+    const text = m.t.replace(/\n/g,'<br>');
+    return `<div class="msg ${isAI?'ai':'human'}">
+      <div class="msg-av ${isAI?'ai':'hu'}">${isAI?'AI':'ME'}</div>
+      <div class="msg-bubble">${text}</div>
+    </div>`;
+  }).join('');
+  container.scrollTop = container.scrollHeight;
+}
+
+// Role tab clicks
+document.getElementById('role-tabs').addEventListener('click',function(e){
+  const btn = e.target.closest('.art');
+  if(btn && btn.dataset.role) renderRole(btn.dataset.role);
+});
+
+// Init agent
+renderRole('owner');
+</script>
+
+</body>
+</html>
