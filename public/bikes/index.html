@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>(function(){var t=localStorage.getItem('2nth-theme');if(t==='light')document.documentElement.classList.add('light');})()</script>
   <style>
     :root{
       --bg:#0f0f0d;--surface:#181816;--surface2:#202020;
@@ -16,6 +17,14 @@
       --border:rgba(240,239,232,.06);--border-s:rgba(240,239,232,.12);
       --ai:#06b6d4;--maxw:1280px;
     }
+    .light{
+      --bg:#f3f2ec;--surface:#fff;--surface2:#ebe8e0;
+      --text:#0f0e0a;--dim:#6b6560;--light:#b0ada8;
+      --accent:#7a9c00;--accent-dark:#5a7400;
+      --border:rgba(15,14,10,.07);--border-s:rgba(15,14,10,.15);
+      --ai:#0891b2;
+    }
+    .hidden{display:none}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
     *{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
     html{scroll-behavior:smooth}
@@ -27,8 +36,31 @@
     .ann{background:var(--accent);color:#0c1400;padding:9px 24px;text-align:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;font-weight:700;display:flex;align-items:center;justify-content:center;gap:16px}
     .ann a{color:#0c1400;text-decoration:underline;opacity:.65}
 
+    /* Light overrides */
+    .light .hero-bg{background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(122,156,0,.07) 0%,transparent 60%),linear-gradient(160deg,#e8f0c0 0%,#f3f2ec 55%,#edf2e0 100%)}
+    .light .hero-lines::before{background-image:repeating-linear-gradient(90deg,rgba(100,140,0,.04) 0,rgba(100,140,0,.04) 1px,transparent 1px,transparent 80px)}
+    .light .hero-veldt{color:rgba(100,140,0,.04)}
+    .light .hero-lines::after{background:linear-gradient(to top,var(--bg),transparent)}
+    .light h1{color:var(--text)}
+    .light .hero-sub{color:var(--dim)}
+    .light .btn-ghost{color:var(--text);border-color:var(--border-s)}
+    .light .btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+    /* Product card image backgrounds — dark default, light override */
+    .pcard-gravel .pcard-img{background:linear-gradient(135deg,#1a1f00 0%,#141908 100%)}
+    .pcard-mountain .pcard-img{background:linear-gradient(135deg,#001a0a 0%,#0a1410 100%)}
+    .pcard-road .pcard-img{background:linear-gradient(135deg,#0f0e1a 0%,#141230 100%)}
+    .pcard-kit .pcard-img{background:linear-gradient(135deg,#001518 0%,#0a1418 100%)}
+    .light .pcard-gravel .pcard-img{background:linear-gradient(135deg,#eef5c0 0%,#e2eca8 100%)}
+    .light .pcard-mountain .pcard-img{background:linear-gradient(135deg,#d8f5e8 0%,#c4edd4 100%)}
+    .light .pcard-road .pcard-img{background:linear-gradient(135deg,#eae4ff 0%,#d8cef8 100%)}
+    .light .pcard-kit .pcard-img{background:linear-gradient(135deg,#d0eeff 0%,#bce4f8 100%)}
+    /* Theme toggle button */
+    .tbtn{display:flex;min-width:36px;min-height:36px;align-items:center;justify-content:center;border-radius:3px;border:1px solid var(--border);color:var(--dim);cursor:pointer;transition:color .15s,border-color .15s;background:none}
+    .tbtn:hover{color:var(--text);border-color:var(--border-s)}
+
     /* Nav */
     nav{position:sticky;top:0;z-index:50;background:rgba(15,15,13,.92);border-bottom:1px solid var(--border);backdrop-filter:blur(12px)}
+    .light nav{background:rgba(243,242,236,.92)}
     .nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:64px}
     .brand{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.14em;color:var(--text);display:flex;align-items:center;gap:4px}
     .brand-dot{color:var(--accent);font-size:32px;line-height:0;margin-top:4px}
@@ -210,6 +242,10 @@
     </div>
     <div class="nav-right">
       <span class="ai-pill">AI POWERED</span>
+      <button onclick="toggleTheme()" class="tbtn" title="Toggle theme">
+        <svg id="icon-sun" class="hidden" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="icon-moon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
     </div>
   </div>
 </nav>
@@ -518,10 +554,10 @@ const PRODUCTS = [
 ];
 
 const CAT_META = {
-  gravel:   {cls:'pcat-g', bg:'linear-gradient(135deg,#1a1f00 0%,#141908 100%)', color:'var(--accent)'},
-  mountain: {cls:'pcat-m', bg:'linear-gradient(135deg,#001a0a 0%,#0a1410 100%)', color:'#4ade80'},
-  road:     {cls:'pcat-r', bg:'linear-gradient(135deg,#0f0e1a 0%,#141230 100%)', color:'#818cf8'},
-  kit:      {cls:'pcat-k', bg:'linear-gradient(135deg,#001518 0%,#0a1418 100%)', color:'#06b6d4'},
+  gravel:   {cls:'pcat-g', color:'var(--accent)'},
+  mountain: {cls:'pcat-m', color:'#4ade80'},
+  road:     {cls:'pcat-r', color:'#818cf8'},
+  kit:      {cls:'pcat-k', color:'#06b6d4'},
 };
 
 function bikeSVG(col){
@@ -558,8 +594,8 @@ function renderProducts(cat){
   g.innerHTML = list.map(p=>{
     const m = CAT_META[p.cat];
     const icon = p.cat==='kit' ? kitSVG(m.color) : bikeSVG(m.color);
-    return `<div class="pcard">
-      <div class="pcard-img" style="background:${m.bg}">
+    return `<div class="pcard pcard-${p.cat}">
+      <div class="pcard-img">
         ${icon}
         <span class="pcat ${m.cls}">${p.cat.toUpperCase()}</span>
         ${p.isNew?'<span class="pnew">NEW</span>':''}
@@ -689,6 +725,16 @@ document.getElementById('role-tabs').addEventListener('click',function(e){
 
 // Init agent
 renderRole('owner');
+
+// Theme
+function toggleTheme(){
+  document.documentElement.classList.toggle('light');
+  localStorage.setItem('2nth-theme',document.documentElement.classList.contains('light')?'light':'dark');
+  var l=document.documentElement.classList.contains('light');
+  document.getElementById('icon-sun').classList.toggle('hidden',!l);
+  document.getElementById('icon-moon').classList.toggle('hidden',l);
+}
+(function(){var l=document.documentElement.classList.contains('light');document.getElementById('icon-sun').classList.toggle('hidden',!l);document.getElementById('icon-moon').classList.toggle('hidden',l)})();
 </script>
 
 </body>
