@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apex Advisory — Twenty CRM Agent Mode | demo.2nth.ai</title>
+  <link rel="icon" type="image/svg+xml" href="https://2nth.ai/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>(function(){var t=localStorage.getItem('2nth-theme');if(t==='light')document.documentElement.classList.add('light');})()</script>
+  <style>
+    :root{
+      --bg:#0a0a0a;--surface:#131313;--surface2:#1c1c1c;
+      --text:#f5f4f0;--dim:#8a8880;--muted:#4a4a48;
+      --accent:#f59e0b;--accent-dim:#92600a;
+      --border:hsla(0,0%,100%,.06);--border-s:hsla(0,0%,100%,.11);
+      --ai:#06b6d4;--live:#22c55e;--warn:#ef4444;--purple:#818cf8;
+      --maxw:1280px;
+    }
+    .light{
+      --bg:#f5f4f0;--surface:#fff;--surface2:#eceae4;
+      --text:#0f0e0a;--dim:#6b6560;--muted:#b0ada8;
+      --accent:#c47d05;--accent-dim:#7a4e03;
+      --border:rgba(15,14,10,.07);--border-s:rgba(15,14,10,.14);
+      --ai:#0891b2;--live:#16a34a;--warn:#dc2626;--purple:#6366f1;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    *{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    html{scroll-behavior:smooth}
+    body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit;cursor:pointer;border:none;background:none}
+    .hidden{display:none}
+
+    /* ── Nav ── */
+    nav{position:sticky;top:0;z-index:60;background:var(--bg);border-bottom:1px solid var(--border)}
+    @supports(backdrop-filter:blur(12px)){nav{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px)}}
+    .nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px}
+    .nav-brand{display:flex;align-items:center;gap:12px}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.1em;color:var(--text)}
+    .nav-logo span{color:var(--accent)}
+    .nav-sep{width:1px;height:20px;background:var(--border-s)}
+    .nav-client{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.5px}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .nav-pill{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:3px;font-weight:700;border:1px solid}
+    .pill-twenty{background:rgba(245,158,11,.1);color:var(--accent);border-color:rgba(245,158,11,.2)}
+    .pill-agent{background:rgba(6,182,212,.1);color:var(--ai);border-color:rgba(6,182,212,.2)}
+    .tbtn{display:flex;min-width:34px;min-height:34px;align-items:center;justify-content:center;border-radius:3px;border:1px solid var(--border);color:var(--dim);cursor:pointer;transition:color .15s,border-color .15s}
+    .tbtn:hover{color:var(--text);border-color:var(--border-s)}
+    @media(max-width:640px){.nav-sep,.nav-client,.pill-agent{display:none}}
+
+    /* ── Page layout ── */
+    .page{max-width:var(--maxw);margin:0 auto;padding:32px 24px 80px;display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+    @media(max-width:900px){.page{grid-template-columns:1fr}}
+
+    /* ── Sidebar ── */
+    .sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:74px}
+    @media(max-width:900px){.sidebar{display:none}}
+    .sidebar-block{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+    .sb-hdr{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+    .sb-hdr-label{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);font-weight:700}
+    .status-dot{width:6px;height:6px;border-radius:50%;background:var(--live);animation:blink 2.4s ease-in-out infinite;flex-shrink:0}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+    .sb-body{padding:12px 14px}
+    .sb-metric{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+    .sb-metric:last-child{border-bottom:none}
+    .sb-metric-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)}
+    .sb-metric-val{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--text);letter-spacing:.04em}
+    .sb-metric-val.up{color:var(--live)}
+    .sb-metric-val.warn{color:var(--warn)}
+    .sb-metric-val.amber{color:var(--accent)}
+    .sb-metric-val.blue{color:var(--ai)}
+    .domain-list{padding:8px}
+    .domain-btn{width:100%;text-align:left;display:flex;align-items:center;gap:8px;padding:8px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);transition:all .15s}
+    .domain-btn:hover{background:var(--surface2);color:var(--text)}
+    .domain-btn.on{background:rgba(245,158,11,.1);color:var(--accent)}
+    .domain-icon{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .d-pipeline{background:#f59e0b}
+    .d-clients{background:#06b6d4}
+    .d-delivery{background:#22c55e}
+    .d-intel{background:#818cf8}
+
+    /* ── Main content ── */
+    .main{min-width:0;display:flex;flex-direction:column;gap:24px}
+
+    /* Hero strip */
+    .hero-strip{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .hero-left h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,4vw,42px);letter-spacing:.06em;color:var(--text);line-height:1;margin-bottom:4px}
+    .hero-left h1 span{color:var(--accent)}
+    .hero-left p{font-size:14px;color:var(--dim);max-width:500px;line-height:1.55}
+    .hero-stats{display:flex;gap:0;background:var(--bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;flex-shrink:0}
+    .hstat{padding:12px 20px;text-align:center;border-right:1px solid var(--border)}
+    .hstat:last-child{border-right:none}
+    .hstat-n{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);line-height:1}
+    .hstat-l{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-top:2px}
+
+    /* ── AI Chat ── */
+    .chat-container{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+    .chat-header{padding:0 16px;border-bottom:1px solid var(--border);display:flex;gap:2px;overflow-x:auto}
+    .dtab{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;padding:12px 14px;color:var(--dim);border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:6px}
+    .dtab:hover{color:var(--text)}
+    .dtab.on{color:var(--accent);border-bottom-color:var(--accent)}
+    .dtab .di{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+    .chat-messages{padding:20px;min-height:420px;max-height:540px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+    .chat-messages::-webkit-scrollbar{width:4px}
+    .chat-messages::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px}
+
+    /* Messages */
+    .msg{display:flex;gap:10px;align-items:flex-start}
+    .msg.human{flex-direction:row-reverse}
+    .msg-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px}
+    .msg-av.ai-av{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);color:var(--accent)}
+    .msg-av.hu-av{background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.15);color:var(--ai)}
+    .msg-content{flex:1;max-width:88%}
+    .msg.human .msg-content{display:flex;justify-content:flex-end}
+    .msg-bubble{font-size:13px;line-height:1.7;padding:11px 15px;border-radius:4px}
+    .msg.ai .msg-bubble{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    .msg.human .msg-bubble{background:rgba(6,182,212,.08);color:var(--text);border:1px solid rgba(6,182,212,.15)}
+    .msg-meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-top:4px;padding:0 2px}
+    .msg.human .msg-meta{text-align:right}
+
+    /* Data badge */
+    .data-badge{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:9px;background:rgba(245,158,11,.08);color:var(--accent);border:1px solid rgba(245,158,11,.15);padding:2px 8px;border-radius:2px;margin:6px 0 2px;font-weight:600}
+    .data-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--live);animation:blink 2s infinite}
+
+    /* Query reveal */
+    .query-reveal{margin-top:8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden}
+    .query-toggle{width:100%;text-align:left;font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);padding:7px 12px;display:flex;align-items:center;justify-content:space-between;transition:color .15s}
+    .query-toggle:hover{color:var(--text)}
+    .query-body{padding:0 12px 10px;display:none}
+    .query-body.open{display:block}
+    .query-body pre{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);line-height:1.6;white-space:pre-wrap;word-break:break-all}
+
+    /* Suggestions */
+    .chat-suggestions{border-top:1px solid var(--border);padding:12px 16px;background:var(--bg);display:flex;gap:6px;flex-wrap:wrap}
+    .sugg{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);background:var(--surface);border:1px solid var(--border);padding:6px 12px;border-radius:3px;cursor:pointer;transition:all .15s;text-align:left;line-height:1.4}
+    .sugg:hover,.sugg.on{border-color:var(--accent);color:var(--accent)}
+    .chat-input-row{border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:8px;background:var(--surface)}
+    .chat-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:10px 14px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color .15s}
+    .chat-input:focus{border-color:var(--border-s)}
+    .chat-input::placeholder{color:var(--muted)}
+    .send-btn{padding:10px 18px;background:var(--accent);color:#0f0a00;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;border-radius:3px;transition:background .15s;flex-shrink:0}
+    .send-btn:hover{background:#fbbf24}
+
+    /* ── Pipeline board ── */
+    .pipeline-board{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px 28px}
+    .board-label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:8px}
+    .board-label::before{content:'';display:block;width:20px;height:1px;background:var(--accent)}
+    .board-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.05em;color:var(--text);margin-bottom:4px}
+    .board-desc{font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:20px;max-width:600px}
+    .stages-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+    .stages-row::-webkit-scrollbar{height:3px}
+    .stages-row::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px}
+    .stage-col{flex:1;min-width:150px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+    .stage-hdr{padding:10px 12px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .stage-name{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);font-weight:700}
+    .stage-count{font-family:'Bebas Neue',sans-serif;font-size:16px;line-height:1;color:var(--text)}
+    .stage-body{padding:8px}
+    .deal-card{background:var(--surface);border:1px solid var(--border);border-radius:3px;padding:10px 12px;margin-bottom:6px;transition:border-color .2s}
+    .deal-card:last-child{margin-bottom:0}
+    .deal-card:hover{border-color:var(--border-s)}
+    .deal-name{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--text);font-weight:600;margin-bottom:3px;line-height:1.3}
+    .deal-client{font-size:11px;color:var(--dim);margin-bottom:6px}
+    .deal-footer{display:flex;justify-content:space-between;align-items:center}
+    .deal-value{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--accent);letter-spacing:.03em}
+    .deal-days{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted)}
+    .deal-days.warn{color:var(--warn)}
+
+    /* ── Architecture ── */
+    .arch-section{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px 28px}
+    .section-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+    .section-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--accent)}
+    .section-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.05em;color:var(--text);margin-bottom:4px}
+    .section-desc{font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:20px;max-width:600px}
+    .arch-flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:20px 0;padding:20px;background:var(--bg);border:1px solid var(--border);border-radius:4px}
+    .arch-node{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:10px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);text-align:center;min-width:110px}
+    .arch-node span{display:block;font-size:9px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+    .arch-node.cf{border-color:rgba(246,130,31,.3);color:#F6821F}
+    .arch-node.ai{border-color:rgba(6,182,212,.3);color:var(--ai)}
+    .arch-node.twenty{border-color:rgba(245,158,11,.3);color:var(--accent)}
+    .arch-node.mcp{border-color:rgba(129,140,248,.3);color:var(--purple)}
+    .arch-arrow{font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--muted)}
+    .zt-badges{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+    .zt-badge{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:3px;font-weight:600;border:1px solid}
+    .zt-cf{background:rgba(246,130,31,.08);color:#F6821F;border-color:rgba(246,130,31,.2)}
+    .zt-ai{background:rgba(6,182,212,.08);color:var(--ai);border-color:rgba(6,182,212,.2)}
+    .zt-twenty{background:rgba(245,158,11,.08);color:var(--accent);border-color:rgba(245,158,11,.2)}
+    .zt-green{background:rgba(34,197,94,.08);color:var(--live);border-color:rgba(34,197,94,.2)}
+    .zt-purple{background:rgba(129,140,248,.08);color:var(--purple);border-color:rgba(129,140,248,.2)}
+
+    /* ── Capability grid ── */
+    .cap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+    .cap-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;transition:border-color .2s}
+    .cap-card:hover{border-color:var(--border-s)}
+    .cap-top{height:3px;border-radius:2px;margin-bottom:14px}
+    .cap-name{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text);font-weight:700;margin-bottom:6px}
+    .cap-desc{font-size:12px;color:var(--dim);line-height:1.55;margin-bottom:10px}
+    .cap-tags{display:flex;flex-wrap:wrap;gap:4px}
+    .cap-tag{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);background:var(--surface2);padding:2px 7px;border-radius:2px}
+
+    /* Footer */
+    footer{border-top:1px solid var(--border);padding:24px;margin-top:16px}
+    .footer-in{max-width:var(--maxw);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .footer-brand{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)}
+    .footer-brand a{color:var(--accent);transition:color .15s}
+    .footer-brand a:hover{color:var(--text)}
+    .footer-links{display:flex;gap:16px}
+    .footer-links a{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);transition:color .15s}
+    .footer-links a:hover{color:var(--text)}
+
+    ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--muted);border-radius:3px}
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-in">
+    <div class="nav-brand">
+      <div class="nav-logo"><span>APEX</span> ADVISORY</div>
+      <div class="nav-sep"></div>
+      <div class="nav-client">Twenty CRM · Agent Mode</div>
+    </div>
+    <div class="nav-right">
+      <span class="nav-pill pill-twenty">TWENTY CRM</span>
+      <span class="nav-pill pill-agent">AGENT MODE</span>
+      <button onclick="toggleTheme()" class="tbtn" title="Toggle theme">
+        <svg id="icon-sun" class="hidden" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="icon-moon" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-block">
+      <div class="sb-hdr">
+        <div class="status-dot"></div>
+        <div class="sb-hdr-label">CRM Snapshot</div>
+      </div>
+      <div class="sb-body">
+        <div class="sb-metric">
+          <span class="sb-metric-label">Pipeline Value</span>
+          <span class="sb-metric-val amber">R 14.2M</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Active Clients</span>
+          <span class="sb-metric-val">22</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Proposals Out</span>
+          <span class="sb-metric-val blue">8</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Win Rate (90d)</span>
+          <span class="sb-metric-val up">38%</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Overdue Follow-ups</span>
+          <span class="sb-metric-val warn">5</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Contacts in CRM</span>
+          <span class="sb-metric-val">184</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sb-hdr">
+        <div class="sb-hdr-label">Ask about</div>
+      </div>
+      <div class="domain-list">
+        <button class="domain-btn on" data-domain="pipeline">
+          <div class="domain-icon d-pipeline"></div>Pipeline & Deals
+        </button>
+        <button class="domain-btn" data-domain="clients">
+          <div class="domain-icon d-clients"></div>Client Accounts
+        </button>
+        <button class="domain-btn" data-domain="delivery">
+          <div class="domain-icon d-delivery"></div>Engagement Delivery
+        </button>
+        <button class="domain-btn" data-domain="intel">
+          <div class="domain-icon d-intel"></div>Meeting Intelligence
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sb-hdr">
+        <div class="sb-hdr-label">Powered by</div>
+      </div>
+      <div class="sb-body" style="padding-top:8px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);margin-bottom:4px">twenty-crm-ai skill</div>
+        <div style="font-size:11px;color:var(--dim);line-height:1.5;margin-bottom:8px">Twenty GraphQL · MCP Server · Workers AI · CF Edge</div>
+        <a href="https://skills.2nth.ai/skills/twenty-crm-ai.html" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ai);letter-spacing:.5px">VIEW SKILL DOCS →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Hero strip -->
+    <div class="hero-strip">
+      <div class="hero-left">
+        <h1>APEX <span>AI PARTNER</span></h1>
+        <p>A services consulting firm running Twenty CRM in full agent mode. Ask about pipeline, prep for client meetings, track delivery risk — all via natural language to the Twenty GraphQL API.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-n">NL→GQL</div>
+          <div class="hstat-l">AI Query</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">MCP</div>
+          <div class="hstat-l">Tool Use</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">4</div>
+          <div class="hstat-l">Domains</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">EDGE</div>
+          <div class="hstat-l">Cloudflare</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Chat -->
+    <div class="chat-container">
+      <div class="chat-header" id="chat-tabs">
+        <button class="dtab on" data-domain="pipeline"><div class="di d-pipeline"></div>Pipeline</button>
+        <button class="dtab" data-domain="clients"><div class="di d-clients"></div>Clients</button>
+        <button class="dtab" data-domain="delivery"><div class="di d-delivery"></div>Delivery</button>
+        <button class="dtab" data-domain="intel"><div class="di d-intel"></div>Meeting Prep</button>
+      </div>
+
+      <div class="chat-messages" id="chat-msgs"></div>
+      <div class="chat-suggestions" id="chat-sugg"></div>
+
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" placeholder="Ask anything about your Twenty CRM data..." />
+        <button class="send-btn" onclick="sendFromInput()">ASK →</button>
+      </div>
+    </div>
+
+    <!-- Live pipeline board -->
+    <div class="pipeline-board">
+      <div class="board-label">Live from Twenty CRM</div>
+      <div class="board-title">OPPORTUNITY PIPELINE</div>
+      <div class="board-desc">The agent reads and writes directly to Twenty via GraphQL. Every stage change, note, and task the AI creates appears here in real time.</div>
+
+      <div class="stages-row">
+        <!-- Qualifying -->
+        <div class="stage-col">
+          <div class="stage-hdr">
+            <span class="stage-name" style="color:#06b6d4">Qualifying</span>
+            <span class="stage-count">3</span>
+          </div>
+          <div class="stage-body">
+            <div class="deal-card">
+              <div class="deal-name">Digital Transformation Roadmap</div>
+              <div class="deal-client">Nedbank Group</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 1.8M</span>
+                <span class="deal-days">8d</span>
+              </div>
+            </div>
+            <div class="deal-card">
+              <div class="deal-name">HR Process Redesign</div>
+              <div class="deal-client">Momentum Metropolitan</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 640K</span>
+                <span class="deal-days">4d</span>
+              </div>
+            </div>
+            <div class="deal-card">
+              <div class="deal-name">Supply Chain Optimisation</div>
+              <div class="deal-client">Spar Group</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 920K</span>
+                <span class="deal-days">12d</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Proposal -->
+        <div class="stage-col">
+          <div class="stage-hdr">
+            <span class="stage-name" style="color:#f59e0b">Proposal</span>
+            <span class="stage-count">4</span>
+          </div>
+          <div class="stage-body">
+            <div class="deal-card">
+              <div class="deal-name">AI Strategy & Adoption</div>
+              <div class="deal-client">Old Mutual Insure</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 2.4M</span>
+                <span class="deal-days warn">38d ⚠</span>
+              </div>
+            </div>
+            <div class="deal-card">
+              <div class="deal-name">Operating Model Review</div>
+              <div class="deal-client">Capitec Bank</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 1.6M</span>
+                <span class="deal-days">14d</span>
+              </div>
+            </div>
+            <div class="deal-card">
+              <div class="deal-name">Cloud Migration Strategy</div>
+              <div class="deal-client">Tiger Brands</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 780K</span>
+                <span class="deal-days warn">31d ⚠</span>
+              </div>
+            </div>
+            <div class="deal-card">
+              <div class="deal-name">Cost Reduction Programme</div>
+              <div class="deal-client">Pepkor Holdings</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 1.1M</span>
+                <span class="deal-days">9d</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Negotiation -->
+        <div class="stage-col">
+          <div class="stage-hdr">
+            <span class="stage-name" style="color:#818cf8">Negotiation</span>
+            <span class="stage-count">2</span>
+          </div>
+          <div class="stage-body">
+            <div class="deal-card">
+              <div class="deal-name">Group Finance Transformation</div>
+              <div class="deal-client">Absa Group</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 3.2M</span>
+                <span class="deal-days">6d</span>
+              </div>
+            </div>
+            <div class="deal-card">
+              <div class="deal-name">ESG Reporting Framework</div>
+              <div class="deal-client">Anglo American</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 960K</span>
+                <span class="deal-days">3d</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Won -->
+        <div class="stage-col">
+          <div class="stage-hdr">
+            <span class="stage-name" style="color:#22c55e">Won (Q1)</span>
+            <span class="stage-count">5</span>
+          </div>
+          <div class="stage-body">
+            <div class="deal-card">
+              <div class="deal-name">IT Governance Review</div>
+              <div class="deal-client">Discovery Health</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 1.4M</span>
+                <span class="deal-days" style="color:var(--live)">✓ Mar 10</span>
+              </div>
+            </div>
+            <div class="deal-card">
+              <div class="deal-name">People Analytics Programme</div>
+              <div class="deal-client">Standard Bank</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 2.1M</span>
+                <span class="deal-days" style="color:var(--live)">✓ Feb 28</span>
+              </div>
+            </div>
+            <div class="deal-card">
+              <div class="deal-name">Digital Sales Enablement</div>
+              <div class="deal-client">Rand Merchant Bank</div>
+              <div class="deal-footer">
+                <span class="deal-value">R 890K</span>
+                <span class="deal-days" style="color:var(--live)">✓ Feb 14</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Architecture -->
+    <div class="arch-section">
+      <div class="section-eyebrow">Agent Architecture</div>
+      <div class="section-title">HOW APEX AI IS BUILT</div>
+      <p class="section-desc">The AI agent runs on the Cloudflare edge. Consultants authenticate via magic link, then query Twenty CRM directly through natural language. The MCP server gives the agent write access — it can create notes, tasks, and update opportunities without leaving the chat.</p>
+
+      <div class="arch-flow">
+        <div class="arch-node">Consultant<span>Browser / CLI</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node cf">CF Worker<span>Auth + Router</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node ai">Workers AI<span>NL → GraphQL</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node twenty">Twenty CRM<span>GraphQL API</span></div>
+        <div class="arch-arrow" style="color:var(--border-s)">+</div>
+        <div class="arch-node mcp">MCP Server<span>Tool Use</span></div>
+      </div>
+
+      <div class="zt-badges">
+        <span class="zt-badge zt-cf">Cloudflare Pages</span>
+        <span class="zt-badge zt-cf">CF Workers</span>
+        <span class="zt-badge zt-ai">Workers AI · Llama 3.3</span>
+        <span class="zt-badge zt-twenty">Twenty GraphQL</span>
+        <span class="zt-badge zt-purple">MCP Server</span>
+        <span class="zt-badge zt-twenty">Webhooks → Worker</span>
+        <span class="zt-badge zt-green">Write access via MCP</span>
+        <span class="zt-badge zt-green">All secrets at edge</span>
+      </div>
+
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-top:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">MCP Tool Flow — Claude Desktop / Claude Code</div>
+        <pre style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);line-height:1.7;overflow-x:auto"><span style="color:var(--accent)"># 1.</span> User: "Log notes from my Discovery call — they want to expand to people analytics"
+<span style="color:var(--accent)"># 2.</span> Agent calls createNote() MCP tool with structured content
+<span style="color:var(--accent)"># 3.</span> Agent calls updateOpportunity() to move Discovery to Negotiation stage
+<span style="color:var(--accent)"># 4.</span> Agent calls createTask() — "Follow up re: scope expansion by Apr 7"
+<span style="color:var(--accent)"># 5.</span> Webhook fires → CF Worker triggers enrichment via Workers AI
+
+<span style="color:var(--muted)"># wrangler.toml</span>
+<span style="color:var(--live)">TWENTY_API_URL = "https://api.yourtwenty.com"</span>
+<span style="color:var(--live)">npx wrangler secret put TWENTY_API_KEY</span>
+<span style="color:var(--live)">npx wrangler secret put TWENTY_WEBHOOK_SECRET</span></pre>
+      </div>
+    </div>
+
+    <!-- Capabilities -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;color:var(--text)">WHAT THE AGENT CAN DO</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)">TWENTY CRM · 6 AGENT PATTERNS</div>
+      </div>
+      <div class="cap-grid">
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--accent),transparent)"></div>
+          <div class="cap-name">Pipeline Intelligence</div>
+          <div class="cap-desc">Natural language pipeline queries. Stuck deals, stage velocity, win/loss analysis, forecast by close date.</div>
+          <div class="cap-tags"><span class="cap-tag">opportunities</span><span class="cap-tag">stage</span><span class="cap-tag">amount</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--ai),transparent)"></div>
+          <div class="cap-name">Meeting Prep</div>
+          <div class="cap-desc">Brief on any client in seconds. Last interactions, open tasks, key contacts, relationship history, deal context.</div>
+          <div class="cap-tags"><span class="cap-tag">notes</span><span class="cap-tag">activities</span><span class="cap-tag">people</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--live),transparent)"></div>
+          <div class="cap-name">Auto Note-Taking</div>
+          <div class="cap-desc">Dictate or paste call notes — agent structures them, links to the right company and contact, creates follow-up tasks.</div>
+          <div class="cap-tags"><span class="cap-tag">createNote</span><span class="cap-tag">createTask</span><span class="cap-tag">MCP</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--purple),transparent)"></div>
+          <div class="cap-name">Lead Enrichment</div>
+          <div class="cap-desc">New company added → webhook fires → agent enriches with industry, size, LinkedIn, and scores fit for your services.</div>
+          <div class="cap-tags"><span class="cap-tag">webhook</span><span class="cap-tag">Workers AI</span><span class="cap-tag">upsert</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--warn),transparent)"></div>
+          <div class="cap-name">Delivery Risk Alerts</div>
+          <div class="cap-desc">Engagements with no activity in 14+ days get an automated alert. Agent surfaces at-risk accounts before they churn.</div>
+          <div class="cap-tags"><span class="cap-tag">activities</span><span class="cap-tag">Queues</span><span class="cap-tag">alert</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,#F6821F,transparent)"></div>
+          <div class="cap-name">Batch Contact Import</div>
+          <div class="cap-desc">Upload a CSV from a conference or LinkedIn export — agent deduplicates, maps fields, and upserts up to 60 contacts per call.</div>
+          <div class="cap-tags"><span class="cap-tag">upsertPeople</span><span class="cap-tag">batch 60</span><span class="cap-tag">dedup</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-in">
+    <div class="footer-brand">Demo by <a href="https://2nth.ai" target="_blank">2nth.ai</a> — Twenty CRM Agent Mode for Apex Advisory &nbsp;·&nbsp; <a href="https://skills.2nth.ai/skills/twenty-crm-ai.html" target="_blank">twenty-crm-ai skill</a></div>
+    <div class="footer-links">
+      <a href="https://demo.2nth.ai">All Demos</a>
+      <a href="https://skills.2nth.ai">Skills</a>
+      <a href="https://2nth.ai">2nth.ai</a>
+    </div>
+  </div>
+</footer>
+
+<script>window._browseGate={required:true}</script>
+<script src="https://2nth.ai/browse-gate.js"></script>
+<script src="https://2nth.ai/app-switcher.js"></script>
+<script>
+// ─── Conversation data ─────────────────────────────────────────────────────
+const DOMAINS = {
+  pipeline: {
+    label: 'Pipeline & Deals',
+    suggestions: [
+      "What's the state of our pipeline?",
+      "Which proposals have been out for 30+ days?",
+      "What deals are closing this month?",
+      "Where are we losing deals?"
+    ],
+    convos: [
+      {
+        q: "What's the state of our pipeline right now?",
+        gql: `opportunities(filter: { stage: { in: [QUALIFYING, PROPOSAL, NEGOTIATION] } }) {
+  edges {
+    node {
+      id
+      name
+      stage
+      amount { amountMicros currencyCode }
+      closeDate
+      company { name }
+      pointOfContact { name { firstName lastName } }
+    }
+  }
+}`,
+        a: `Active pipeline: <strong>R 14.2M</strong> across 9 opportunities.\n\n<strong>By stage:</strong>\n• Qualifying (3) — R 3.36M — Avg age 8 days\n• Proposal (4) — R 5.88M — <span style="color:var(--warn)">2 stuck 30+ days ⚠</span>\n• Negotiation (2) — R 4.16M — Both progressing well\n\n<strong>Flags needing attention:</strong>\n🔴 <strong>Old Mutual — AI Strategy & Adoption</strong> (R 2.4M): proposal sent 38 days ago, no response logged. Last contact: email from their IT Director on Mar 1. Recommend: call this week — deal may have stalled at procurement.\n\n🟡 <strong>Tiger Brands — Cloud Migration Strategy</strong> (R 780K): 31 days in proposal. CFO change last month — worth confirming the new decision-maker is aligned.\n\nForecast to close this month: <strong>R 4.16M</strong> (Absa + Anglo American in negotiation). Want me to pull the contact history for either?`
+      },
+      {
+        q: "Which proposals have been sitting for more than 30 days?",
+        gql: `opportunities(
+  filter: {
+    stage: { eq: PROPOSAL }
+    updatedAt: { lt: "2026-03-01" }
+  }
+  orderBy: { updatedAt: AscNullsLast }
+) {
+  edges {
+    node {
+      name
+      stage
+      updatedAt
+      amount { amountMicros currencyCode }
+      company { name }
+      pointOfContact { name { firstName lastName } email { primaryEmail } }
+    }
+  }
+}`,
+        a: `<strong>2 proposals stalled for 30+ days:</strong>\n\n1. <strong>Old Mutual Insure — AI Strategy & Adoption</strong>\n   Value: R 2.4M · Last update: 38 days ago\n   Point of contact: Priya Naidoo (CTO) · priya.naidoo@oldmutual.co.za\n   History: Proposal sent Feb 21. One follow-up email sent Mar 5 (no reply). No call logged.\n   <strong>Recommended action:</strong> Call Priya today — propose a 30-minute check-in to address any blockers. If no response by Friday, escalate to their CEO-1 contact.\n\n2. <strong>Tiger Brands — Cloud Migration Strategy</strong>\n   Value: R 780K · Last update: 31 days ago\n   Point of contact: James Fourie (IT Director) · james.fourie@tigerbrands.co.za\n   Note: CFO changed in February — confirm scope is still aligned to new priorities.\n   <strong>Recommended action:</strong> Refresh the proposal executive summary to reference the incoming CFO's stated cost reduction mandate.\n\nShall I draft follow-up emails for both and create tasks assigned to the relevant partner?`
+      },
+      {
+        q: "What deals are closing this month?",
+        gql: `opportunities(
+  filter: {
+    stage: { in: [NEGOTIATION, PROPOSAL] }
+    closeDate: { lte: "2026-03-31" }
+  }
+) {
+  edges {
+    node {
+      name
+      stage
+      closeDate
+      amount { amountMicros currencyCode }
+      company { name }
+    }
+  }
+}`,
+        a: `<strong>4 opportunities with March close dates:</strong>\n\n🟣 <strong>ABSA Group — Group Finance Transformation</strong>\n   R 3.2M · Close: Mar 28 · Stage: Negotiation\n   SOW reviewed, legal redline received yesterday. Waiting on final sign-off from Group CFO.\n\n🟣 <strong>Anglo American — ESG Reporting Framework</strong>\n   R 960K · Close: Mar 31 · Stage: Negotiation\n   Procurement approved. Contract in final review.\n\n🟡 <strong>Capitec Bank — Operating Model Review</strong>\n   R 1.6M · Close: Mar 30 · Stage: Proposal\n   Strong interest from CHRO. No blockers identified — may pull forward.\n\n🟡 <strong>Pepkor Holdings — Cost Reduction Programme</strong>\n   R 1.1M · Close: Mar 29 · Stage: Proposal\n   Early stage — close date may slip to April.\n\n<strong>Realistic March revenue:</strong> R 4.16M (Absa + Anglo confirmed) + upside R 2.7M.\nWant me to build a 3-scenario forecast (base / upside / stretch)?`
+      },
+      {
+        q: "Where are we losing deals?",
+        gql: `opportunities(
+  filter: {
+    stage: { eq: LOST }
+    updatedAt: { gte: "2026-01-01" }
+  }
+) {
+  edges {
+    node {
+      name
+      company { name }
+      amount { amountMicros currencyCode }
+      lossReason
+      updatedAt
+    }
+  }
+}`,
+        a: `<strong>Q1 2026 — 7 deals lost, R 8.1M pipeline value:</strong>\n\n<strong>By loss reason:</strong>\n• Price / budget constraint — 3 deals (R 3.4M)\n• Chose competitor — 2 deals (R 2.9M)\n• No decision / project shelved — 2 deals (R 1.8M)\n\n<strong>Notable losses:</strong>\n🔴 <strong>FNB — Digital Workforce Strategy</strong> (R 2.1M): Lost to McKinsey. Feedback: "broader global benchmark capability". Opportunity to counter: deepen local sector references.\n\n🔴 <strong>Woolworths — Cost Optimisation</strong> (R 1.3M): Budget cut in Q1 restructure. Re-engage H2 when new FY budget is set.\n\n🟡 <strong>Price-loss pattern:</strong> All 3 price losses were in the R 600K–R 900K range — mid-market clients where value perception gap is highest. Recommend developing a ROI calculator to embed in proposals for this segment.\n\nWant me to pull the win/loss ratio by partner to identify where coaching could improve conversion?`
+      }
+    ]
+  },
+  clients: {
+    label: 'Client Accounts',
+    suggestions: [
+      "Which clients haven't had contact in 60 days?",
+      "Who are our top accounts by revenue?",
+      "Show me the Standard Bank relationship",
+      "Which clients are renewal risk?"
+    ],
+    convos: [
+      {
+        q: "Which active clients haven't had any contact in 60+ days?",
+        gql: `companies(
+  filter: {
+    activities: { none: { createdAt: { gte: "2026-01-30" } } }
+    opportunities: { some: { stage: { eq: CUSTOMER } } }
+  }
+) {
+  edges {
+    node {
+      name
+      employees
+      domainName { primaryLinkUrl }
+      people {
+        edges {
+          node {
+            name { firstName lastName }
+            jobTitle
+            email { primaryEmail }
+          }
+        }
+      }
+    }
+  }
+}`,
+        a: `<strong>4 active clients with no logged contact in 60+ days:</strong>\n\n⚠ <strong>Investec Asset Management</strong> — Last contact: Jan 18\n   Key contact: Tamara Botha (CFO) · Current engagement: IT Strategy Review\n   Risk: Tamara mentioned budget pressure in January — silence may signal a freeze.\n\n⚠ <strong>Siemens South Africa</strong> — Last contact: Jan 29\n   Key contact: Rudi van Wyk (COO) · Engagement: Change Management Programme\n   Risk: Programme enters Phase 2 in April — need to confirm scope extension.\n\n⚠ <strong>Pepkor Holdings</strong> — Last contact: Feb 3\n   Key contact: Nonhlanhla Dlamini (Group HR Director) · Engagement: People Strategy\n   Note: Nonhlanhla is also the decision-maker for the R 1.1M open proposal.\n\n⚠ <strong>Mondi Group</strong> — Last contact: Feb 10\n   Key contact: Peter Langley (VP Finance) · Engagement: Finance Transformation (completed)\n   Opportunity: Upsell — follow on ESG reporting scope aligns with their 2026 board mandate.\n\nShall I create follow-up tasks for each, assigned to the responsible partner?`
+      },
+      {
+        q: "Show me everything about our Standard Bank relationship",
+        gql: `companies(filter: { name: { like: "%Standard Bank%" } }) {
+  edges {
+    node {
+      name
+      employees
+      people {
+        edges { node { name { firstName lastName } jobTitle email { primaryEmail } } }
+      }
+      opportunities {
+        edges { node { name stage amount { amountMicros } closeDate } }
+      }
+      notes {
+        edges { node { title body createdAt author { name { firstName lastName } } } }
+      }
+      activities {
+        edges { node { type createdAt author { name { firstName lastName } } } }
+      }
+    }
+  }
+}`,
+        a: `<strong>Standard Bank Group — Full CRM Brief</strong>\n\n<strong>Active contacts (4):</strong>\n• Thabo Mokoena — Group CIO · thabo.mokoena@standardbank.co.za\n• Lerato Sithole — Head of People Analytics · lerato.sithole@standardbank.co.za\n• Anesh Pillay — Head of Procurement · anesh.pillay@standardbank.co.za\n• Yolanda Ferreira — Executive PA (Thabo) — key for scheduling\n\n<strong>Current engagement:</strong> People Analytics Programme — R 2.1M contract signed Feb 28. In delivery. Phase 1 due Apr 14.\n\n<strong>Pipeline:</strong> R 1.8M opportunity identified — Digital Workforce Strategy — qualifying stage.\n\n<strong>Recent activity (last 90 days):</strong>\n• Mar 14: Kick-off workshop — attended by Thabo + Lerato (note by Sarah Venter)\n• Mar 20: Weekly check-in call (15 min) — Phase 1 on track\n• Feb 28: Contract signed — SOW v3\n• Feb 12: Proposal presented to executive committee\n\n<strong>Key context:</strong> Thabo specifically asked for our lead consultant Sarah on this engagement — consider her in all Standard Bank decisions. Anesh in procurement has a 45-day payment cycle.\n\nWant me to prepare talking points for tomorrow's check-in?`
+      }
+    ]
+  },
+  delivery: {
+    label: 'Engagement Delivery',
+    suggestions: [
+      "Which engagements are at risk?",
+      "What milestones are due this week?",
+      "Log notes from my Discovery call",
+      "How is the Absa Finance Transformation tracking?"
+    ],
+    convos: [
+      {
+        q: "Which of our active engagements are showing risk?",
+        gql: `notes(
+  filter: {
+    title: { like: "%risk%" }
+    createdAt: { gte: "2026-01-01" }
+  }
+) {
+  edges {
+    node {
+      title body createdAt
+      author { name { firstName lastName } }
+      attachments { edges { node { name } } }
+    }
+  }
+}`,
+        a: `<strong>3 active engagements flagged as at-risk:</strong>\n\n🔴 <strong>Old Mutual — IT Governance Review (Phase 2)</strong>\n   Risk: Scope creep — client requested 4 additional workstreams not in SOW\n   Financial exposure: +R 340K uncosted effort. No change order signed.\n   Owner: David Nkosi · Last update: Mar 22\n   <strong>Action needed:</strong> Raise change order by Mar 31 or formally decline scope additions.\n\n🟡 <strong>Mondi Group — Finance Transformation</strong>\n   Risk: Key contact (Peter Langley) on extended leave. Replacement is unfamiliar with programme context.\n   Mitigation: David has briefed the interim contact. Sponsor (Group CFO) still engaged.\n\n🟡 <strong>Standard Bank — People Analytics (Phase 1)</strong>\n   Risk: Data access delays — IT team hasn't provisioned the HR data warehouse access yet.\n   Impact: Phase 1 delivery date may slip from Apr 14 to Apr 21.\n   Action: Escalate to Thabo Mokoena (CIO) — this is an internal IT dependency, not ours.\n\n✅ All other 5 engagements tracking to plan.\n\nShall I draft a risk summary to send to the managing partner for Monday's ops review?`
+      },
+      {
+        q: "Log notes from my Discovery Health call — they want to expand the IT Governance scope into cyber",
+        gql: `mutation {
+  createNote(data: {
+    title: "Discovery Health — Scope Expansion Discussion"
+    body: "Client expressed interest in extending IT Governance Review into cybersecurity governance framework. Key contact: Nkuli Dlamini (CISO). Budget holder: CTO. Formal request pending board approval in April. Strong verbal commitment."
+    attachments: { create: [] }
+  }) { id title createdAt }
+
+  updateOpportunity(id: "opp-discovery-001", data: {
+    stage: NEGOTIATION
+    amount: { amountMicros: 2100000000 currencyCode: ZAR }
+    name: "Discovery — IT Governance + Cyber Framework"
+  }) { id stage }
+
+  createTask(data: {
+    title: "Discovery — Follow up on cyber scope by Apr 7"
+    dueAt: "2026-04-07T09:00:00Z"
+    status: TODO
+  }) { id title dueAt }
+}`,
+        a: `Done. I've logged 3 actions in Twenty CRM:\n\n✅ <strong>Note created:</strong> "Discovery Health — Scope Expansion Discussion"\n   Linked to: Discovery Health (company), Nkuli Dlamini (contact)\n   Key detail captured: Cyber framework interest, verbal commitment, board approval April.\n\n✅ <strong>Opportunity updated:</strong> Moved to <strong>Negotiation</strong> stage\n   Deal renamed: "Discovery — IT Governance + Cyber Framework"\n   Value updated: R 1.4M → R 2.1M (+R 700K cyber component)\n\n✅ <strong>Task created:</strong> "Follow up re: cyber scope by Apr 7"\n   Assigned to: you · Due: Mon Apr 7 09:00\n\n<strong>Suggested next step:</strong> Draft a 1-page scope extension proposal for the cyber framework workstream before the April board date. Want me to pull Discovery's existing governance deliverables as context?`
+      },
+      {
+        q: "How is the Absa Finance Transformation tracking?",
+        gql: `opportunities(filter: { company: { name: { like: "%Absa%" } } }) {
+  edges {
+    node {
+      name stage amount { amountMicros }
+      notes {
+        edges {
+          node { title body createdAt author { name { firstName lastName } } }
+        }
+      }
+      tasks {
+        edges {
+          node { title status dueAt assignee { name { firstName lastName } } }
+        }
+      }
+    }
+  }
+}`,
+        a: `<strong>Absa Group — Finance Transformation</strong>\n\nValue: R 3.2M · Stage: <strong>Negotiation</strong> · Projected close: Mar 28\n\n<strong>Latest notes (3):</strong>\n• Mar 26: Legal redline received — 3 clauses to resolve (IP ownership, liability cap, data residency). David Nkosi reviewing.\n• Mar 20: Commercial terms aligned — fee schedule confirmed by Absa CFO.\n• Mar 12: Scoping workshop complete — 4 workstreams finalised.\n\n<strong>Open tasks (2):</strong>\n• "Resolve SOW clause 8.3 — IP ownership" — David Nkosi — Due Apr 1\n• "Send revised fee schedule with payment milestones" — Partner Finance — Due Mar 28\n\n<strong>Key contacts engaged:</strong> Group CFO (sponsor), Legal counsel, Procurement (sign-off authority)\n\n<strong>Status assessment:</strong> 🟢 On track to close March 28. The 3 legal clauses are standard — David expects resolution by April 1. The only risk is if Absa's legal team drags the IP clause — consider offering their standard boilerplate to accelerate.\n\nShall I pull the legal redline comparison to identify the fastest path to resolution?`
+      }
+    ]
+  },
+  intel: {
+    label: 'Meeting Intelligence',
+    suggestions: [
+      "Prep me for my Capitec meeting tomorrow",
+      "Who should I know at Nedbank before the pitch?",
+      "What did we last discuss with Tiger Brands?",
+      "Find contacts at companies we haven't worked with yet"
+    ],
+    convos: [
+      {
+        q: "Prep me for my Capitec Bank meeting tomorrow — Operating Model Review pitch",
+        gql: `companies(filter: { name: { like: "%Capitec%" } }) {
+  edges {
+    node {
+      name employees
+      people { edges { node { name { firstName lastName } jobTitle email { primaryEmail } phone { primaryPhoneNumber } } } }
+      opportunities { edges { node { name stage amount { amountMicros } } } }
+      notes { edges { node { title body createdAt } } }
+      activities { edges { node { type createdAt } } }
+    }
+  }
+}`,
+        a: `<strong>Capitec Bank — Meeting Brief</strong>\n📅 Tomorrow · Operating Model Review pitch · R 1.6M\n\n<strong>Who you'll meet:</strong>\n• <strong>Andile Khoza</strong> — Chief People Officer (decision-maker and budget owner)\n• <strong>Marie van der Berg</strong> — Head of Organisational Design (technical evaluator)\n• Possibly: <strong>Johan Basson</strong> — CFO (attends key vendor pitches)\n\n<strong>Relationship history:</strong>\n• 2 previous proposals (both shortlisted, not awarded — lost to internal teams)\n• Last contact: Feb 14 — intro call with Andile, positive tone\n• No formal engagement history — this is a new business pitch\n\n<strong>What they care about (from our notes):</strong>\n• Capitec runs a flat, low-bureaucracy structure — they're allergic to heavyweight methodology\n• Digital-first culture — reference tech-enabled delivery models\n• Andile specifically mentioned "speed to insight" as a key requirement\n\n<strong>Recommended talking points:</strong>\n1. Lead with outcomes, not methodology — show 3 comparable operating model engagements\n2. Emphasise our 8-week diagnostic sprint approach (aligns to their speed requirement)\n3. Reference Discovery Health engagement — similar flat structure, relevant results\n\n<strong>Watch out for:</strong> Johan Basson may push on fee structure — have the payment milestone schedule ready.\n\nShall I pull our Discovery case study data as proof points for the pitch?`
+      },
+      {
+        q: "Who should I know at Nedbank before tomorrow's Digital Transformation pitch?",
+        gql: `companies(filter: { name: { like: "%Nedbank%" } }) {
+  edges {
+    node {
+      name
+      people {
+        edges {
+          node {
+            name { firstName lastName }
+            jobTitle
+            email { primaryEmail }
+            phone { primaryPhoneNumber }
+            activities { edges { node { type createdAt } } }
+          }
+        }
+      }
+      notes { edges { node { title body createdAt } } }
+    }
+  }
+}`,
+        a: `<strong>Nedbank Group — Contact Intelligence</strong>\n\n<strong>Known contacts in CRM (4):</strong>\n• <strong>Sipho Radebe</strong> — Group CIO · Last contact: 12 days ago · Introduced via FNB connection\n  Note: Strong digital mandate — led the Nedbank Private Wealth app rebuild. Forward-thinker.\n\n• <strong>Cathy Dreyer</strong> — Head of Strategy · Last contact: Never directly contacted\n  Note: Attended a panel we sponsored at GIBS — she downloaded our Digital Disruption whitepaper in Jan.\n\n• <strong>Prashaan Naidoo</strong> — CPO (Chief People Officer) · Last contact: 6 months ago\n  Note: Was at ABSA when we did the People Analytics programme with them. Strong warm reference.\n\n• <strong>Lisa Joubert</strong> — Procurement Lead · First contact point for vendor contracts.\n\n<strong>Warm entry point:</strong> Prashaan Naidoo — mutual history via Absa. Lead with the ABSA People Analytics outcome as a reference.\n\n<strong>Gap:</strong> No direct relationship with the CFO or Group COO — who typically sponsor transformation mandates of R 1.8M+. If Sipho is the sponsor, ask him to connect you with the CFO during the pitch.\n\n<strong>Intelligence:</strong> Nedbank is publicly committed to "becoming a technology company with a banking licence" — every slide should reinforce technology-led transformation language.\n\nWant me to draft an agenda for the meeting based on what we know about Sipho's priorities?`
+      },
+      {
+        q: "What did we last discuss with Tiger Brands?",
+        gql: `companies(filter: { name: { like: "%Tiger Brands%" } }) {
+  edges {
+    node {
+      name
+      notes(orderBy: { createdAt: DescNullsLast }, first: 5) {
+        edges { node { title body createdAt author { name { firstName lastName } } } }
+      }
+      activities(orderBy: { createdAt: DescNullsLast }, first: 10) {
+        edges { node { type createdAt author { name { firstName lastName } } } }
+      }
+      people { edges { node { name { firstName lastName } jobTitle } } }
+    }
+  }
+}`,
+        a: `<strong>Tiger Brands — Interaction History</strong>\n\n<strong>Last interaction:</strong> Mar 3 — Email from James Fourie (IT Director)\n> "We're still working through the RFP internally. Expect to come back to you by end of March."\n\n<strong>Recent interactions (last 90 days):</strong>\n• Mar 3: Email received — awaiting internal RFP process\n• Feb 28: Proposal submitted — Cloud Migration Strategy (R 780K)\n• Feb 21: Scoping call (45 min) — James Fourie + 2 IT architects\n  <em>Note: They have a shadow IT problem — 14 SaaS tools not on the official stack</em>\n• Feb 14: Intro meeting (first contact via Old Mutual referral)\n\n<strong>Context:</strong> CFO changed in February (new CFO: Tshepo Mkhize, ex-Nestlé). Our proposal was scoped under the old CFO's mandate — cloud cost reduction. The new CFO's stated priority is "operational resilience". Consider refreshing the proposal angle.\n\n<strong>Risk factor:</strong> 31 days since last contact. Their "end of March" target has passed. Recommend calling James today — the window is closing.\n\n<strong>Suggested opener:</strong> "James, I wanted to check in — I know you mentioned end of March. Has the new CFO had a chance to review the proposal scope?"\n\nShall I draft the follow-up email?`
+      }
+    ]
+  }
+};
+
+let currentDomain = 'pipeline';
+let currentConvo = 0;
+
+function renderDomain(domain) {
+  currentDomain = domain;
+  currentConvo = 0;
+  document.querySelectorAll('.dtab').forEach(t => t.classList.toggle('on', t.dataset.domain === domain));
+  document.querySelectorAll('.domain-btn').forEach(t => t.classList.toggle('on', t.dataset.domain === domain));
+  renderConvo(0);
+  const sugg = document.getElementById('chat-sugg');
+  sugg.innerHTML = DOMAINS[domain].suggestions.map((s, i) =>
+    `<button class="sugg${i===0?' on':''}" data-idx="${i}" onclick="triggerSugg(this,${i})">${s}</button>`
+  ).join('');
+}
+
+function renderConvo(idx) {
+  currentConvo = idx;
+  const convos = DOMAINS[currentDomain].convos;
+  const c = convos[Math.min(idx, convos.length - 1)];
+  const container = document.getElementById('chat-msgs');
+  const queryId = 'q' + Math.random().toString(36).slice(2);
+  const isMutation = c.gql.trim().startsWith('mutation');
+  container.innerHTML = `
+    <div class="msg human">
+      <div class="msg-av hu-av">YOU</div>
+      <div class="msg-content">
+        <div class="msg-bubble">${c.q}</div>
+      </div>
+    </div>
+    <div class="msg ai">
+      <div class="msg-av ai-av">AI</div>
+      <div class="msg-content">
+        <div class="msg-bubble">
+          <div class="data-badge">${isMutation ? 'Wrote to Twenty CRM via MCP' : 'Queried Twenty CRM GraphQL'}</div>
+          <div style="margin-top:8px">${c.a.replace(/\n/g,'<br>')}</div>
+        </div>
+        <div class="query-reveal">
+          <button class="query-toggle" onclick="toggleQuery('${queryId}')">
+            <span>VIEW ${isMutation ? 'GRAPHQL MUTATION' : 'GRAPHQL QUERY'}</span>
+            <span id="arr-${queryId}">▸</span>
+          </button>
+          <div class="query-body" id="${queryId}">
+            <pre>${isMutation ? '' : 'query {\n  '}${c.gql}${isMutation ? '' : '\n}'}</pre>
+          </div>
+        </div>
+        <div class="msg-meta">Twenty CRM GraphQL · Workers AI · Cloudflare Edge</div>
+      </div>
+    </div>`;
+  container.scrollTop = container.scrollHeight;
+}
+
+function toggleQuery(id) {
+  const body = document.getElementById(id);
+  const arr = document.getElementById('arr-' + id);
+  const isOpen = body.classList.toggle('open');
+  arr.textContent = isOpen ? '▾' : '▸';
+}
+
+function triggerSugg(el, idx) {
+  document.querySelectorAll('.sugg').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  const convos = DOMAINS[currentDomain].convos;
+  renderConvo(Math.min(idx, convos.length - 1));
+}
+
+function sendFromInput() {
+  const inp = document.getElementById('chat-input');
+  if (!inp.value.trim()) return;
+  inp.value = '';
+  renderConvo(0);
+}
+
+document.getElementById('chat-tabs').addEventListener('click', e => {
+  const t = e.target.closest('.dtab');
+  if (t && t.dataset.domain) renderDomain(t.dataset.domain);
+});
+document.querySelectorAll('.domain-btn').forEach(btn =>
+  btn.addEventListener('click', () => renderDomain(btn.dataset.domain))
+);
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendFromInput();
+});
+
+renderDomain('pipeline');
+
+function toggleTheme() {
+  document.documentElement.classList.toggle('light');
+  localStorage.setItem('2nth-theme', document.documentElement.classList.contains('light') ? 'light' : 'dark');
+  var l = document.documentElement.classList.contains('light');
+  document.getElementById('icon-sun').classList.toggle('hidden', !l);
+  document.getElementById('icon-moon').classList.toggle('hidden', l);
+}
+(function(){
+  var l = document.documentElement.classList.contains('light');
+  document.getElementById('icon-sun').classList.toggle('hidden', !l);
+  document.getElementById('icon-moon').classList.toggle('hidden', l);
+})();
+</script>
+</body>
+</html>
