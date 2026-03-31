@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Republic AI — Sage X3 Intelligence | demo.2nth.ai</title>
+  <link rel="icon" type="image/svg+xml" href="https://2nth.ai/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>(function(){var t=localStorage.getItem('2nth-theme');if(t==='light')document.documentElement.classList.add('light');})()</script>
+  <style>
+    :root{
+      --bg:#0a0a0a;--surface:#131313;--surface2:#1c1c1c;
+      --text:#f5f4f0;--dim:#8a8880;--muted:#4a4a48;
+      --accent:#f59e0b;--accent-dim:#92600a;
+      --border:hsla(0,0%,100%,.06);--border-s:hsla(0,0%,100%,.11);
+      --ai:#06b6d4;--live:#22c55e;--warn:#ef4444;
+      --cf:#F6821F;--maxw:1280px;
+    }
+    .light{
+      --bg:#f5f4f0;--surface:#fff;--surface2:#eceae4;
+      --text:#0f0e0a;--dim:#6b6560;--muted:#b0ada8;
+      --accent:#c47d05;--accent-dim:#7a4e03;
+      --border:rgba(15,14,10,.07);--border-s:rgba(15,14,10,.14);
+      --ai:#0891b2;--live:#16a34a;--warn:#dc2626;--cf:#d4600a;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    *{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+    html{scroll-behavior:smooth}
+    body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    a{color:inherit;text-decoration:none}
+    button{font-family:inherit;cursor:pointer;border:none;background:none}
+    .hidden{display:none}
+
+    /* ── Nav ── */
+    nav{position:sticky;top:0;z-index:60;background:var(--bg);border-bottom:1px solid var(--border)}
+    @supports(backdrop-filter:blur(12px)){nav{background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px)}}
+    .nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:0 24px;height:58px}
+    .nav-brand{display:flex;align-items:center;gap:12px}
+    .nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.1em;color:var(--text)}
+    .nav-logo span{color:var(--accent)}
+    .nav-sep{width:1px;height:20px;background:var(--border-s)}
+    .nav-client{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);letter-spacing:.5px}
+    .nav-right{display:flex;align-items:center;gap:10px}
+    .nav-pill{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;padding:4px 10px;border-radius:3px;font-weight:700;border:1px solid}
+    .pill-sage{background:rgba(245,158,11,.1);color:var(--accent);border-color:rgba(245,158,11,.2)}
+    .pill-cf{background:rgba(246,130,31,.1);color:var(--cf);border-color:rgba(246,130,31,.2)}
+    .tbtn{display:flex;min-width:34px;min-height:34px;align-items:center;justify-content:center;border-radius:3px;border:1px solid var(--border);color:var(--dim);cursor:pointer;transition:color .15s,border-color .15s}
+    .tbtn:hover{color:var(--text);border-color:var(--border-s)}
+    @media(max-width:640px){.nav-sep,.nav-client,.pill-cf{display:none}}
+
+    /* ── Page layout ── */
+    .page{max-width:var(--maxw);margin:0 auto;padding:32px 24px 80px;display:grid;grid-template-columns:260px 1fr;gap:24px;align-items:start}
+    @media(max-width:900px){.page{grid-template-columns:1fr}}
+
+    /* ── Sidebar ── */
+    .sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:74px}
+    @media(max-width:900px){.sidebar{display:none}}
+    .sidebar-block{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden}
+    .sb-hdr{padding:12px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px}
+    .sb-hdr-label{font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);font-weight:700}
+    .status-dot{width:6px;height:6px;border-radius:50%;background:var(--live);animation:blink 2.4s ease-in-out infinite;flex-shrink:0}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+    .sb-body{padding:12px 14px}
+    .sb-metric{display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--border)}
+    .sb-metric:last-child{border-bottom:none}
+    .sb-metric-label{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)}
+    .sb-metric-val{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--text);letter-spacing:.04em}
+    .sb-metric-val.up{color:var(--live)}
+    .sb-metric-val.warn{color:var(--warn)}
+    .sb-metric-val.amber{color:var(--accent)}
+    .domain-list{padding:8px}
+    .domain-btn{width:100%;text-align:left;display:flex;align-items:center;gap:8px;padding:8px 8px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);transition:all .15s}
+    .domain-btn:hover{background:var(--surface2);color:var(--text)}
+    .domain-btn.on{background:rgba(245,158,11,.1);color:var(--accent)}
+    .domain-icon{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .d-sales{background:#f59e0b}
+    .d-finance{background:#06b6d4}
+    .d-stock{background:#22c55e}
+    .d-purchasing{background:#818cf8}
+    .d-customers{background:#f472b6}
+
+    /* ── Main content ── */
+    .main{min-width:0;display:flex;flex-direction:column;gap:24px}
+
+    /* Hero strip */
+    .hero-strip{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px 28px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+    .hero-left h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(28px,4vw,42px);letter-spacing:.06em;color:var(--text);line-height:1;margin-bottom:4px}
+    .hero-left h1 span{color:var(--accent)}
+    .hero-left p{font-size:14px;color:var(--dim);max-width:500px;line-height:1.55}
+    .hero-stats{display:flex;gap:0;background:var(--bg);border:1px solid var(--border);border-radius:4px;overflow:hidden;flex-shrink:0}
+    .hstat{padding:12px 20px;text-align:center;border-right:1px solid var(--border)}
+    .hstat:last-child{border-right:none}
+    .hstat-n{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--text);line-height:1}
+    .hstat-l{font-family:'JetBrains Mono',monospace;font-size:8px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);margin-top:2px}
+
+    /* ── AI Chat ── */
+    .chat-container{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+    .chat-header{padding:0 16px;border-bottom:1px solid var(--border);display:flex;gap:2px;overflow-x:auto}
+    .dtab{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;padding:12px 14px;color:var(--dim);border-bottom:2px solid transparent;white-space:nowrap;transition:all .15s;display:flex;align-items:center;gap:6px}
+    .dtab:hover{color:var(--text)}
+    .dtab.on{color:var(--accent);border-bottom-color:var(--accent)}
+    .dtab .di{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+    .chat-messages{padding:20px;min-height:420px;max-height:520px;overflow-y:auto;display:flex;flex-direction:column;gap:16px}
+    .chat-messages::-webkit-scrollbar{width:4px}
+    .chat-messages::-webkit-scrollbar-thumb{background:var(--muted);border-radius:2px}
+
+    /* Welcome state */
+    .chat-welcome{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:40px 24px;text-align:center;gap:16px}
+    .chat-welcome-icon{width:52px;height:52px;border-radius:50%;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);display:flex;align-items:center;justify-content:center}
+    .chat-welcome h3{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;color:var(--text)}
+    .chat-welcome p{font-size:13px;color:var(--dim);max-width:400px;line-height:1.6}
+
+    /* Messages */
+    .msg{display:flex;gap:10px;align-items:flex-start}
+    .msg.human{flex-direction:row-reverse}
+    .msg-av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;flex-shrink:0;margin-top:2px}
+    .msg-av.ai-av{background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.2);color:var(--accent)}
+    .msg-av.hu-av{background:rgba(6,182,212,.1);border:1px solid rgba(6,182,212,.15);color:var(--ai)}
+    .msg-content{flex:1;max-width:85%}
+    .msg.human .msg-content{display:flex;justify-content:flex-end}
+    .msg-bubble{font-size:13px;line-height:1.7;padding:11px 15px;border-radius:4px}
+    .msg.ai .msg-bubble{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+    .msg.human .msg-bubble{background:rgba(6,182,212,.08);color:var(--text);border:1px solid rgba(6,182,212,.15)}
+    .msg-meta{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);margin-top:4px;padding:0 2px}
+    .msg.human .msg-meta{text-align:right}
+
+    /* Data badge inside AI messages */
+    .data-badge{display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:9px;background:rgba(245,158,11,.08);color:var(--accent);border:1px solid rgba(245,158,11,.15);padding:2px 8px;border-radius:2px;margin:6px 0 2px;font-weight:600}
+    .data-badge::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--live);animation:blink 2s infinite}
+
+    /* Query reveal */
+    .query-reveal{margin-top:8px;background:var(--bg);border:1px solid var(--border);border-radius:3px;overflow:hidden}
+    .query-toggle{width:100%;text-align:left;font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:var(--dim);padding:7px 12px;display:flex;align-items:center;justify-content:space-between;transition:color .15s}
+    .query-toggle:hover{color:var(--text)}
+    .query-body{padding:0 12px 10px;display:none}
+    .query-body.open{display:block}
+    .query-body pre{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--accent);line-height:1.6;white-space:pre-wrap;word-break:break-all}
+
+    /* Prompt suggestions */
+    .chat-suggestions{border-top:1px solid var(--border);padding:12px 16px;background:var(--bg);display:flex;gap:6px;flex-wrap:wrap}
+    .sugg{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);background:var(--surface);border:1px solid var(--border);padding:6px 12px;border-radius:3px;cursor:pointer;transition:all .15s;text-align:left;line-height:1.4}
+    .sugg:hover,.sugg.on{border-color:var(--accent);color:var(--accent)}
+    .chat-input-row{border-top:1px solid var(--border);padding:12px 16px;display:flex;gap:8px;background:var(--surface)}
+    .chat-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:10px 14px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--text);outline:none;transition:border-color .15s}
+    .chat-input:focus{border-color:var(--border-s)}
+    .chat-input::placeholder{color:var(--muted)}
+    .send-btn{padding:10px 18px;background:var(--accent);color:#0f0a00;font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;border-radius:3px;transition:background .15s;flex-shrink:0}
+    .send-btn:hover{background:#fbbf24}
+
+    /* ── Architecture section ── */
+    .arch-section{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:24px 28px}
+    .section-eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--cf);font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+    .section-eyebrow::before{content:'';display:block;width:20px;height:1px;background:var(--cf)}
+    .section-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.05em;color:var(--text);margin-bottom:4px}
+    .section-desc{font-size:13px;color:var(--dim);line-height:1.6;margin-bottom:20px;max-width:600px}
+
+    .arch-flow{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:20px 0;padding:20px;background:var(--bg);border:1px solid var(--border);border-radius:4px}
+    .arch-node{background:var(--surface2);border:1px solid var(--border);border-radius:4px;padding:10px 16px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--dim);text-align:center;min-width:110px}
+    .arch-node span{display:block;font-size:9px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:.5px}
+    .arch-node.cf{border-color:rgba(246,130,31,.3);color:var(--cf)}
+    .arch-node.ai{border-color:rgba(6,182,212,.3);color:var(--ai)}
+    .arch-node.sage{border-color:rgba(245,158,11,.3);color:var(--accent)}
+    .arch-arrow{font-family:'JetBrains Mono',monospace;font-size:16px;color:var(--muted)}
+
+    .zt-badges{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0}
+    .zt-badge{font-family:'JetBrains Mono',monospace;font-size:10px;padding:5px 12px;border-radius:3px;font-weight:600;border:1px solid}
+    .zt-cf{background:rgba(246,130,31,.08);color:var(--cf);border-color:rgba(246,130,31,.2)}
+    .zt-ai{background:rgba(6,182,212,.08);color:var(--ai);border-color:rgba(6,182,212,.2)}
+    .zt-sage{background:rgba(245,158,11,.08);color:var(--accent);border-color:rgba(245,158,11,.2)}
+    .zt-green{background:rgba(34,197,94,.08);color:var(--live);border-color:rgba(34,197,94,.2)}
+
+    /* ── Capability grid ── */
+    .cap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px}
+    .cap-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:16px;transition:border-color .2s}
+    .cap-card:hover{border-color:var(--border-s)}
+    .cap-top{height:3px;border-radius:2px;margin-bottom:14px}
+    .cap-name{font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--text);font-weight:700;margin-bottom:6px}
+    .cap-desc{font-size:12px;color:var(--dim);line-height:1.55;margin-bottom:10px}
+    .cap-tags{display:flex;flex-wrap:wrap;gap:4px}
+    .cap-tag{font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--muted);background:var(--surface2);padding:2px 7px;border-radius:2px}
+
+    /* Footer */
+    footer{border-top:1px solid var(--border);padding:24px;margin-top:16px}
+    .footer-in{max-width:var(--maxw);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+    .footer-brand{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)}
+    .footer-brand a{color:var(--accent);transition:color .15s}
+    .footer-brand a:hover{color:var(--text)}
+    .footer-links{display:flex;gap:16px}
+    .footer-links a{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);transition:color .15s}
+    .footer-links a:hover{color:var(--text)}
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-in">
+    <div class="nav-brand">
+      <div class="nav-logo"><span>REPUBLIC</span> AI</div>
+      <div class="nav-sep"></div>
+      <div class="nav-client">Sage X3 Intelligence</div>
+    </div>
+    <div class="nav-right">
+      <span class="nav-pill pill-sage">SAGE X3</span>
+      <span class="nav-pill pill-cf">ZERO TRUST</span>
+      <button onclick="toggleTheme()" class="tbtn" title="Toggle theme">
+        <svg id="icon-sun" class="hidden" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="icon-moon" width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<div class="page">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Live status -->
+    <div class="sidebar-block">
+      <div class="sb-hdr">
+        <div class="status-dot"></div>
+        <div class="sb-hdr-label">Live Metrics</div>
+      </div>
+      <div class="sb-body">
+        <div class="sb-metric">
+          <span class="sb-metric-label">MTD Revenue</span>
+          <span class="sb-metric-val up">R 2.84M</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Open Orders</span>
+          <span class="sb-metric-val">47</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Debtors 90d+</span>
+          <span class="sb-metric-val warn">R 570K</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Stock Alerts</span>
+          <span class="sb-metric-val amber">6 items</span>
+        </div>
+        <div class="sb-metric">
+          <span class="sb-metric-label">Open POs</span>
+          <span class="sb-metric-val">14</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Domain nav -->
+    <div class="sidebar-block">
+      <div class="sb-hdr">
+        <div class="sb-hdr-label">Ask about</div>
+      </div>
+      <div class="domain-list">
+        <button class="domain-btn on" data-domain="sales">
+          <div class="domain-icon d-sales"></div>Sales & Revenue
+        </button>
+        <button class="domain-btn" data-domain="finance">
+          <div class="domain-icon d-finance"></div>Debtors & Finance
+        </button>
+        <button class="domain-btn" data-domain="stock">
+          <div class="domain-icon d-stock"></div>Stock & Inventory
+        </button>
+        <button class="domain-btn" data-domain="purchasing">
+          <div class="domain-icon d-purchasing"></div>Purchasing
+        </button>
+        <button class="domain-btn" data-domain="customers">
+          <div class="domain-icon d-customers"></div>Customers
+        </button>
+      </div>
+    </div>
+
+    <!-- Skill -->
+    <div class="sidebar-block">
+      <div class="sb-hdr">
+        <div class="sb-hdr-label">Powered by</div>
+      </div>
+      <div class="sb-body" style="padding-top:8px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--accent);margin-bottom:4px">sagex3-ai skill</div>
+        <div style="font-size:11px;color:var(--dim);line-height:1.5;margin-bottom:8px">Sage X3 GraphQL · Workers AI · Cloudflare Zero Trust</div>
+        <a href="https://2nth-skills.pages.dev/skills/sagex3-ai-integration" target="_blank" style="font-family:'JetBrains Mono',monospace;font-size:9px;color:var(--ai);letter-spacing:.5px">VIEW SKILL DOCS →</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <div class="main">
+
+    <!-- Hero strip -->
+    <div class="hero-strip">
+      <div class="hero-left">
+        <h1>REPUBLIC <span>AI ASSISTANT</span></h1>
+        <p>Ask anything about your Sage X3 data in plain language. The AI generates the query, fetches the data, and returns business insights — secured via Cloudflare Zero Trust.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat">
+          <div class="hstat-n">5</div>
+          <div class="hstat-l">Domains</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">NL→GQL</div>
+          <div class="hstat-l">AI Query</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">ZT</div>
+          <div class="hstat-l">Zero Trust</div>
+        </div>
+        <div class="hstat">
+          <div class="hstat-n">EDGE</div>
+          <div class="hstat-l">Cloudflare</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Chat -->
+    <div class="chat-container">
+      <div class="chat-header" id="chat-tabs">
+        <button class="dtab on" data-domain="sales"><div class="di d-sales"></div>Sales</button>
+        <button class="dtab" data-domain="finance"><div class="di d-finance"></div>Debtors</button>
+        <button class="dtab" data-domain="stock"><div class="di d-stock"></div>Stock</button>
+        <button class="dtab" data-domain="purchasing"><div class="di d-purchasing"></div>Purchasing</button>
+        <button class="dtab" data-domain="customers"><div class="di d-customers"></div>Customers</button>
+      </div>
+
+      <div class="chat-messages" id="chat-msgs"></div>
+
+      <div class="chat-suggestions" id="chat-sugg"></div>
+
+      <div class="chat-input-row">
+        <input class="chat-input" id="chat-input" placeholder="Ask anything about your Sage X3 data..." />
+        <button class="send-btn" onclick="sendFromInput()">ASK →</button>
+      </div>
+    </div>
+
+    <!-- Architecture -->
+    <div class="arch-section">
+      <div class="section-eyebrow">Cloudflare Zero Trust Architecture</div>
+      <div class="section-title">HOW IT'S BUILT</div>
+      <p class="section-desc">The AI assistant runs entirely on the Cloudflare edge. Republic staff authenticate via Cloudflare Access before reaching the assistant. The Worker proxies Sage X3 queries server-side — credentials never leave the edge runtime.</p>
+
+      <div class="arch-flow">
+        <div class="arch-node">Republic Staff<span>Browser</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node cf">Cloudflare Access<span>Zero Trust Auth</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node cf">CF Worker<span>NL → GraphQL</span></div>
+        <div class="arch-arrow">→</div>
+        <div class="arch-node ai">Workers AI<span>Llama 3.1 8B</span></div>
+        <div class="arch-arrow" style="color:var(--border-s)">·</div>
+        <div class="arch-node sage">Sage X3<span>GraphQL API</span></div>
+      </div>
+
+      <div class="zt-badges">
+        <span class="zt-badge zt-cf">Cloudflare Access</span>
+        <span class="zt-badge zt-cf">Cloudflare Tunnel</span>
+        <span class="zt-badge zt-ai">Workers AI</span>
+        <span class="zt-badge zt-sage">Sage X3 GraphQL</span>
+        <span class="zt-badge zt-green">No Exposed Endpoints</span>
+        <span class="zt-badge zt-green">Credentials at Edge</span>
+        <span class="zt-badge zt-green">Audit Log via Access</span>
+      </div>
+
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:14px 16px;margin-top:4px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:9px;text-transform:uppercase;letter-spacing:1.5px;color:var(--muted);margin-bottom:8px">AI Query Flow (wrangler.toml)</div>
+        <pre style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--dim);line-height:1.7;overflow-x:auto"><span style="color:var(--accent)"># 1.</span> User question → Workers AI generates GraphQL
+<span style="color:var(--accent)"># 2.</span> Worker executes GraphQL against Sage X3 (via Tunnel)
+<span style="color:var(--accent)"># 3.</span> Workers AI analyses results → returns business insight
+<span style="color:var(--accent)"># 4.</span> All credentials stored via wrangler secret put
+
+[vars]
+SAGE_X3_ENDPOINT = "https://internal-host/folder/api"
+
+<span style="color:var(--muted)"># Secrets (never in code):</span>
+<span style="color:var(--live)">npx wrangler secret put SAGE_X3_USERNAME</span>
+<span style="color:var(--live)">npx wrangler secret put SAGE_X3_PASSWORD</span></pre>
+      </div>
+    </div>
+
+    <!-- Capabilities -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.05em;color:var(--text)">WHAT THE AI KNOWS</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)">SAGE X3 GRAPHQL DOMAINS</div>
+      </div>
+      <div class="cap-grid">
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--accent),transparent)"></div>
+          <div class="cap-name">Sales</div>
+          <div class="cap-desc">Revenue, orders, invoices, delivery notes. Revenue by customer, period, product.</div>
+          <div class="cap-tags"><span class="cap-tag">salesOrder</span><span class="cap-tag">salesInvoice</span><span class="cap-tag">salesDelivery</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--ai),transparent)"></div>
+          <div class="cap-name">Finance</div>
+          <div class="cap-desc">Aged debtors, outstanding invoices, journal entries, GL accounts by period.</div>
+          <div class="cap-tags"><span class="cap-tag">salesInvoice</span><span class="cap-tag">journalEntry</span><span class="cap-tag">generalLedger</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--live),transparent)"></div>
+          <div class="cap-name">Stock</div>
+          <div class="cap-desc">Inventory levels, reorder alerts, stock movements, quantity available per site.</div>
+          <div class="cap-tags"><span class="cap-tag">stockChange</span><span class="cap-tag">stockCount</span><span class="cap-tag">stockSite</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,#818cf8,transparent)"></div>
+          <div class="cap-name">Purchasing</div>
+          <div class="cap-desc">Open POs, overdue receipts, supplier performance, goods in transit.</div>
+          <div class="cap-tags"><span class="cap-tag">purchaseOrder</span><span class="cap-tag">purchaseReceipt</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,#f472b6,transparent)"></div>
+          <div class="cap-name">Customers</div>
+          <div class="cap-desc">Customer master data, revenue ranking, credit terms, contact details.</div>
+          <div class="cap-tags"><span class="cap-tag">customer</span><span class="cap-tag">supplier</span><span class="cap-tag">product</span></div>
+        </div>
+        <div class="cap-card">
+          <div class="cap-top" style="background:linear-gradient(90deg,var(--cf),transparent)"></div>
+          <div class="cap-name">Natural Language</div>
+          <div class="cap-desc">Ask in plain English. AI generates the GraphQL, executes it, and explains the results.</div>
+          <div class="cap-tags"><span class="cap-tag">NL→GraphQL</span><span class="cap-tag">Workers AI</span><span class="cap-tag">Llama 3.1</span></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-in">
+    <div class="footer-brand">Demo by <a href="https://2nth.ai" target="_blank">2nth.ai</a> — Sage X3 AI for Republic Umbrella &nbsp;·&nbsp; <a href="https://2nth-skills.pages.dev/skills/sagex3-ai-integration" target="_blank">sagex3-ai skill</a></div>
+    <div class="footer-links">
+      <a href="https://demo.2nth.ai">All Demos</a>
+      <a href="https://2nth-skills.pages.dev">Skills</a>
+      <a href="https://2nth.ai">2nth.ai</a>
+    </div>
+  </div>
+</footer>
+
+<script src="https://2nth.ai/app-switcher.js"></script>
+<script>
+// ─── Conversation data ────────────────────────────────────────────────────────
+const DOMAINS = {
+  sales: {
+    label: 'Sales & Revenue',
+    suggestions: ['How are we tracking this month?','What orders are still open?','Show me the sales trend','Best performing products?'],
+    convos: [
+      {
+        q: 'How are we tracking on sales this month?',
+        gql: `x3Sales { salesOrder {\n  query(first:500, filter:"orderDate ge '2026-03-01'") {\n    edges { node { code {\n      customer { companyName1 }\n      totalAmount orderDate status\n    }}}}}}`,
+        a: `March MTD revenue: <strong>R 2.84M</strong> — up 12% vs February (R 2.54M).\n\n47 sales orders processed, 38 invoiced. Top customers this month:\n• Pick n Pay Stores — R 480K (3 orders)\n• Dischem Pharmacies — R 320K (2 orders)\n• Shoprite Holdings — R 290K (2 orders)\n\nNotable: your <strong>Corporate Promotions</strong> segment is up 28% — 14 large umbrella orders from event companies ahead of the rainy season.\n\n6 orders are still in "Processing" status — want me to pull the detail?`
+      },
+      {
+        q: 'What open orders do we have right now?',
+        gql: `x3Sales { salesOrder {\n  query(first:100, filter:"status ne 'Completed'") {\n    edges { node { code {\n      orderNumber customer { companyName1 }\n      totalAmount status orderDate\n    }}}}}}`,
+        a: `6 open orders totalling <strong>R 1.12M</strong>:\n\n• SO-2026-0441 — Makro Johannesburg, R 280K, Awaiting dispatch\n• SO-2026-0438 — Cape Union Mart, R 195K, Processing\n• SO-2026-0435 — Builders Warehouse, R 174K, Processing\n• SO-2026-0429 — Checkers, R 162K, Dispatched — ETA tomorrow\n• SO-2026-0424 — PEP Stores, R 185K, Awaiting confirmation\n• SO-2026-0417 — Dis-Chem (online), R 128K, Invoiced\n\nOldest open order: SO-2026-0417 — 14 days in "Invoiced" with no payment update. Recommend a follow-up.`
+      }
+    ]
+  },
+  finance: {
+    label: 'Debtors & Finance',
+    suggestions: ['What does our debtor book look like?','Who is overdue 60+ days?','Show me outstanding invoices','Average debtor days?'],
+    convos: [
+      {
+        q: 'What does our debtor book look like?',
+        gql: `x3Sales { salesInvoice {\n  query(first:500, filter:"outstandingAmount gt 0") {\n    edges { node { code {\n      invoiceNumber customer { companyName1 }\n      invoiceDate dueDate\n      totalAmount outstandingAmount\n    }}}}}}`,
+        a: `Total outstanding: <strong>R 4.2M</strong> across 34 accounts.\n\nAge analysis:\n• Current (0–30 days): R 2.1M — 18 accounts\n• 30–60 days: R 890K — 8 accounts\n• 60–90 days: R 640K — 5 accounts\n• 90+ days: <strong style="color:#ef4444">R 570K — 3 accounts</strong>\n\n⚠ Concern: Metro Wholesale has R 210K overdue 90+ days (was current last quarter). Shoprite Group is your largest current debtor at R 380K, due April 5.\n\nAverage debtor days: <strong>42</strong> (industry benchmark: 35). Want me to draft collection letters for the 90+ day accounts?`
+      },
+      {
+        q: 'Who is 90+ days overdue?',
+        gql: `x3Sales { salesInvoice {\n  query(first:100, filter:"outstandingAmount gt 0 and dueDate lt '2025-12-31'") {\n    edges { node { code {\n      invoiceNumber dueDate\n      customer { companyName1 }\n      outstandingAmount\n    }}}}}}`,
+        a: `3 accounts are 90+ days overdue:\n\n• <strong>Metro Wholesale (JHB)</strong> — R 210,450 — Oldest invoice Oct 14, 2025. No payment since November. Credit limit: R 250K. Suggest: suspend account and escalate to legal.\n\n• <strong>Value Mart Distributors</strong> — R 215,000 — Invoice Nov 2, 2025. Payment arrangement was agreed in January — no payment received.\n\n• <strong>Dollar General Imports</strong> — R 144,550 — 3 invoices from Nov–Dec 2025. Phone unreachable since February.\n\nTotal: R 570,000. Recommend immediate escalation. Want me to generate a formal demand letter for each?`
+      }
+    ]
+  },
+  stock: {
+    label: 'Stock & Inventory',
+    suggestions: ['Any stock alerts I should know about?','What is running low?','Show raw material levels','Stockout risk this week?'],
+    convos: [
+      {
+        q: 'Any stock items I should worry about?',
+        gql: `x3Stock { stockChange {\n  query(first:500) {\n    edges { node { code {\n      product { code localizedDescription1 }\n      stockSite { code }\n      quantityOnHand\n      reorderPoint quantityAvailable\n    }}}}}}`,
+        a: `<strong>6 items below reorder point:</strong>\n\n🔴 <strong>16mm Steel Frame (Std)</strong> — 840 units on hand, reorder point 1,000. Velocity: 180/week. Estimated stockout: <strong>5 days</strong>.\n\n🔴 <strong>Pongee 190T Fabric — Black 60cm</strong> — 1,200m on hand, reorder point 2,000m.\n\n🟡 <strong>Auto-fold Mechanism (Compact)</strong> — 210 units, reorder point 500.\n\n🟡 <strong>Fibreglass Rib — 8-panel</strong> — 340 units, reorder point 600.\n\n🟡 <strong>Golf Canopy — Navy 68cm</strong> — 180 units, reorder point 400.\n\n🟡 <strong>Wooden Handle (Crook)</strong> — 290 units, reorder point 500.\n\nMain supplier Sheng Da Trading (CPT) has a 3-week lead time for frames. Recommend placing an order <strong>today</strong> to avoid a production stop.`
+      },
+      {
+        q: 'How much finished goods stock do we have?',
+        gql: `x3Stock { stockChange {\n  query(first:200, filter:"stockSite.code eq 'FG-CPT'") {\n    edges { node { code {\n      product { code localizedDescription1 }\n      quantityOnHand quantityAvailable\n    }}}}}}`,
+        a: `Finished goods at Cape Town warehouse (FG-CPT):\n\n• <strong>Golf Umbrella 68cm — Black</strong>: 1,840 units available\n• <strong>Compact Auto-fold — Navy</strong>: 620 units available\n• <strong>Promotional Umbrella — White</strong>: 2,100 units available\n• <strong>Executive Straight — Charcoal</strong>: 380 units available\n• <strong>Kids Umbrella Assorted</strong>: 950 units available\n\nTotal finished goods value (at cost): approximately <strong>R 2.1M</strong>.\n\nLow stock flags: Executive Straight is below your 500-unit safety stock threshold. One large corporate order could wipe it out. Want me to check open orders against available stock?`
+      }
+    ]
+  },
+  purchasing: {
+    label: 'Purchasing',
+    suggestions: ['What purchase orders are outstanding?','Any overdue supplier deliveries?','Show me POs awaiting receipt','Supplier performance this quarter?'],
+    convos: [
+      {
+        q: 'What purchase orders are currently outstanding?',
+        gql: `x3Purchasing { purchaseOrder {\n  query(first:100, filter:"status ne 'Completed'") {\n    edges { node { code {\n      orderNumber supplier { companyName1 }\n      totalAmount orderDate expectedDelivery status\n    }}}}}}`,
+        a: `<strong>14 open purchase orders</strong> totalling R 2.4M:\n\n• 6 awaiting delivery — R 1.2M\n• 5 in transit — R 820K\n• 3 placed, pending supplier confirmation — R 380K\n\n⚠ <strong>Overdue — PO-2026-0118</strong> (Sheng Da Trading, R 340K, fabric + frames) — raised Feb 3, expected delivery Feb 24, now <strong>35 days late</strong>. No tracking update.\n\n⚠ <strong>Due in 3 days — PO-2026-0134</strong> (handle components, R 165K) — due April 3 with no tracking confirmation from supplier.\n\nRecommend: call Sheng Da today on PO-0118. Delay is directly linked to the steel frame stockout alert. Want me to flag both for your operations team?`
+      }
+    ]
+  },
+  customers: {
+    label: 'Top Customers',
+    suggestions: ['Who are our top 5 customers this quarter?','Which customers are growing?','Show customer concentration risk','New customers this year?'],
+    convos: [
+      {
+        q: 'Who are our best customers this quarter?',
+        gql: `x3Sales { salesInvoice {\n  query(first:1000, filter:"invoiceDate ge '2026-01-01'") {\n    edges { node { code {\n      customer { code companyName1 }\n      totalAmount invoiceDate\n    }}}}}}`,
+        a: `Q1 2026 top customers by revenue:\n\n1. <strong>Pick n Pay Stores</strong> — R 1.24M (8 orders)\n2. <strong>Shoprite Holdings</strong> — R 980K (6 orders)\n3. <strong>Dischem Pharmacies</strong> — R 720K (5 orders)\n4. <strong>Cape Union Mart</strong> — R 580K (4 orders)\n5. <strong>Makro / Massmart</strong> — R 510K (3 orders)\n\nTop 5 = <strong>72% of Q1 revenue</strong> — high concentration risk. Any one of these accounts pausing orders would significantly impact cash flow.\n\n📈 <strong>Fastest growing:</strong> Cape Union Mart +44% vs Q1 2025\n📉 <strong>Declining:</strong> Woolworths -18% vs Q1 2025 — worth investigating\n\nWant me to pull Woolworths' full order history to understand the decline?`
+      },
+      {
+        q: 'Show me new customers acquired this year',
+        gql: `x3MasterData { customer {\n  query(first:100, filter:"createdDate ge '2026-01-01' and isCustomer eq true") {\n    edges { node { code {\n      code companyName1 createdDate\n      currency { code }\n    }}}}}}`,
+        a: `<strong>11 new customers</strong> added in 2026:\n\n• Checkers Online (Feb 3) — already R 162K first order\n• SA Events & Promotions (Jan 18) — R 94K, 2 orders\n• Ubuntu Gifting Co (Feb 14) — R 68K, corporate promo order\n• Takealot Marketplace (Mar 5) — first order pending R 220K\n• 7 smaller accounts (total R 180K combined)\n\n📊 New customer revenue: R 724K YTD — 8.6% of total revenue.\n\nHighlight: Takealot Marketplace is your highest-potential new account. Their first order of R 220K is still pending. Recommend prioritising this relationship. Want me to check if their order is progressing through fulfilment?`
+      }
+    ]
+  }
+};
+
+let currentDomain = 'sales';
+let currentConvo = 0;
+
+function renderDomain(domain) {
+  currentDomain = domain;
+  currentConvo = 0;
+
+  // Sync tabs + sidebar buttons
+  document.querySelectorAll('.dtab').forEach(t => t.classList.toggle('on', t.dataset.domain === domain));
+  document.querySelectorAll('.domain-btn').forEach(t => t.classList.toggle('on', t.dataset.domain === domain));
+
+  renderConvo(0);
+
+  // Suggestions
+  const sugg = document.getElementById('chat-sugg');
+  sugg.innerHTML = DOMAINS[domain].suggestions.map((s, i) =>
+    `<button class="sugg${i===0?' on':''}" data-idx="${i}" onclick="triggerSugg(this,${i})">${s}</button>`
+  ).join('');
+}
+
+function renderConvo(idx) {
+  currentConvo = idx;
+  const convos = DOMAINS[currentDomain].convos;
+  const c = convos[Math.min(idx, convos.length - 1)];
+  const container = document.getElementById('chat-msgs');
+
+  const queryId = 'q' + Math.random().toString(36).slice(2);
+  container.innerHTML = `
+    <div class="msg human">
+      <div class="msg-av hu-av">YOU</div>
+      <div class="msg-content">
+        <div class="msg-bubble">${c.q}</div>
+      </div>
+    </div>
+    <div class="msg ai">
+      <div class="msg-av ai-av">AI</div>
+      <div class="msg-content">
+        <div class="msg-bubble">
+          <div class="data-badge">Queried Sage X3 · Live data</div>
+          <div style="margin-top:8px">${c.a.replace(/\n/g,'<br>')}</div>
+        </div>
+        <div class="query-reveal">
+          <button class="query-toggle" onclick="toggleQuery('${queryId}')">
+            <span>VIEW GRAPHQL QUERY</span>
+            <span id="arr-${queryId}">▸</span>
+          </button>
+          <div class="query-body" id="${queryId}">
+            <pre>query {\n  ${c.gql}\n}</pre>
+          </div>
+        </div>
+        <div class="msg-meta">Sage X3 GraphQL · Workers AI · Cloudflare Edge</div>
+      </div>
+    </div>`;
+  container.scrollTop = container.scrollHeight;
+}
+
+function toggleQuery(id) {
+  const body = document.getElementById(id);
+  const arr = document.getElementById('arr-' + id);
+  const isOpen = body.classList.toggle('open');
+  arr.textContent = isOpen ? '▾' : '▸';
+}
+
+function triggerSugg(el, idx) {
+  document.querySelectorAll('.sugg').forEach(s => s.classList.remove('on'));
+  el.classList.add('on');
+  const convos = DOMAINS[currentDomain].convos;
+  renderConvo(Math.min(idx, convos.length - 1));
+}
+
+function sendFromInput() {
+  const inp = document.getElementById('chat-input');
+  const val = inp.value.trim();
+  if (!val) return;
+  inp.value = '';
+  // Show the user question then respond with first convo of domain
+  renderConvo(0);
+}
+
+// Tab clicks
+document.getElementById('chat-tabs').addEventListener('click', e => {
+  const t = e.target.closest('.dtab');
+  if (t && t.dataset.domain) renderDomain(t.dataset.domain);
+});
+document.querySelectorAll('.domain-btn').forEach(btn =>
+  btn.addEventListener('click', () => renderDomain(btn.dataset.domain))
+);
+
+// Init
+renderDomain('sales');
+
+// Enter key
+document.getElementById('chat-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendFromInput();
+});
+
+// Theme
+function toggleTheme() {
+  document.documentElement.classList.toggle('light');
+  localStorage.setItem('2nth-theme', document.documentElement.classList.contains('light') ? 'light' : 'dark');
+  var l = document.documentElement.classList.contains('light');
+  document.getElementById('icon-sun').classList.toggle('hidden', !l);
+  document.getElementById('icon-moon').classList.toggle('hidden', l);
+}
+(function(){
+  var l = document.documentElement.classList.contains('light');
+  document.getElementById('icon-sun').classList.toggle('hidden', !l);
+  document.getElementById('icon-moon').classList.toggle('hidden', l);
+})();
+</script>
+</body>
+</html>
