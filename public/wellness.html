@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wellness Practice AI — 2nth.ai Skills</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font:      'DM Sans', system-ui, sans-serif;
+  --mono:      'JetBrains Mono', monospace;
+  /* Wellness palette — calm sage, warm terracotta, honey */
+  --sage:      #4A7C59;
+  --sage-light:#6B9E78;
+  --sage-dim:  rgba(74,124,89,.12);
+  --sage-10:   rgba(74,124,89,.1);
+  --terra:     #C4704A;
+  --terra-dim: rgba(196,112,74,.12);
+  --honey:     #EDAF42;
+  --honey-dim: rgba(237,175,66,.12);
+  --lavender:  #7C6FA0;
+  --sky:       #4A90B8;
+  --sky-dim:   rgba(74,144,184,.1);
+  --success:   #3A9E6B;
+  --black:     #0A0A0A;
+  --grey-900:  #1F1E1E;
+  --grey-600:  #555555;
+  --grey-400:  #999999;
+  --grey-100:  #EEEEEE;
+  --white:     #FAFAFA;
+  --r-sm: 6px; --r-md: 10px; --r-lg: 16px; --r-pill: 100px;
+}
+[data-theme="light"]{
+  --bg:     #FAFAFA; --bg-card:#FFFFFF; --bg-alt:#F5F5F5;
+  --text:   #0A0A0A; --text-b: #555555; --text-m: #999999;
+  --border: #EEEEEE; --border-s:#DDDDDD;
+  --shadow: 0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);
+  --shadow-h:0 4px 20px rgba(0,0,0,.09);
+}
+[data-theme="dark"]{
+  --bg:#0A0A0A; --bg-card:#1F1E1E; --bg-alt:#111111;
+  --text:#FAFAFA; --text-b:#BBBBBB; --text-m:#777777;
+  --border:#2A2A2A; --border-s:#3D3D3D;
+  --shadow:0 1px 4px rgba(0,0,0,.3); --shadow-h:0 4px 20px rgba(0,0,0,.4);
+  --sage-dim:rgba(74,124,89,.18); --honey-dim:rgba(237,175,66,.15);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;font-size:15px;-webkit-font-smoothing:antialiased;transition:background .2s,color .2s}
+::selection{background:rgba(74,124,89,.2)}
+
+/* ── Spectrum ── */
+.spectrum{position:fixed;top:0;left:0;right:0;height:3px;z-index:300;
+  background:linear-gradient(90deg,var(--sage),var(--honey),var(--terra),var(--lavender),var(--sage))}
+
+/* ── Nav ── */
+nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:14px;height:56px;padding:0 40px;
+  background:rgba(250,250,250,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);transition:background .2s}
+[data-theme="dark"] nav{background:rgba(10,10,10,.92)}
+.nav-brand{font-size:15px;font-weight:800;letter-spacing:-.03em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:6px}
+.nav-mark{color:var(--sage);font-size:18px}
+.nav-back{font-size:13px;color:var(--text-m);text-decoration:none;display:flex;align-items:center;gap:4px;transition:color .15s}
+.nav-back:hover{color:var(--sage)}
+.badge{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:2px 9px;border-radius:var(--r-pill);border:1px solid;color:var(--sage);border-color:var(--sage-dim);background:var(--sage-10)}
+.nav-sp{flex:1}
+.theme-btn{background:none;border:1px solid var(--border);color:var(--text-m);width:32px;height:32px;border-radius:var(--r-md);cursor:pointer;font-size:14px;transition:border-color .15s}
+.theme-btn:hover{border-color:var(--sage);color:var(--sage)}
+
+/* ── Layout ── */
+.wrap{max-width:1100px;margin:0 auto;padding:0 40px}
+section{position:relative}
+hr{border:none;border-top:1px solid var(--border)}
+.reveal{opacity:0;transform:translateY(12px);transition:opacity .4s,transform .4s}
+.reveal.visible{opacity:1;transform:none}
+
+/* ── Hero ── */
+.hero{padding:80px 0 64px;text-align:center}
+.eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--sage);margin-bottom:18px;display:flex;align-items:center;justify-content:center;gap:12px}
+.eyebrow::before,.eyebrow::after{content:'';flex:1;max-width:80px;height:1px;background:var(--border-s)}
+h1{font-size:clamp(36px,5vw,60px);font-weight:800;letter-spacing:-.04em;line-height:1.05;margin-bottom:18px}
+.hero-sub{font-size:16px;color:var(--text-b);max-width:540px;margin:0 auto 40px;line-height:1.75}
+.hero-tags{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:48px}
+.hero-tag{font-family:var(--mono);font-size:10px;letter-spacing:.06em;padding:4px 14px;border-radius:var(--r-pill);border:1px solid var(--border-s);color:var(--text-m)}
+.matrix-box{display:inline-flex;gap:0;border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow);margin-bottom:0}
+.matrix-cell{padding:14px 20px;background:var(--bg-card);border-right:1px solid var(--border);text-align:center;min-width:100px}
+.matrix-cell:last-child{border-right:none}
+.matrix-cell.active{background:var(--sage-dim)}
+.mc-label{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-m);margin-bottom:4px}
+.mc-val{font-size:13px;font-weight:700;color:var(--text)}
+.matrix-cell.active .mc-val{color:var(--sage)}
+
+/* ── Skills grid ── */
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:64px}
+.skill-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:26px;box-shadow:var(--shadow);transition:box-shadow .2s,border-color .2s;cursor:pointer;position:relative}
+.skill-card:hover{box-shadow:var(--shadow-h);border-color:var(--border-s)}
+.skill-card.active{border-color:var(--sage);background:var(--sage-dim)}
+.skill-color{width:40px;height:40px;border-radius:var(--r-md);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+.skill-name{font-size:16px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px;color:var(--text)}
+.skill-desc{font-size:13px;color:var(--text-b);line-height:1.65;margin-bottom:14px}
+.skill-tags{display:flex;gap:6px;flex-wrap:wrap}
+.skill-tag{font-family:var(--mono);font-size:10px;padding:2px 9px;border-radius:var(--r-pill);background:var(--bg-alt);color:var(--text-m);border:1px solid var(--border)}
+.skill-toggle{position:absolute;top:16px;right:16px;width:36px;height:20px;background:var(--bg-alt);border:1px solid var(--border-s);border-radius:20px;cursor:pointer;transition:background .2s;flex-shrink:0}
+.skill-toggle.on{background:var(--sage);border-color:var(--sage)}
+.skill-toggle::after{content:'';position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:var(--text-m);transition:transform .2s,background .2s}
+.skill-toggle.on::after{transform:translateX(16px);background:#fff}
+.skill-expand{display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border)}
+.skill-expand.open{display:block}
+.config-row{display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}
+.config-row:last-child{border-bottom:none}
+.config-label{color:var(--text-b)}
+.config-select{background:var(--bg-alt);border:1px solid var(--border);color:var(--text);padding:4px 10px;border-radius:var(--r-sm);font-size:11px;font-family:var(--mono);outline:none}
+
+/* ── Demo tabs ── */
+.demo-section{padding:64px 0;background:var(--bg-alt);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.sec-head{text-align:center;margin-bottom:48px}
+.sec-head h2{font-size:clamp(26px,3.5vw,40px);font-weight:800;letter-spacing:-.03em;margin-bottom:10px}
+.sec-head p{font-size:15px;color:var(--text-b);max-width:500px;margin:0 auto;line-height:1.7}
+.tab-bar{display:flex;gap:2px;margin-bottom:24px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.tab{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-m);padding:9px 16px;cursor:pointer;border-radius:var(--r-sm) var(--r-sm) 0 0;border:1px solid transparent;border-bottom:none;transition:all .15s;position:relative;bottom:-1px}
+.tab:hover{color:var(--text)}
+.tab.active{color:var(--text);background:var(--bg-card);border-color:var(--border);font-weight:700}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── Chat UI ── */
+.chat-wrap{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start}
+.chat-shell{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow)}
+.chat-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.chat-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.chat-name{font-size:14px;font-weight:700;color:var(--text)}
+.chat-status{font-family:var(--mono);font-size:10px;color:var(--success)}
+.chat-messages{padding:16px;display:flex;flex-direction:column;gap:10px;min-height:320px;max-height:420px;overflow-y:auto}
+.msg{max-width:82%;padding:10px 14px;border-radius:var(--r-lg);font-size:13px;line-height:1.6}
+.msg-agent{background:var(--bg-alt);color:var(--text);border-radius:var(--r-sm) var(--r-lg) var(--r-lg) var(--r-lg);align-self:flex-start}
+.msg-client{background:var(--sage);color:#fff;border-radius:var(--r-lg) var(--r-sm) var(--r-lg) var(--r-lg);align-self:flex-end}
+.msg-time{font-family:var(--mono);font-size:9px;color:var(--text-m);margin-top:3px}
+.chat-input-row{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px}
+.chat-input{flex:1;background:var(--bg-alt);border:1px solid var(--border);color:var(--text);padding:8px 12px;border-radius:var(--r-pill);font-size:13px;font-family:var(--font);outline:none}
+.chat-send{background:var(--sage);color:#fff;border:none;padding:8px 16px;border-radius:var(--r-pill);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--font)}
+.chat-send:hover{background:var(--sage-light)}
+.chat-context{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
+.ctx-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.ctx-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-bottom:1px solid var(--border);font-size:12px}
+.ctx-row:last-child{border-bottom:none}
+.ctx-key{color:var(--text-b)}
+.ctx-val{font-weight:600;color:var(--text);font-family:var(--mono);font-size:11px}
+.ctx-badge{font-family:var(--mono);font-size:10px;padding:2px 9px;border-radius:var(--r-pill)}
+.cb-ok{background:rgba(58,158,107,.12);color:var(--success)}
+.cb-warn{background:rgba(196,112,74,.12);color:var(--terra)}
+.cb-info{background:var(--sky-dim);color:var(--sky)}
+
+/* ── SOAP note ── */
+.soap{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow);font-size:13px;line-height:1.7}
+.soap-section{margin-bottom:16px}
+.soap-label{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:4px}
+.soap-text{color:var(--text-b)}
+.dictate-area{background:var(--bg-alt);border:1px solid var(--border);border-radius:var(--r-md);padding:12px 16px;font-size:13px;color:var(--text-m);margin-bottom:14px;font-style:italic;line-height:1.6}
+
+/* ── Meal plan ── */
+.meal-day{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow);margin-bottom:12px}
+.meal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.meal-title{font-size:14px;font-weight:700;color:var(--text)}
+.meal-macro{font-family:var(--mono);font-size:10px;color:var(--text-m)}
+.meal-item{display:flex;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);align-items:baseline}
+.meal-item:last-child{border-bottom:none}
+.meal-time{font-family:var(--mono);font-size:10px;color:var(--text-m);min-width:52px}
+.meal-name{font-size:12px;color:var(--text);flex:1}
+.meal-kcal{font-family:var(--mono);font-size:10px;color:var(--sage);white-space:nowrap}
+
+/* ── Programme card ── */
+.programme{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.prog-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
+.prog-week{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-m);margin-bottom:6px}
+.prog-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:12px}
+.prog-item{display:flex;gap:10px;padding:6px 0;border-bottom:1px solid var(--border);font-size:12px;align-items:baseline}
+.prog-item:last-child{border-bottom:none}
+.prog-num{font-family:var(--mono);font-size:10px;color:var(--text-m);min-width:18px}
+.prog-pose{color:var(--text);flex:1}
+.prog-dur{font-family:var(--mono);font-size:10px;color:var(--sage);white-space:nowrap}
+.mod-note{font-size:11px;color:var(--terra);margin-top:2px;padding-left:28px;font-style:italic}
+
+/* ── Matrix placement ── */
+.matrix-section{padding:64px 0}
+.domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:48px}
+.domain-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow)}
+.domain-card.new{border-color:var(--sage);background:var(--sage-dim)}
+.domain-code{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-m);margin-bottom:6px}
+.domain-name{font-size:15px;font-weight:700;color:var(--text);margin-bottom:4px}
+.domain-card.new .domain-name{color:var(--sage)}
+.domain-skills{font-size:12px;color:var(--text-b);line-height:1.65}
+
+/* ── Footer ── */
+footer{padding:28px 40px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text-m)}
+footer a{color:var(--sage);text-decoration:none}
+
+@media(max-width:960px){.skills-grid,.chat-wrap,.programme,.domain-grid{grid-template-columns:1fr}.matrix-box{flex-direction:column;display:flex}}
+@media(max-width:600px){.wrap{padding:0 20px}nav{padding:0 20px}}
+</style>
+</head>
+<body>
+<div class="spectrum"></div>
+
+<nav>
+  <a href="../index.html" class="nav-back">← Back</a>
+  <div style="width:1px;height:20px;background:var(--border)"></div>
+  <a href="#" class="nav-brand"><span class="nav-mark">🌿</span>Wellness Practice AI</a>
+  <span class="badge">hlth · 2nth-skills-hub</span>
+  <div class="nav-sp"></div>
+  <button class="theme-btn" id="theme-btn">◐</button>
+</nav>
+
+<!-- ── HERO ── -->
+<section>
+<div class="wrap">
+<div class="hero reveal">
+  <div class="eyebrow">New domain · Health &amp; Wellness Practitioners</div>
+  <h1>AI for yoga, Pilates<br><span style="color:var(--sage)">and nutrition practice</span></h1>
+  <p class="hero-sub">Six AI skills for wellness practitioners — from client intake to SOAP notes. Deployed via WhatsApp or web. Self-configured per studio or practice.</p>
+  <div class="hero-tags">
+    <span class="hero-tag">Yoga studios</span>
+    <span class="hero-tag">Pilates studios</span>
+    <span class="hero-tag">Dietitians</span>
+    <span class="hero-tag">Nutritionists</span>
+    <span class="hero-tag">Biokineticists</span>
+    <span class="hero-tag">Wellness centres</span>
+    <span class="hero-tag">Personal trainers</span>
+  </div>
+  <div class="matrix-box">
+    <div class="matrix-cell"><div class="mc-label">Domain</div><div class="mc-val">hlth</div></div>
+    <div class="matrix-cell"><div class="mc-label">Skills</div><div class="mc-val">6</div></div>
+    <div class="matrix-cell"><div class="mc-label">Partner type</div><div class="mc-val">Builder</div></div>
+    <div class="matrix-cell"><div class="mc-label">Channels</div><div class="mc-val">WA + Web</div></div>
+    <div class="matrix-cell active"><div class="mc-label">Status</div><div class="mc-val">Proposed</div></div>
+  </div>
+</div>
+</div>
+</section>
+
+<hr>
+
+<!-- ── SKILLS SELECTOR ── -->
+<section style="padding:64px 0" id="skills">
+<div class="wrap">
+<div class="sec-head reveal">
+  <div class="eyebrow" style="justify-content:center;margin-bottom:12px">Skill selector</div>
+  <h2>Enable skills for your practice</h2>
+  <p>Toggle on what your studio or practice needs. Each skill can be independently configured.</p>
+</div>
+
+<div id="enabled-bar" style="display:flex;align-items:center;gap:16px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:14px 20px;margin-bottom:24px;box-shadow:var(--shadow)">
+  <div>
+    <div style="font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-m);margin-bottom:2px">Skills enabled</div>
+    <div style="font-size:18px;font-weight:800;color:var(--sage)" id="enabled-count">0 / 6</div>
+  </div>
+  <div style="flex:1;height:4px;background:var(--bg-alt);border-radius:4px;overflow:hidden"><div id="enabled-bar-fill" style="height:100%;background:var(--sage);border-radius:4px;width:0%;transition:width .4s"></div></div>
+  <div style="font-family:var(--mono);font-size:9px;color:var(--text-m)">Builder plan · hlth domain</div>
+</div>
+
+<div class="skills-grid reveal" id="skills-grid">
+<!-- rendered by JS -->
+</div>
+</div>
+</section>
+
+<!-- ── DEMO ── -->
+<section class="demo-section" id="demo">
+<div class="wrap">
+<div class="sec-head reveal">
+  <div class="eyebrow" style="justify-content:center;margin-bottom:12px">Live demos</div>
+  <h2>See the agents in action</h2>
+  <p>Interactive previews of each skill in a real studio context.</p>
+</div>
+<div class="tab-bar reveal">
+  <div class="tab active" onclick="showTab('booking',this)">Booking</div>
+  <div class="tab" onclick="showTab('intake',this)">Client Intake</div>
+  <div class="tab" onclick="showTab('programme',this)">Programme</div>
+  <div class="tab" onclick="showTab('nutrition',this)">Nutrition</div>
+  <div class="tab" onclick="showTab('soap',this)">SOAP Notes</div>
+  <div class="tab" onclick="showTab('progress',this)">Progress</div>
+</div>
+
+<!-- BOOKING -->
+<div class="tab-panel active" id="tab-booking">
+<div class="chat-wrap">
+  <div>
+    <div class="chat-shell">
+      <div class="chat-header">
+        <div class="chat-avatar" style="background:var(--sage-dim)">🧘</div>
+        <div><div class="chat-name">Studio Booking · WhatsApp</div><div class="chat-status">● Online</div></div>
+      </div>
+      <div class="chat-messages" id="msgs-booking">
+        <div class="msg msg-client">Hey, do you have any yoga tomorrow morning?<div class="msg-time">08:14</div></div>
+        <div class="msg msg-agent">Morning! 🌿 We have two yoga classes tomorrow:<br><br>🧘 <strong>7:00am</strong> — Hatha Flow (60 min) with Sarah — 3 spaces left<br>🧘 <strong>9:30am</strong> — Gentle Yoga (45 min) with Mark — 6 spaces left<br><br>Which one works for you?<div class="msg-time">08:14</div></div>
+        <div class="msg msg-client">7am please<div class="msg-time">08:15</div></div>
+        <div class="msg msg-agent">Booked! ✓<br><br><strong>Hatha Flow</strong> — Thursday 3 April, 7:00am<br>📍 Studio 1, 14 Kloof St<br>🎽 Bring: mat, water bottle, small towel<br><br>You have <strong>6 of your 10-class pack</strong> remaining.<br><br>I'll send you a reminder tomorrow morning. See you then 🙏<div class="msg-time">08:15</div></div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" id="booking-input" placeholder="Type a message..." onkeydown="if(event.key==='Enter')sendBooking()">
+        <button class="chat-send" onclick="sendBooking()">Send</button>
+      </div>
+    </div>
+  </div>
+  <div class="chat-context">
+    <div class="ctx-title">📋 Booking context</div>
+    <div class="ctx-row"><span class="ctx-key">Client</span><span class="ctx-val">Lerato M.</span></div>
+    <div class="ctx-row"><span class="ctx-key">Class pack</span><span class="ctx-val">10-class · 6 remaining</span></div>
+    <div class="ctx-row"><span class="ctx-key">Last class</span><span class="ctx-val">29 Mar — Vinyasa</span></div>
+    <div class="ctx-row"><span class="ctx-key">Contraindications</span><span><span class="ctx-badge cb-warn">Left knee — monitor</span></span></div>
+    <div class="ctx-row"><span class="ctx-key">Preferred level</span><span class="ctx-val">Intermediate</span></div>
+    <div class="ctx-row"><span class="ctx-key">Booked session</span><span><span class="ctx-badge cb-ok">Hatha Flow 7am ✓</span></span></div>
+    <div style="margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-m);margin-bottom:8px">Available tomorrow</div>
+    <div class="ctx-row"><span class="ctx-key">7:00am Hatha Flow</span><span class="ctx-val">3 → 2 spaces</span></div>
+    <div class="ctx-row"><span class="ctx-key">9:30am Gentle Yoga</span><span class="ctx-val">6 spaces</span></div>
+    <div class="ctx-row"><span class="ctx-key">6:00pm Yin</span><span class="ctx-val">Full · waitlist open</span></div>
+  </div>
+</div>
+</div>
+
+<!-- INTAKE -->
+<div class="tab-panel" id="tab-intake">
+<div class="chat-wrap">
+  <div>
+    <div class="chat-shell">
+      <div class="chat-header">
+        <div class="chat-avatar" style="background:var(--terra-dim)">📋</div>
+        <div><div class="chat-name">Client Intake · New member</div><div class="chat-status">● PAR-Q screening</div></div>
+      </div>
+      <div class="chat-messages">
+        <div class="msg msg-agent">Welcome to Flow Studio! 🌿 Before your first class I need to ask a few quick health questions — takes about 3 minutes.<br><br>These help Sarah tailor your first session safely. Ready?<div class="msg-time">09:02</div></div>
+        <div class="msg msg-client">Yes, ready<div class="msg-time">09:02</div></div>
+        <div class="msg msg-agent">Great. First: <strong>Have you been told by a doctor that you have a heart condition</strong> and should only do physical activity recommended by a doctor?<div class="msg-time">09:02</div></div>
+        <div class="msg msg-client">No<div class="msg-time">09:03</div></div>
+        <div class="msg msg-agent">Do you feel pain in your chest when you do physical activity?<div class="msg-time">09:03</div></div>
+        <div class="msg msg-client">No<div class="msg-time">09:03</div></div>
+        <div class="msg msg-agent">Any current injuries, recent surgeries, or areas of pain I should know about?<div class="msg-time">09:03</div></div>
+        <div class="msg msg-client">I had a knee op about 8 months ago, mostly fine now but still careful<div class="msg-time">09:04</div></div>
+        <div class="msg msg-agent">Got it — I've flagged your left knee as a monitoring point for Sarah. She'll avoid deep knee flexion and offer you modifications.<br><br>Last question: what brings you to Flow Studio? What's your main goal?<div class="msg-time">09:04</div></div>
+        <div class="msg msg-client">Stress relief mostly and getting more flexible<div class="msg-time">09:04</div></div>
+        <div class="msg msg-agent">Perfect. PAR-Q complete ✓ — no GP clearance required.<br><br>I've sent Sarah your profile. She'll see: post-knee-surgery (8 months), goal = stress relief + flexibility, beginner-friendly.<br><br>We'll see you for your first class! 🙏<div class="msg-time">09:05</div></div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" placeholder="Intake complete — read only demo" disabled>
+        <button class="chat-send" disabled style="opacity:.4">Send</button>
+      </div>
+    </div>
+  </div>
+  <div class="chat-context">
+    <div class="ctx-title">🧾 Generated client profile</div>
+    <div class="ctx-row"><span class="ctx-key">PAR-Q result</span><span><span class="ctx-badge cb-ok">Passed — no GP clearance</span></span></div>
+    <div class="ctx-row"><span class="ctx-key">Flags</span><span><span class="ctx-badge cb-warn">Left knee (post-op, 8mo)</span></span></div>
+    <div class="ctx-row"><span class="ctx-key">Goal</span><span class="ctx-val">Stress relief · Flexibility</span></div>
+    <div class="ctx-row"><span class="ctx-key">Experience</span><span class="ctx-val">Beginner</span></div>
+    <div class="ctx-row"><span class="ctx-key">Consent</span><span><span class="ctx-badge cb-ok">Signed digitally</span></span></div>
+    <div class="ctx-row"><span class="ctx-key">Notified</span><span><span class="ctx-badge cb-info">Sarah K. via WhatsApp</span></span></div>
+    <div style="margin-top:14px;font-size:11px;color:var(--text-m);line-height:1.6;font-style:italic">POPIA note: health data stored encrypted. Explicit consent obtained. Data deletion on request.</div>
+  </div>
+</div>
+</div>
+
+<!-- PROGRAMME -->
+<div class="tab-panel" id="tab-programme">
+<div style="margin-bottom:16px;font-size:13px;color:var(--text-b)"><strong>Client:</strong> Lerato M. &nbsp;|&nbsp; <strong>Level:</strong> Beginner–intermediate &nbsp;|&nbsp; <strong>Contraindication:</strong> Left knee (post-op) &nbsp;|&nbsp; <strong>Goal:</strong> Stress relief, flexibility &nbsp;|&nbsp; <strong>Week 3 of 8</strong></div>
+<div class="programme">
+  <div class="prog-card">
+    <div class="prog-week">Week 3 · Session A</div>
+    <div class="prog-title">Hip Opening + Grounding (60 min)</div>
+    <div class="prog-item"><span class="prog-num">1</span><span class="prog-pose">Constructive rest · 3 min</span><span class="prog-dur">3 min</span></div>
+    <div class="prog-item"><span class="prog-num">2</span><span class="prog-pose">Apanasana (knees to chest)</span><span class="prog-dur">8 breaths</span></div>
+    <div class="prog-item"><span class="prog-num">3</span><span class="prog-pose">Supta Baddha Konasana</span><span class="prog-dur">5 min</span></div>
+    <div class="prog-item"><span class="prog-num">4</span><span class="prog-pose">Tadasana → Vrksasana (tree)</span><span class="prog-dur">1 min / side</span></div>
+    <div class="prog-item"><span class="prog-num">5</span><span class="prog-pose">Virabhadrasana II → Parsvakonasana</span><span class="prog-dur">5 breaths / side</span></div>
+    <div class="prog-item"><span class="prog-num">6</span><span class="prog-pose">Supta Kapotasana <span style="color:var(--terra);font-size:11px">(mod)</span></span><span class="prog-dur">2 min / side</span></div>
+    <div class="mod-note">⚑ Using Supta Kapotasana (reclined) instead of full pigeon — avoids deep knee flexion for left knee</div>
+    <div class="prog-item"><span class="prog-num">7</span><span class="prog-pose">Supta Padangusthasana series</span><span class="prog-dur">5 breaths</span></div>
+    <div class="prog-item"><span class="prog-num">8</span><span class="prog-pose">Savasana</span><span class="prog-dur">5 min</span></div>
+  </div>
+  <div class="prog-card">
+    <div class="prog-week">Week 3 · Session B</div>
+    <div class="prog-title">Core + Spinal Mobility (60 min)</div>
+    <div class="prog-item"><span class="prog-num">1</span><span class="prog-pose">Cat-cow warm-up</span><span class="prog-dur">2 min</span></div>
+    <div class="prog-item"><span class="prog-num">2</span><span class="prog-pose">Balasana (child's pose)</span><span class="prog-dur">3 min</span></div>
+    <div class="prog-item"><span class="prog-num">3</span><span class="prog-pose">Marjaryasana flow</span><span class="prog-dur">10 breaths</span></div>
+    <div class="prog-item"><span class="prog-num">4</span><span class="prog-pose">Adho Mukha Svanasana (downdog)</span><span class="prog-dur">1 min</span></div>
+    <div class="prog-item"><span class="prog-num">5</span><span class="prog-pose">Phalakasana (plank) <span style="color:var(--terra);font-size:11px">(mod)</span></span><span class="prog-dur">30 sec × 3</span></div>
+    <div class="mod-note">⚑ Knees-down option available — no pressure on knee joint</div>
+    <div class="prog-item"><span class="prog-num">6</span><span class="prog-pose">Setu Bandha Sarvangasana (bridge)</span><span class="prog-dur">5 breaths × 3</span></div>
+    <div class="prog-item"><span class="prog-num">7</span><span class="prog-pose">Supine twist both sides</span><span class="prog-dur">3 min / side</span></div>
+    <div class="prog-item"><span class="prog-num">8</span><span class="prog-pose">Savasana</span><span class="prog-dur">5 min</span></div>
+  </div>
+</div>
+<div style="margin-top:12px;font-size:12px;color:var(--text-m);font-style:italic">⚑ Orange modifications generated automatically based on left knee contraindication. Practitioner can override any item.</div>
+</div>
+
+<!-- NUTRITION -->
+<div class="tab-panel" id="tab-nutrition">
+<div style="margin-bottom:16px;font-size:13px;color:var(--text-b)"><strong>Client:</strong> Sarah M. &nbsp;|&nbsp; <strong>Goal:</strong> Energy + gut health &nbsp;|&nbsp; <strong>Restrictions:</strong> Dairy-free, gluten-free &nbsp;|&nbsp; <strong>Target:</strong> ~1,800 kcal · P: 110g · C: 200g · F: 65g</div>
+<div class="meal-day">
+  <div class="meal-header"><div class="meal-title">Monday</div><div class="meal-macro">Total: ~1,820 kcal · P: 112g · C: 198g · F: 67g · Fibre: 34g</div></div>
+  <div class="meal-item"><span class="meal-time">07:00</span><span class="meal-name"><strong>Smoothie bowl</strong> — banana, mango, coconut yoghurt, chia seeds, pumpkin seeds</span><span class="meal-kcal">420 kcal</span></div>
+  <div class="meal-item"><span class="meal-time">10:00</span><span class="meal-name"><strong>Rice cakes × 2</strong> + almond butter + sliced banana</span><span class="meal-kcal">280 kcal</span></div>
+  <div class="meal-item"><span class="meal-time">13:00</span><span class="meal-name"><strong>Brown rice bowl</strong> — grilled chicken, roasted veg, tahini, baby spinach</span><span class="meal-kcal">520 kcal</span></div>
+  <div class="meal-item"><span class="meal-time">16:00</span><span class="meal-name"><strong>Apple + mixed nuts</strong> (almonds, cashews, walnuts)</span><span class="meal-kcal">220 kcal</span></div>
+  <div class="meal-item"><span class="meal-time">19:00</span><span class="meal-name"><strong>Baked salmon</strong> + sweet potato mash + steamed broccoli + lemon dressing</span><span class="meal-kcal">480 kcal</span></div>
+</div>
+<div class="meal-day">
+  <div class="meal-header"><div class="meal-title">Tuesday</div><div class="meal-macro">Total: ~1,790 kcal · P: 108g · C: 195g · F: 63g · Fibre: 31g</div></div>
+  <div class="meal-item"><span class="meal-time">07:00</span><span class="meal-name"><strong>GF oats</strong> (certified gluten-free) — coconut milk, blueberries, flaxseed, cinnamon</span><span class="meal-kcal">390 kcal</span></div>
+  <div class="meal-item"><span class="meal-time">10:00</span><span class="meal-name"><strong>Boiled eggs × 2</strong> + sliced avocado on GF crackers</span><span class="meal-kcal">300 kcal</span></div>
+  <div class="meal-item"><span class="meal-time">13:00</span><span class="meal-name"><strong>Lentil soup</strong> — red lentils, butternut, cumin, coriander, spinach + GF roll</span><span class="meal-kcal">480 kcal</span></div>
+  <div class="meal-item"><span class="meal-time">16:00</span><span class="meal-name"><strong>Coconut yoghurt</strong> + mixed berries + sunflower seeds</span><span class="meal-kcal">180 kcal</span></div>
+  <div class="meal-item"><span class="meal-time">19:00</span><span class="meal-name"><strong>Chicken stir-fry</strong> — tamari soy, veg (broccoli, bok choy, mushrooms) + brown rice</span><span class="meal-kcal">440 kcal</span></div>
+</div>
+<div style="margin-top:8px;font-size:11px;color:var(--text-m);font-style:italic">⚑ HPCSA scope note: meal plan generated as general wellness guidance. For medical nutrition therapy (IBS, diabetes, eating disorders), registered dietitian review required before delivery to client.</div>
+</div>
+
+<!-- SOAP -->
+<div class="tab-panel" id="tab-soap">
+<div style="margin-bottom:16px">
+  <div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:8px">Practitioner dictation</div>
+  <div class="dictate-area">"Lerato, session 8. She came in tight in the left hip, mentioned she'd been sitting a lot at work this week. We did modified pigeon and some hip flexor work. She reported a 4/10 tightness at start, 2/10 by end. Mood was good, energy was high. Plan to introduce full pigeon next session if no regression."</div>
+  <div style="font-size:11px;color:var(--text-m);margin-bottom:20px">↓ AI generated SOAP note</div>
+</div>
+<div class="soap">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid var(--border)">
+    <div><div style="font-size:15px;font-weight:700;color:var(--text)">Session Note</div><div style="font-family:var(--mono);font-size:10px;color:var(--text-m)">2026-04-03 · Lerato M. · Session 8 · Sarah K.</div></div>
+    <span style="background:rgba(74,124,89,.12);color:var(--sage);font-family:var(--mono);font-size:10px;padding:3px 12px;border-radius:var(--r-pill)">Auto-generated · Pending review</span>
+  </div>
+  <div class="soap-section"><div class="soap-label">Subjective</div><div class="soap-text">Client presents with left hip tightness (4/10) attributed to prolonged sitting at work this week. Mood: positive. Energy: high. No new injuries or concerns reported.</div></div>
+  <div class="soap-section"><div class="soap-label">Objective</div><div class="soap-text">Session focus: left hip mobility, hip flexor lengthening. Techniques: modified Kapotasana (pigeon prep), low lunge hip flexor series, supine figure-four. Client demonstrated full range within modified positions. Tightness score end of session: 2/10.</div></div>
+  <div class="soap-section"><div class="soap-label">Assessment</div><div class="soap-text">Good response to hip-focused work. Tightness reducing week-on-week (was 6/10 at session 5). Consistency with home practice appears to be a contributing factor.</div></div>
+  <div class="soap-section" style="margin-bottom:0"><div class="soap-label">Plan</div><div class="soap-text">Introduce full Kapotasana (pigeon) at next session if no regression reported. Continue hip flexor focus. Encourage daily 5-minute hip mobility practice between sessions.</div></div>
+</div>
+</div>
+
+<!-- PROGRESS -->
+<div class="tab-panel" id="tab-progress">
+<div class="chat-wrap">
+  <div>
+    <div class="chat-shell">
+      <div class="chat-header">
+        <div class="chat-avatar" style="background:var(--honey-dim)">⭐</div>
+        <div><div class="chat-name">Progress Coach · Post-session</div><div class="chat-status">● 2 hours after class</div></div>
+      </div>
+      <div class="chat-messages">
+        <div class="msg msg-agent">Hey Lerato 🙏 How did your Hatha Flow feel today?<div class="msg-time">09:14</div></div>
+        <div class="msg msg-client">Amazing, felt tight in my hips at the start but loosened up<div class="msg-time">09:16</div></div>
+        <div class="msg msg-agent">That hip tightness at the start is so common — great that you stayed with it and felt it release 🌿<br><br>Quick check:<br>⚡ Energy right now? (1–10)<br>😴 Sleep last night? (1–10)<div class="msg-time">09:16</div></div>
+        <div class="msg msg-client">Energy 8, sleep was maybe 7<div class="msg-time">09:18</div></div>
+        <div class="msg msg-agent">Solid! That's your <strong>6th class this month</strong> — you're on a streak 🔥<br><br>Sarah will see this in your notes before Thursday. See you then!<div class="msg-time">09:18</div></div>
+      </div>
+      <div class="chat-input-row">
+        <input class="chat-input" placeholder="Progress demo — read only" disabled>
+        <button class="chat-send" disabled style="opacity:.4">Send</button>
+      </div>
+    </div>
+  </div>
+  <div class="chat-context">
+    <div class="ctx-title">📈 Progress snapshot</div>
+    <div class="ctx-row"><span class="ctx-key">Classes this month</span><span class="ctx-val">6 / 8 target</span></div>
+    <div class="ctx-row"><span class="ctx-key">Streak</span><span><span class="ctx-badge cb-ok">6 sessions 🔥</span></span></div>
+    <div class="ctx-row"><span class="ctx-key">Avg energy (post)</span><span class="ctx-val">7.4 / 10</span></div>
+    <div class="ctx-row"><span class="ctx-key">Hip tightness trend</span><span><span class="ctx-badge cb-ok">6/10 → 2/10 ↓</span></span></div>
+    <div class="ctx-row"><span class="ctx-key">Sleep quality</span><span class="ctx-val">6.8 avg this week</span></div>
+    <div class="ctx-row"><span class="ctx-key">Last milestone</span><span><span class="ctx-badge cb-info">First warrior III ✓</span></span></div>
+    <div style="margin-top:16px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-m);margin-bottom:6px">Monthly report</div>
+    <div style="font-size:12px;color:var(--text-b)">PDF sent to Sarah K. and Lerato on 1 Apr. Highlights: improved hip mobility, consistent attendance, energy trend positive.</div>
+  </div>
+</div>
+</div>
+
+</div><!-- /wrap -->
+</section>
+
+<!-- ── MATRIX PLACEMENT ── -->
+<section class="matrix-section" id="matrix">
+<div class="wrap">
+<div class="sec-head reveal">
+  <div class="eyebrow" style="justify-content:center;margin-bottom:12px">Skills matrix</div>
+  <h2>Where <span style="color:var(--sage)">hlth</span> fits in the 2nth.ai skills hub</h2>
+  <p>Six domains covering every professional sector 2nth.ai serves. Wellness joins as a peer domain — not a sub-category of business.</p>
+</div>
+<div class="domain-grid reveal">
+  <div class="domain-card"><div class="domain-code">biz</div><div class="domain-name">Business</div><div class="domain-skills">BI · HubSpot CRM · Market Intelligence · Xero · ERPNext · Sage X3 · Shopify</div></div>
+  <div class="domain-card"><div class="domain-code">edu</div><div class="domain-name">Education</div><div class="domain-skills">Assessment Builder · Curriculum Designer · Research Assistant</div></div>
+  <div class="domain-card"><div class="domain-code">eng</div><div class="domain-name">Engineering</div><div class="domain-skills">Code Architecture · DevOps Pipeline · Security Audit</div></div>
+  <div class="domain-card"><div class="domain-code">fin</div><div class="domain-name">Finance</div><div class="domain-skills">Budget Variance · Cash Flow Forecaster · Financial Modelling</div></div>
+  <div class="domain-card"><div class="domain-code">leg</div><div class="domain-name">Legal</div><div class="domain-skills">Compliance Checker · Contract Review · Document Drafting</div></div>
+  <div class="domain-card new"><div class="domain-code">hlth ← new</div><div class="domain-name">Health & Wellness</div><div class="domain-skills">Client Intake · Programme Architect · Nutrition Advisor · Booking & Scheduling · Progress Coach · Practitioner Copilot</div></div>
+</div>
+<div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--r-lg);padding:24px;box-shadow:var(--shadow)">
+  <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:16px">Why a standalone domain (not under <code style="background:var(--bg-alt);padding:2px 6px;border-radius:4px;font-size:12px">biz</code>)?</div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+    <div><div style="font-weight:600;font-size:13px;color:var(--sage);margin-bottom:4px">Clinical requirements</div><div style="font-size:12px;color:var(--text-b);line-height:1.65">PAR-Q screening, contraindication filtering, SOAP note format, and HPCSA scope of practice rules don't exist in any other domain.</div></div>
+    <div><div style="font-weight:600;font-size:13px;color:var(--sage);margin-bottom:4px">Sensitive health data</div><div style="font-size:12px;color:var(--text-b);line-height:1.65">POPIA Section 26 classifies health information as special personal information. Requires explicit consent flows and encrypted storage not needed in general biz skills.</div></div>
+    <div><div style="font-weight:600;font-size:13px;color:var(--sage);margin-bottom:4px">Regulated practitioners</div><div style="font-size:12px;color:var(--text-b);line-height:1.65">Dietitians (HPCSA/ADSA), biokineticists (ESSA), physiotherapists — all have scope of practice limits the AI must respect. The skill layer enforces this by design.</div></div>
+  </div>
+</div>
+</div>
+</section>
+
+<footer>
+  <span>2nth.ai Skills Hub · <code style="font-family:var(--mono);font-size:11px">hlth</code> domain · <a href="../index.html">Imbila.ai platform</a> · <a href="https://2nth.ai">2nth.ai</a></span>
+  <span style="font-family:var(--mono);font-size:10px;color:var(--text-m)">Proposal · 6 skills · Health & Wellness</span>
+</footer>
+
+<script>
+const savedTheme = localStorage.getItem('imbila-theme') ?? 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+document.getElementById('theme-btn').addEventListener('click', () => {
+  const next = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('imbila-theme', next);
+});
+
+const SKILLS = [
+  { id:'client-intake',       icon:'📋', color:'#C4704A', bg:'rgba(196,112,74,.12)',  name:'Client Intake',        desc:'PAR-Q screening, health history, contraindication flagging, digital consent. Generates a practitioner brief before the first session.', tags:['PAR-Q','POPIA','WhatsApp'], config:[{l:'Practice type',o:['Yoga','Pilates','Biokinetics','Nutrition','Mixed']},{l:'GP clearance threshold',o:['Conservative','Standard']},{l:'Handoff to',o:['Practitioner WhatsApp','Email digest','Webhook']}] },
+  { id:'programme-architect',  icon:'🧘', color:'#4A7C59', bg:'rgba(74,124,89,.12)',   name:'Programme Architect',  desc:'Designs yoga sequences, Pilates programmes, and periodisation plans. Auto-applies modifications for contraindicated movements per client.', tags:['Yoga','Pilates','Periodisation'], config:[{l:'Discipline',o:['Yoga (Hatha/Vinyasa/Yin)','Pilates (Mat)','Pilates (Reformer)','Mixed']},{l:'Programme length',o:['4 weeks','6 weeks','8 weeks','12 weeks']},{l:'Output format',o:['PDF card','Practitioner notes','Client summary']}] },
+  { id:'nutrition-advisor',    icon:'🥗', color:'#3A9E6B', bg:'rgba(58,158,107,.12)',  name:'Nutrition Advisor',    desc:'Meal plans, macro tracking, dietary restriction handling. Evidence-based guidance within HPCSA/ADSA scope. Dietitian review gate for medical nutrition therapy.', tags:['Meal plans','HPCSA scope','ADSA'], config:[{l:'Practice type',o:['Registered dietitian','Nutritionist','Wellness studio','Sports nutrition']},{l:'Goal focus',o:['Weight management','Sports performance','Gut health','General wellness']},{l:'Practitioner review gate',o:['Required (all plans)','Required (medical only)','Informational']}] },
+  { id:'booking-scheduling',   icon:'📅', color:'#4A90B8', bg:'rgba(74,144,184,.1)',   name:'Booking & Scheduling', desc:'Conversational class booking via WhatsApp. Waitlists, cancellation policy enforcement, automated reminders, class pack tracking.', tags:['WhatsApp','Waitlists','Reminders'], config:[{l:'Booking channel',o:['WhatsApp','Web chat','Both']},{l:'Cancellation policy',o:['4 hours','12 hours','24 hours','48 hours']},{l:'Reminder timing',o:['24hr only','24hr + 1hr','Custom']}] },
+  { id:'progress-coach',       icon:'⭐', color:'#EDAF42', bg:'rgba(237,175,66,.12)',  name:'Progress Coach',       desc:'Post-session check-ins, metric tracking, streak logging, milestone recognition, and between-session nudges. Monthly progress report for practitioner and client.', tags:['Check-ins','Milestones','Streaks'], config:[{l:'Check-in timing',o:['2hr post-session','Next morning','Off']},{l:'Tone',o:['Warm & encouraging','Matter-of-fact','Coach (direct)']},{l:'Report cadence',o:['Weekly','Monthly','Session-by-session']}] },
+  { id:'practitioner-copilot', icon:'🩺', color:'#7C6FA0', bg:'rgba(124,111,160,.12)', name:'Practitioner Copilot', desc:'SOAP note generation from voice dictation, pre-session client briefs, contraindication alerts, referral letter drafting, CPD hour tracking.', tags:['SOAP notes','HPCSA','CPD tracking'], config:[{l:'SOAP format',o:['Standard SOAP','DAP','GIRP','Custom']},{l:'Pre-session brief',o:['30min before','1hr before','On demand']},{l:'CPD body',o:['HPCSA','ESSA','Yoga Alliance SA','ADSA','Multiple']}] },
+];
+
+const state = JSON.parse(localStorage.getItem('wellness-skills') ?? '{}');
+
+function renderSkills() {
+  const grid = document.getElementById('skills-grid');
+  grid.innerHTML = SKILLS.map(s => {
+    const on = !!state[s.id]?.enabled;
+    const cfg = state[s.id]?.config ?? {};
+    return `<div class="skill-card ${on?'active':''}" id="sc-${s.id}">
+      <div class="skill-toggle ${on?'on':''}" id="tog-${s.id}" onclick="toggleSkill('${s.id}')"></div>
+      <div class="skill-color" style="background:${s.bg}">${s.icon}</div>
+      <div class="skill-name" style="${on?'color:'+s.color:''}">${s.name}</div>
+      <div class="skill-desc">${s.desc}</div>
+      <div class="skill-tags">${s.tags.map(t=>`<span class="skill-tag">${t}</span>`).join('')}
+        ${on?`<button onclick="toggleCfg('${s.id}')" style="margin-left:auto;background:none;border:none;font-family:var(--mono);font-size:10px;color:var(--text-m);cursor:pointer">⚙ Configure</button>`:''}
+      </div>
+      ${on?`<div class="skill-expand" id="cfg-${s.id}">
+        ${s.config.map(c=>`<div class="config-row"><span class="config-label">${c.l}</span>
+          <select class="config-select" onchange="updateCfg('${s.id}','${c.l}',this.value)">
+            ${c.o.map(o=>`<option ${cfg[c.l]===o?'selected':''}>${o}</option>`).join('')}
+          </select></div>`).join('')}
+      </div>`:''}
+    </div>`;
+  }).join('');
+  updateBar();
+}
+
+function toggleSkill(id) {
+  state[id] = { ...(state[id]??{}), enabled: !state[id]?.enabled };
+  localStorage.setItem('wellness-skills', JSON.stringify(state));
+  renderSkills();
+  if (state[id].enabled) setTimeout(() => document.getElementById(`sc-${id}`)?.scrollIntoView({ behavior:'smooth', block:'nearest' }), 60);
+}
+function toggleCfg(id) { document.getElementById(`cfg-${id}`)?.classList.toggle('open'); }
+function updateCfg(id, key, val) {
+  state[id] = { ...(state[id]??{}), config: { ...(state[id]?.config??{}), [key]: val } };
+  localStorage.setItem('wellness-skills', JSON.stringify(state));
+}
+function updateBar() {
+  const n = Object.values(state).filter(s=>s.enabled).length;
+  document.getElementById('enabled-count').textContent = `${n} / 6`;
+  document.getElementById('enabled-bar-fill').style.width = `${(n/6)*100}%`;
+}
+
+function showTab(id, el) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  el.classList.add('active');
+}
+
+function sendBooking() {
+  const input = document.getElementById('booking-input');
+  const txt = input.value.trim(); if (!txt) return;
+  const msgs = document.getElementById('msgs-booking');
+  msgs.innerHTML += `<div class="msg msg-client">${txt}<div class="msg-time">${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+  input.value = '';
+  msgs.scrollTop = msgs.scrollHeight;
+  setTimeout(() => {
+    const replies = ['Let me check availability for you… 🌿','Which day works best for you?','Done! I\'ve noted that. Anything else I can help with?','Sure, I can look that up. One moment…','You\'re all set! See you on the mat 🙏'];
+    msgs.innerHTML += `<div class="msg msg-agent">${replies[Math.floor(Math.random()*replies.length)]}<div class="msg-time">${new Date().toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</div></div>`;
+    msgs.scrollTop = msgs.scrollHeight;
+  }, 900);
+}
+
+const ro = new IntersectionObserver(e => e.forEach(x => { if(x.isIntersecting) x.target.classList.add('visible') }), { threshold:.08 });
+document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+
+renderSkills();
+</script>
+</body>
+</html>

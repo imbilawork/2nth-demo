@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — 2nth Demos</title>
+  <link rel="icon" type="image/svg+xml" href="https://2nth.ai/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    *{-webkit-font-smoothing:antialiased}
+    html,body{height:100%}
+    body{font-family:'Barlow',sans-serif;background:#0a0a0a;color:#a1a1aa;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+
+    .card{background:#111114;border:1px solid hsla(0,0%,100%,.08);border-radius:10px;padding:40px 36px;width:100%;max-width:400px}
+    .logo{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.06em;color:#fafafa;margin-bottom:4px}
+    .logo span{color:#06b6d4}
+    .sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#3f3f46;margin-bottom:28px}
+    .card-title{font-size:22px;font-weight:700;color:#fafafa;margin-bottom:6px;letter-spacing:-.02em}
+    .card-desc{font-size:14px;color:#71717a;margin-bottom:32px;line-height:1.55}
+
+    .field{margin-bottom:18px}
+    label{display:block;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#52525b;margin-bottom:7px}
+    input{width:100%;background:#1c1c1e;border:1px solid hsla(0,0%,100%,.1);border-radius:5px;padding:11px 14px;font-size:14px;color:#fafafa;font-family:'Barlow',sans-serif;outline:none;transition:border-color .15s}
+    input:focus{border-color:#06b6d4}
+    input::placeholder{color:#3f3f46}
+    input:disabled{opacity:.5;cursor:not-allowed}
+
+    .btn{width:100%;padding:12px;background:#06b6d4;color:#0a0a0a;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border:none;border-radius:5px;cursor:pointer;transition:background .15s}
+    .btn:hover{background:#22d3ee}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+    .btn-ghost{background:none;color:#52525b;border:1px solid hsla(0,0%,100%,.08);margin-top:10px}
+    .btn-ghost:hover{background:#1c1c1e;color:#a1a1aa}
+
+    .step{display:none}.step.active{display:block}
+    .otp-row{display:flex;gap:8px}
+    .otp-row input{text-align:center;font-size:22px;font-family:'JetBrains Mono',monospace;letter-spacing:.1em;padding:12px 8px}
+
+    .msg{font-size:13px;padding:10px 14px;border-radius:5px;margin-bottom:16px;line-height:1.5;display:none}
+    .msg.show{display:block}
+    .msg-error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.2);color:#fca5a5}
+    .msg-ok{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.2);color:#6ee7b7}
+
+    .check-circle{width:52px;height:52px;border-radius:50%;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.25);display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 20px}
+    .success-email{font-family:'JetBrains Mono',monospace;font-size:12px;color:#06b6d4;margin-bottom:16px;text-align:center;word-break:break-all}
+
+    .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(10,10,10,.3);border-top-color:#0a0a0a;border-radius:50%;animation:spin .6s linear infinite;vertical-align:middle;margin-right:6px}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    .back-link{text-align:center;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#3f3f46;margin-top:24px}
+    .back-link a{color:#52525b;text-decoration:none;transition:color .15s}
+    .back-link a:hover{color:#06b6d4}
+
+    .note{font-size:12px;color:#3f3f46;text-align:center;margin-top:20px;line-height:1.5}
+    .note a{color:#52525b;transition:color .15s}
+    .note a:hover{color:#06b6d4}
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo"><span>2</span>NTH</div>
+  <div class="sub">Demo Suite</div>
+
+  <!-- STEP 1: Email -->
+  <div id="step-email" class="step active">
+    <div class="card-title">Sign in to continue</div>
+    <div class="card-desc">Enter your email to receive a sign-in code. Demos are available to registered 2nth.ai partners and invited clients.</div>
+
+    <div id="msg-email" class="msg"></div>
+
+    <div class="field">
+      <label for="email-input">Email address</label>
+      <input type="email" id="email-input" placeholder="you@example.com" autocomplete="email" autofocus>
+    </div>
+
+    <button class="btn" id="send-btn" onclick="sendCode()">Send code →</button>
+
+    <div class="note">Don't have access? <a href="https://2nth.ai/join.html" target="_blank">Register at 2nth.ai</a> then return here.</div>
+  </div>
+
+  <!-- STEP 2: OTP -->
+  <div id="step-otp" class="step">
+    <div class="card-title">Enter your code</div>
+    <div class="card-desc">6-digit code sent to <strong id="otp-email-display" style="color:#fafafa"></strong></div>
+
+    <div id="msg-otp" class="msg"></div>
+
+    <div class="field">
+      <label>Sign-in code</label>
+      <div class="otp-row">
+        <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" id="d0" onkeyup="otpKey(event,0)">
+        <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" id="d1" onkeyup="otpKey(event,1)">
+        <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" id="d2" onkeyup="otpKey(event,2)">
+        <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" id="d3" onkeyup="otpKey(event,3)">
+        <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" id="d4" onkeyup="otpKey(event,4)">
+        <input type="text" inputmode="numeric" maxlength="1" class="otp-digit" id="d5" onkeyup="otpKey(event,5)">
+      </div>
+    </div>
+
+    <button class="btn" id="verify-btn" onclick="verifyCode()">Verify →</button>
+    <button class="btn btn-ghost" onclick="backToEmail()">← Change email</button>
+  </div>
+
+  <!-- STEP 3: Success -->
+  <div id="step-success" class="step">
+    <div class="check-circle">✓</div>
+    <div style="text-align:center">
+      <div class="card-title" style="text-align:center;margin-bottom:8px">You're in.</div>
+      <div id="success-email" class="success-email"></div>
+      <div class="card-desc" style="text-align:center;margin-bottom:24px">Signed in to 2nth Demos.</div>
+      <button class="btn" id="continue-btn" onclick="goBack()" style="width:auto;padding:10px 28px">View Demos →</button>
+    </div>
+  </div>
+</div>
+
+<div class="back-link" id="back-to-home" style="display:none">
+  <a href="/">← Back to demos</a>
+</div>
+
+<script>
+const returnUrl = new URLSearchParams(location.search).get('return') || '/';
+let currentEmail = '';
+
+function showMsg(stepId, type, text) {
+  const el = document.getElementById('msg-' + stepId);
+  if (!el) return;
+  el.className = 'msg show msg-' + type;
+  el.textContent = text;
+}
+function clearMsg(stepId) {
+  const el = document.getElementById('msg-' + stepId);
+  if (el) { el.className = 'msg'; el.textContent = ''; }
+}
+function setLoading(btnId, loading, defaultText) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading ? '<span class="spinner"></span>Sending...' : defaultText;
+}
+
+async function sendCode() {
+  clearMsg('email');
+  const email = document.getElementById('email-input').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showMsg('email', 'error', 'Enter a valid email address.');
+    return;
+  }
+  setLoading('send-btn', true, 'Send code →');
+  try {
+    const res = await fetch('/api/auth/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email }),
+    });
+    const data = await res.json();
+    if (!res.ok) { showMsg('email', 'error', data.error || 'Something went wrong.'); setLoading('send-btn', false, 'Send code →'); return; }
+    currentEmail = email;
+    document.getElementById('otp-email-display').textContent = email;
+    document.getElementById('step-email').classList.remove('active');
+    document.getElementById('step-otp').classList.add('active');
+    document.getElementById('d0').focus();
+  } catch { showMsg('email', 'error', 'Network error — try again.'); }
+  setLoading('send-btn', false, 'Send code →');
+}
+
+function otpKey(e, idx) {
+  const digits = document.querySelectorAll('.otp-digit');
+  const val = e.target.value.replace(/\D/g, '');
+  e.target.value = val;
+  if (val && idx < 5) digits[idx + 1].focus();
+  if (e.key === 'Backspace' && !val && idx > 0) digits[idx - 1].focus();
+  const code = Array.from(digits).map(d => d.value).join('');
+  if (code.length === 6) verifyCode();
+}
+
+async function verifyCode() {
+  clearMsg('otp');
+  const digits = document.querySelectorAll('.otp-digit');
+  const code = Array.from(digits).map(d => d.value).join('');
+  if (code.length !== 6) { showMsg('otp', 'error', 'Enter all 6 digits.'); return; }
+  setLoading('verify-btn', true, 'Verify →');
+  digits.forEach(d => { d.disabled = true; });
+  try {
+    const res = await fetch('/api/auth/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: currentEmail, code }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      showMsg('otp', 'error', data.error || 'Invalid code.');
+      digits.forEach(d => { d.disabled = false; d.value = ''; });
+      document.getElementById('d0').focus();
+      setLoading('verify-btn', false, 'Verify →');
+      return;
+    }
+    document.getElementById('step-otp').classList.remove('active');
+    document.getElementById('step-success').classList.add('active');
+    document.getElementById('success-email').textContent = data.user.email;
+    setTimeout(goBack, 2000);
+  } catch {
+    showMsg('otp', 'error', 'Network error — try again.');
+    digits.forEach(d => { d.disabled = false; });
+    setLoading('verify-btn', false, 'Verify →');
+  }
+}
+
+function backToEmail() {
+  document.querySelectorAll('.otp-digit').forEach(d => { d.value = ''; d.disabled = false; });
+  clearMsg('otp');
+  document.getElementById('step-otp').classList.remove('active');
+  document.getElementById('step-email').classList.add('active');
+  document.getElementById('email-input').focus();
+}
+
+function goBack() { window.location.href = returnUrl; }
+
+document.getElementById('email-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') sendCode();
+});
+
+// If already signed in, redirect
+fetch('/api/auth/session').then(r => r.json()).then(({ user }) => {
+  if (user) window.location.href = returnUrl;
+  else document.getElementById('back-to-home').style.display = 'block';
+});
+</script>
+</body>
+</html>

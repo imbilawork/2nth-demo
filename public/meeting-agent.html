@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meeting Agent · AI-Powered Meeting Intelligence · 2nth.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Tokens ───────────────────────────────────────────────── */
+:root {
+  --indigo:      #6366F1;
+  --indigo-light:#818CF8;
+  --indigo-dark: #4F46E5;
+  --violet:      #8B5CF6;
+  --cyan:        #06B6D4;
+  --green:       #10B981;
+  --amber:       #F59E0B;
+  --coral:       #F87171;
+  --teams:       #5B5EA6;
+  --meet:        #34A853;
+  --zoom:        #2D8CFF;
+  --slack:       #E01E5A;
+  --black:       #0A0A0A;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+}
+
+[data-theme="dark"] {
+  --bg:           #080810;
+  --bg-card:      #0F0F1A;
+  --bg-subtle:    #141428;
+  --bg-mock:      #060610;
+  --border:       rgba(99,102,241,.15);
+  --border-strong:rgba(99,102,241,.32);
+  --text-primary: #E8E8F8;
+  --text-body:    #9898C8;
+  --text-muted:   #5A5A8A;
+  --text-heading: #E8E8F8;
+}
+
+[data-theme="light"] {
+  --bg:           #F5F5FF;
+  --bg-card:      #FFFFFF;
+  --bg-subtle:    #EEEEFF;
+  --bg-mock:      #0F0F1A;
+  --border:       rgba(99,102,241,.14);
+  --border-strong:rgba(99,102,241,.3);
+  --text-primary: #0A0A1A;
+  --text-body:    #3D3D6A;
+  --text-muted:   #7070A0;
+  --text-heading: #0A0A1A;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-primary);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ── Spectrum ─────────────────────────────────────────────── */
+.spectrum{height:3px;background:linear-gradient(90deg,var(--black),var(--indigo),var(--violet),var(--cyan),var(--black))}
+
+/* ── Nav ──────────────────────────────────────────────────── */
+nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;backdrop-filter:blur(12px)}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:28px;height:28px;background:var(--indigo);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;color:#fff;letter-spacing:-.03em}
+.nav-title{font-size:13px;font-weight:600;color:var(--text-primary);letter-spacing:-.02em}
+.nav-badge{font-size:11px;background:rgba(99,102,241,.12);color:var(--indigo-light);padding:2px 8px;border-radius:20px;font-weight:600;border:1px solid rgba(99,102,241,.2)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-link{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .15s}
+.nav-link:hover{color:var(--indigo-light)}
+.theme-btn{background:none;border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:5px 10px;cursor:pointer;font-size:12px;color:var(--text-muted);font-family:inherit;transition:all .15s}
+.theme-btn:hover{border-color:var(--indigo);color:var(--indigo-light)}
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.hero{padding:80px 24px 60px;text-align:center;max-width:860px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--indigo-light);margin-bottom:28px;letter-spacing:.02em;text-transform:uppercase}
+.live-dot{width:7px;height:7px;background:#10B981;border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+h1{font-size:clamp(36px,6vw,64px);font-weight:800;letter-spacing:-.04em;line-height:1.1;color:var(--text-heading);margin-bottom:22px}
+.hl{color:var(--indigo-light)}
+.hl-cyan{color:var(--cyan)}
+.hl-green{color:var(--green)}
+.hl-amber{color:var(--amber)}
+.hero-sub{font-size:17px;color:var(--text-body);max-width:580px;margin:0 auto 40px;line-height:1.75}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:56px}
+.btn-primary{background:var(--indigo);color:#fff;font-weight:700;font-size:14px;padding:12px 26px;border-radius:var(--radius-md);text-decoration:none;border:none;cursor:pointer;font-family:inherit;transition:background .15s;letter-spacing:-.01em}
+.btn-primary:hover{background:var(--indigo-light)}
+.btn-outline{background:transparent;color:var(--text-primary);font-weight:500;font-size:14px;padding:11px 26px;border-radius:var(--radius-md);text-decoration:none;border:1px solid var(--border-strong);font-family:inherit;cursor:pointer;transition:all .15s}
+.btn-outline:hover{border-color:var(--indigo);color:var(--indigo-light)}
+
+/* ── Platform pills ───────────────────────────────────────── */
+.platforms{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.plat-pill{display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--bg-card);font-size:12px;font-weight:600;color:var(--text-body)}
+.plat-dot{width:8px;height:8px;border-radius:50%}
+
+/* ── Section ──────────────────────────────────────────────── */
+section{padding:64px 24px;max-width:1060px;margin:0 auto}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo-light);margin-bottom:12px}
+h2{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.04em;color:var(--text-heading);margin-bottom:14px;line-height:1.2}
+.section-sub{font-size:16px;color:var(--text-body);max-width:560px;line-height:1.7;margin-bottom:44px}
+hr.divider{border:none;border-top:1px solid var(--border)}
+
+/* ── Grid ──────────────────────────────────────────────────── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+@media(max-width:720px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;transition:border-color .2s}
+.card:hover{border-color:var(--indigo)}
+.card-sm{padding:16px}
+.card-title{font-size:15px;font-weight:700;color:var(--text-heading);margin-bottom:6px;letter-spacing:-.02em}
+.card-body{font-size:13px;color:var(--text-body);line-height:1.6}
+.tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:20px;margin-top:10px}
+.tag-indigo{background:rgba(99,102,241,.12);color:var(--indigo-light);border:1px solid rgba(99,102,241,.22)}
+.tag-green{background:rgba(16,185,129,.12);color:var(--green);border:1px solid rgba(16,185,129,.22)}
+.tag-amber{background:rgba(245,158,11,.12);color:var(--amber);border:1px solid rgba(245,158,11,.22)}
+.tag-coral{background:rgba(248,113,113,.12);color:var(--coral);border:1px solid rgba(248,113,113,.22)}
+.tag-cyan{background:rgba(6,182,212,.12);color:var(--cyan);border:1px solid rgba(6,182,212,.22)}
+
+/* ── Meeting mock shell ───────────────────────────────────── */
+.meeting-shell{background:#111118;border-radius:var(--radius-lg);overflow:hidden;border:1px solid rgba(99,102,241,.2);font-family:'DM Sans',sans-serif}
+.meeting-topbar{background:#1A1A2E;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(99,102,241,.15)}
+.meeting-title{font-size:12px;font-weight:600;color:#C8C8F0}
+.meeting-status{display:flex;align-items:center;gap:6px;font-size:11px;color:#6868A8}
+.rec-dot{width:8px;height:8px;background:#F87171;border-radius:50%;animation:pulse 1.5s infinite}
+.meeting-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px;background:#0D0D1A}
+.participant-tile{background:#1A1A2E;border-radius:var(--radius-md);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;border:1px solid rgba(99,102,241,.1);overflow:hidden}
+.participant-tile.speaking{border-color:var(--indigo);box-shadow:0 0 0 2px rgba(99,102,241,.3)}
+.participant-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#fff;margin-bottom:6px}
+.participant-name{font-size:10px;color:#9898C8;font-weight:500}
+.participant-label{position:absolute;bottom:6px;left:6px;font-size:9px;background:rgba(0,0,0,.7);color:#9898C8;padding:2px 6px;border-radius:4px}
+.bot-tile{border:1px solid rgba(99,102,241,.3) !important;background:linear-gradient(135deg,#1A1A2E,#141428) !important}
+.bot-icon{font-size:24px;margin-bottom:4px}
+.transcript-pane{padding:12px 16px;border-top:1px solid rgba(99,102,241,.1);max-height:200px;overflow-y:auto}
+.transcript-line{display:flex;gap:10px;margin-bottom:8px;align-items:flex-start}
+.tl-speaker{font-size:10px;font-weight:700;white-space:nowrap;min-width:80px;padding-top:1px}
+.tl-text{font-size:12px;color:#9898C8;line-height:1.55}
+.tl-time{font-size:10px;color:#3A3A6A;white-space:nowrap;padding-top:1px;min-width:35px}
+.typing-indicator{display:flex;gap:4px;align-items:center;padding:4px 0}
+.typing-dot{width:5px;height:5px;background:var(--indigo);border-radius:50%;animation:bounce .8s infinite}
+.typing-dot:nth-child(2){animation-delay:.15s}
+.typing-dot:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.meeting-toolbar{padding:10px 16px;background:#0D0D1A;border-top:1px solid rgba(99,102,241,.1);display:flex;align-items:center;justify-content:center;gap:16px}
+.toolbar-btn{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);border-radius:var(--radius-sm);padding:6px 12px;font-size:11px;color:#9898C8;cursor:pointer;font-family:inherit}
+.toolbar-btn.active{background:rgba(99,102,241,.25);color:var(--indigo-light);border-color:var(--indigo)}
+.consent-banner{background:rgba(16,185,129,.1);border:1px solid rgba(16,185,129,.25);border-radius:var(--radius-sm);margin:8px 12px;padding:8px 12px;font-size:11px;color:#6EE7B7;display:flex;align-items:flex-start;gap:8px}
+
+/* ── Summary card ─────────────────────────────────────────── */
+.summary-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden}
+.summary-header{padding:14px 18px;background:rgba(99,102,241,.08);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.summary-title{font-size:13px;font-weight:700;color:var(--text-heading)}
+.summary-meta{font-size:11px;color:var(--text-muted)}
+.summary-body{padding:18px}
+.summary-section{margin-bottom:18px}
+.summary-section:last-child{margin-bottom:0}
+.summary-section-label{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--indigo-light);margin-bottom:8px}
+.summary-text{font-size:13px;color:var(--text-body);line-height:1.65}
+.action-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.action-item:last-child{border-bottom:none}
+.action-owner{font-size:11px;font-weight:700;color:var(--indigo-light);white-space:nowrap;min-width:100px;padding-top:1px}
+.action-task{font-size:12px;color:var(--text-body);line-height:1.5;flex:1}
+.action-due{font-size:10px;color:var(--text-muted);white-space:nowrap;padding-top:2px}
+.decision-item{font-size:13px;color:var(--text-body);padding:6px 0;display:flex;gap:8px;align-items:flex-start}
+.decision-check{color:var(--green);flex-shrink:0}
+
+/* ── Compliance panel ─────────────────────────────────────── */
+.compliance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:720px){.compliance-grid{grid-template-columns:1fr}}
+.compliance-check{display:flex;align-items:flex-start;gap:10px}
+.check-icon{width:32px;height:32px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.check-icon-green{background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.2)}
+.check-icon-amber{background:rgba(245,158,11,.12);border:1px solid rgba(245,158,11,.2)}
+.check-icon-coral{background:rgba(248,113,113,.12);border:1px solid rgba(248,113,113,.2)}
+.check-label{font-size:13px;font-weight:700;color:var(--text-heading);margin-bottom:3px}
+.check-body{font-size:12px;color:var(--text-muted);line-height:1.55}
+
+/* ── Industry tabs ────────────────────────────────────────── */
+.tab-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px;background:var(--bg-subtle);padding:4px;border-radius:var(--radius-md);border:1px solid var(--border)}
+.tab-btn{flex:1;min-width:90px;background:none;border:none;padding:8px 14px;font-size:12px;font-weight:600;color:var(--text-muted);border-radius:var(--radius-sm);cursor:pointer;font-family:inherit;transition:all .15s;letter-spacing:-.01em}
+.tab-btn.active{background:var(--bg-card);color:var(--indigo-light);border:1px solid var(--border-strong)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ── JSON block ───────────────────────────────────────────── */
+.json-block{background:#060610;border-radius:var(--radius-lg);padding:20px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.7;overflow-x:auto;border:1px solid rgba(99,102,241,.15)}
+.json-key{color:var(--indigo-light)}
+.json-str{color:#A5D6A7}
+.json-num{color:var(--amber)}
+.json-bool{color:var(--cyan)}
+
+/* ── Arch diagram ─────────────────────────────────────────── */
+.arch{display:flex;align-items:stretch;gap:0;overflow-x:auto;padding-bottom:8px}
+.arch-node{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-md);padding:14px 16px;min-width:140px;text-align:center;flex-shrink:0}
+.arch-node-title{font-size:12px;font-weight:700;color:var(--text-heading);margin-bottom:4px}
+.arch-node-sub{font-size:10px;color:var(--text-muted);line-height:1.4}
+.arch-arrow{display:flex;align-items:center;padding:0 4px;color:var(--text-muted);font-size:16px;flex-shrink:0}
+.arch-node.highlight{border-color:var(--indigo);background:rgba(99,102,241,.08)}
+.arch-node.recall{border-color:var(--cyan);background:rgba(6,182,212,.06)}
+
+/* ── Partner config card ──────────────────────────────────── */
+.config-shell{background:var(--bg-mock);border:1px solid rgba(99,102,241,.2);border-radius:var(--radius-lg);overflow:hidden}
+.config-topbar{background:#1A1A2E;padding:10px 16px;font-size:12px;font-weight:600;color:#C8C8F0;border-bottom:1px solid rgba(99,102,241,.12)}
+.config-body{padding:16px;display:flex;flex-direction:column;gap:12px}
+.config-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.config-label{font-size:12px;color:#6868A8;min-width:130px}
+.config-value{font-size:12px;color:#C8C8F0;font-weight:600;text-align:right}
+.config-select{background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.2);border-radius:var(--radius-sm);padding:4px 10px;font-size:11px;color:#C8C8F0;font-family:inherit;cursor:pointer}
+.config-toggle{width:36px;height:20px;background:var(--indigo);border-radius:10px;cursor:pointer;position:relative;border:none;flex-shrink:0}
+.config-toggle::after{content:'';position:absolute;width:14px;height:14px;background:#fff;border-radius:50%;top:3px;right:3px;transition:right .2s}
+.config-toggle.off{background:#2A2A4A}
+.config-toggle.off::after{right:auto;left:3px}
+
+/* ── Fade animation ───────────────────────────────────────── */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* ── Live transcript animation ────────────────────────────── */
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.transcript-line{animation:fadeIn .3s ease forwards}
+
+/* ── Footer ───────────────────────────────────────────────── */
+footer{padding:28px 24px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted)}
+footer a{color:var(--indigo-light);text-decoration:none}
+</style>
+</head>
+<body>
+
+<div class="spectrum"></div>
+
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">2N</div>
+    <div>
+      <div class="nav-title">Meeting Agent · 2nth.ai Skills</div>
+    </div>
+  </a>
+  <span class="nav-badge">collab / meeting-agent</span>
+  <div class="nav-right">
+    <a href="#how-it-works" class="nav-link">How it works</a>
+    <a href="#demos" class="nav-link">Demos</a>
+    <a href="#compliance" class="nav-link">Compliance</a>
+    <a href="#deploy" class="nav-link">Deploy</a>
+    <button class="theme-btn" onclick="toggleTheme()">◐ Theme</button>
+  </div>
+</nav>
+
+<!-- ─── HERO ──────────────────────────────────────────────────── -->
+<div class="hero fade-up">
+  <div class="hero-eyebrow">
+    <span class="live-dot"></span>
+    Powered by Recall.ai · 2nth.ai Skills · collab domain
+  </div>
+  <h1>Your AI agent<br>is <span class="hl">already in the room.</span></h1>
+  <p class="hero-sub">Deploy a branded AI meeting bot that joins Teams, Meet, and Zoom — transcribes in real time, generates structured summaries, routes action items, and enforces consent. Partner-configured, POPIA-compliant, zero infrastructure.</p>
+  <div class="hero-actions">
+    <a href="#live-demo" class="btn-primary">Watch it live →</a>
+    <a href="#deploy" class="btn-outline">Partner setup</a>
+  </div>
+
+  <div class="platforms">
+    <div class="plat-pill"><span class="plat-dot" style="background:var(--teams)"></span>Microsoft Teams</div>
+    <div class="plat-pill"><span class="plat-dot" style="background:var(--meet)"></span>Google Meet</div>
+    <div class="plat-pill"><span class="plat-dot" style="background:var(--zoom)"></span>Zoom</div>
+    <div class="plat-pill"><span class="plat-dot" style="background:#00BEF0"></span>Webex</div>
+    <div class="plat-pill"><span class="plat-dot" style="background:var(--slack)"></span>Slack Huddles</div>
+    <div class="plat-pill"><span class="plat-dot" style="background:var(--text-muted)"></span>GoTo Meeting</div>
+  </div>
+  <div style="font-size:11px;color:var(--text-muted);margin-top:8px">All platforms via Recall.ai bot infrastructure · Single integration · No per-platform engineering</div>
+</div>
+
+<hr class="divider">
+
+<!-- ─── HOW IT WORKS ───────────────────────────────────────────── -->
+<section id="how-it-works" class="fade-up">
+  <div class="section-label">Architecture</div>
+  <h2>One integration. Every platform.</h2>
+  <p class="section-sub">Recall.ai handles the hard part — bot deployment across 6 platforms. 2nth.ai handles the intelligence — real-time processing, structured output, downstream routing.</p>
+
+  <div class="arch" style="margin-bottom:28px">
+    <div class="arch-node">
+      <div class="arch-node-title">Meeting</div>
+      <div class="arch-node-sub">Teams · Meet<br>Zoom · Webex<br>Slack · GoTo</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node recall">
+      <div class="arch-node-title" style="color:var(--cyan)">Recall.ai</div>
+      <div class="arch-node-sub">Bot infra<br>Media capture<br>WebSocket stream</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node highlight">
+      <div class="arch-node-title" style="color:var(--indigo-light)">2nth.ai Worker</div>
+      <div class="arch-node-sub">Transcript → AI<br>Summary · Actions<br>Routing logic</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node">
+      <div class="arch-node-title">D1 + R2</div>
+      <div class="arch-node-sub">Record storage<br>POPIA-compliant<br>Retention policy</div>
+    </div>
+    <div class="arch-arrow">→</div>
+    <div class="arch-node">
+      <div class="arch-node-title">Downstream</div>
+      <div class="arch-node-sub">CRM · EHR<br>Tasks · Slack<br>Webhook · Email</div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div style="font-size:24px;margin-bottom:12px">🤖</div>
+      <div class="card-title">Bot joins — you don't lift a finger</div>
+      <div class="card-body">Via calendar integration or API trigger. Bot appears as a named participant — your brand, not ours. Announces itself and logs consent before a single word is captured.</div>
+      <span class="tag tag-indigo">Zero config per meeting</span>
+    </div>
+    <div class="card">
+      <div style="font-size:24px;margin-bottom:12px">⚡</div>
+      <div class="card-title">Real-time transcript, speaker-identified</div>
+      <div class="card-body">Every utterance tagged with speaker name, timestamp, and confidence score. Live summary posted to chat on demand. Nothing lost, nothing misattributed.</div>
+      <span class="tag tag-cyan">Live WebSocket stream</span>
+    </div>
+    <div class="card">
+      <div style="font-size:24px;margin-bottom:12px">📤</div>
+      <div class="card-title">Structured output routed automatically</div>
+      <div class="card-body">Within 60 seconds of meeting end: summary, decisions, action items with owners, open questions — delivered to CRM, EHR, task tool, Slack, or webhook. No copy-paste, no follow-up chase.</div>
+      <span class="tag tag-green">60s post-meeting delivery</span>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── LIVE MEETING DEMO ──────────────────────────────────────── -->
+<section id="live-demo" class="fade-up">
+  <div class="section-label">Live meeting demo</div>
+  <h2>The agent in the room.</h2>
+  <p class="section-sub">A telehealth consultation — Erica Jankovich (dietitian) with a patient. Watch the meeting agent transcribe, detect key moments, and build the post-session summary in real time.</p>
+
+  <div class="grid-2">
+    <div class="meeting-shell">
+      <div class="meeting-topbar">
+        <div class="meeting-title">EatFit SA · Telehealth · Thandi M. · Follow-up</div>
+        <div class="meeting-status"><span class="rec-dot"></span>Recording · 00:08:42</div>
+      </div>
+
+      <div class="consent-banner">
+        <span>✓</span>
+        <span><strong>Consent logged 00:00:08</strong> — "EatFit AI Notetaker is recording this session. All 2 participants acknowledged. Data retained for 30 days per POPIA consent."</span>
+      </div>
+
+      <div class="meeting-grid">
+        <div class="participant-tile speaking">
+          <div class="participant-avatar" style="background:#2D8A6E">EJ</div>
+          <div class="participant-name">Erica Jankovich</div>
+          <div class="participant-label">🎙️ speaking</div>
+        </div>
+        <div class="participant-tile">
+          <div class="participant-avatar" style="background:#6366F1">TM</div>
+          <div class="participant-name">Thandi M.</div>
+          <div class="participant-label">patient</div>
+        </div>
+        <div class="participant-tile bot-tile">
+          <div class="bot-icon">🤖</div>
+          <div class="participant-name" style="color:var(--indigo-light)">EatFit AI Notetaker</div>
+          <div class="participant-label" style="color:var(--indigo-light)">transcribing</div>
+        </div>
+      </div>
+
+      <div class="transcript-pane" id="transcript-live">
+        <div class="transcript-line">
+          <div class="tl-time">08:14</div>
+          <div class="tl-speaker" style="color:#2D8A6E">Erica</div>
+          <div class="tl-text">How has the bloating been since we moved off the high-FODMAP foods?</div>
+        </div>
+        <div class="transcript-line">
+          <div class="tl-time">08:21</div>
+          <div class="tl-speaker" style="color:#6366F1">Thandi</div>
+          <div class="tl-text">Much better honestly — maybe 3 out of 10 now instead of the 7 it was at the start.</div>
+        </div>
+        <div class="transcript-line">
+          <div class="tl-time">08:34</div>
+          <div class="tl-speaker" style="color:#2D8A6E">Erica</div>
+          <div class="tl-text">That's excellent progress. Any incidents this week? The cream pasta situation was last week right?</div>
+        </div>
+        <div class="transcript-line">
+          <div class="tl-time">08:41</div>
+          <div class="tl-speaker" style="color:#6366F1">Thandi</div>
+          <div class="tl-text">Yes that was last week. This week was clean, I was much more careful at restaurants.</div>
+        </div>
+        <div id="transcript-typing" style="display:none;padding-left:0">
+          <div style="display:flex;gap:10px;align-items:center">
+            <div class="tl-time"></div>
+            <div class="tl-speaker" style="color:#2D8A6E">Erica</div>
+            <div class="typing-indicator">
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+              <div class="typing-dot"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="meeting-toolbar">
+        <button class="toolbar-btn active" onclick="startLiveDemo(this)">▶ Run live demo</button>
+        <button class="toolbar-btn" onclick="jumpToSummary()">⏩ Jump to summary</button>
+        <button class="toolbar-btn" id="summarise-btn" onclick="showInlineSummary()">💬 Summarise so far</button>
+      </div>
+    </div>
+
+    <!-- Sidebar: live intelligence panel -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <div class="card card-sm">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--indigo-light);margin-bottom:10px">⚡ Live intelligence</div>
+        <div id="live-intel" style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+            <span style="color:var(--green);flex-shrink:0">✓</span>
+            <span style="color:var(--text-body)">Bloating improvement detected: <strong style="color:var(--green)">7→3/10</strong></span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+            <span style="color:var(--amber);flex-shrink:0">!</span>
+            <span style="color:var(--text-body)">Inadvertent FODMAP exposure logged (cream pasta, last week)</span>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+            <span style="color:var(--indigo-light);flex-shrink:0">→</span>
+            <span style="color:var(--text-body)">Adherence: clean this week per patient report</span>
+          </div>
+          <div id="intel-extra" style="display:none;flex-direction:column;gap:8px">
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+              <span style="color:var(--green);flex-shrink:0">✓</span>
+              <span style="color:var(--text-body)">Decision detected: <strong style="color:var(--green)">begin lactose reintroduction Week 6</strong></span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+              <span style="color:var(--indigo-light);flex-shrink:0">📋</span>
+              <span style="color:var(--text-body)">Action item: Erica to send updated meal plan today</span>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:12px">
+              <span style="color:var(--indigo-light);flex-shrink:0">📅</span>
+              <span style="color:var(--text-body)">Follow-up intent detected: "2 weeks"</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-sm">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--indigo-light);margin-bottom:10px">📊 Meeting stats</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:flex;justify-content:space-between;font-size:12px">
+            <span style="color:var(--text-muted)">Speaking time</span>
+            <span style="color:var(--text-body);font-weight:600">Erica 62% · Thandi 38%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px">
+            <span style="color:var(--text-muted)">Words transcribed</span>
+            <span style="color:var(--text-body);font-weight:600" id="word-count">312</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px">
+            <span style="color:var(--text-muted)">Confidence score</span>
+            <span style="color:var(--green);font-weight:600">96.4%</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:12px">
+            <span style="color:var(--text-muted)">Platform</span>
+            <span style="color:var(--text-body);font-weight:600">Google Meet · via Recall.ai</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card card-sm" style="border-color:rgba(16,185,129,.25);background:rgba(16,185,129,.04)">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--green);margin-bottom:10px">🔒 Compliance status</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-body)"><span style="color:var(--green)">✓</span>Consent announced & logged 00:00:08</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-body)"><span style="color:var(--green)">✓</span>No objections from 2 participants</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-body)"><span style="color:var(--green)">✓</span>Health data — POPIA S26 consent active</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-body)"><span style="color:var(--green)">✓</span>Retention: 30 days · SA region only</div>
+          <div style="display:flex;align-items:center;gap:7px;font-size:12px;color:var(--text-body)"><span style="color:var(--green)">✓</span>Recording to: imbila-deliverables R2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Post-meeting output -->
+  <div id="post-meeting" style="display:none;margin-top:24px">
+    <div style="font-size:13px;font-weight:700;color:var(--indigo-light);margin-bottom:14px;display:flex;align-items:center;gap:8px"><span class="live-dot"></span>Post-meeting output generated · 00:00:47 after call ended</div>
+    <div class="summary-card">
+      <div class="summary-header">
+        <div class="summary-title">EatFit SA · Telehealth Summary · Thandi M.</div>
+        <div class="summary-meta">2026-04-03 · 47 min · Google Meet · Erica Jankovich RD(SA)</div>
+      </div>
+      <div class="summary-body">
+        <div class="summary-section">
+          <div class="summary-section-label">Summary</div>
+          <div class="summary-text">Follow-up telehealth dietitian consultation. Patient reports significant improvement — bloating reduced from 7/10 to 3/10 since starting Low FODMAP elimination protocol 3 weeks ago. One inadvertent exposure incident (cream pasta, restaurant) logged last week. Adherence clean this week. Agreed to begin lactose reintroduction challenge at Week 6. Follow-up booked in 2 weeks.</div>
+        </div>
+        <div class="summary-section">
+          <div class="summary-section-label">Decisions</div>
+          <div class="decision-item"><span class="decision-check">✓</span>Begin lactose reintroduction challenge at start of Week 6</div>
+          <div class="decision-item"><span class="decision-check">✓</span>Continue strict fructan elimination — no wheat, onion, garlic</div>
+          <div class="decision-item"><span class="decision-check">✓</span>No GP referral required at this stage</div>
+        </div>
+        <div class="summary-section">
+          <div class="summary-section-label">Action items</div>
+          <div class="action-item">
+            <div class="action-owner">Erica Jankovich</div>
+            <div class="action-task">Send updated Week 4 meal plan with lactose-free overlays</div>
+            <div class="action-due">Today</div>
+          </div>
+          <div class="action-item">
+            <div class="action-owner">Thandi M.</div>
+            <div class="action-task">Complete 3-day food diary before next session</div>
+            <div class="action-due">By 10 Apr</div>
+          </div>
+          <div class="action-item">
+            <div class="action-owner">EatFit AI</div>
+            <div class="action-task">Book follow-up consultation in 2 weeks · auto-trigger booking agent</div>
+            <div class="action-due">Automated</div>
+          </div>
+        </div>
+        <div class="summary-section" style="margin-bottom:0">
+          <div class="summary-section-label">Routed to</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <span class="tag tag-green">✓ SOAP note generated</span>
+            <span class="tag tag-indigo">✓ Patient record updated</span>
+            <span class="tag tag-cyan">✓ Booking agent triggered</span>
+            <span class="tag tag-amber">✓ Meal plan task created</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── INDUSTRY DEMOS ─────────────────────────────────────────── -->
+<section id="demos" class="fade-up">
+  <div class="section-label">Industry routing examples</div>
+  <h2>Same bot. Different output.</h2>
+  <p class="section-sub">The meeting agent adapts its structured output to the industry. A legal firm gets verbatim minutes. A sales team gets CRM fields. A recruiter gets a scorecard. One skill — configured by the partner.</p>
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchIndustry('health')">Healthcare</button>
+    <button class="tab-btn" onclick="switchIndustry('legal')">Legal</button>
+    <button class="tab-btn" onclick="switchIndustry('sales')">Sales</button>
+    <button class="tab-btn" onclick="switchIndustry('recruit')">Recruitment</button>
+    <button class="tab-btn" onclick="switchIndustry('exec')">Executive coaching</button>
+  </div>
+
+  <!-- HEALTHCARE -->
+  <div id="ind-health" class="tab-content active">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--indigo-light);margin-bottom:10px">Configuration</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text-body)">
+            <div><strong>Summary style:</strong> SOAP format (Subjective, Objective, Assessment, Plan)</div>
+            <div><strong>Consent mode:</strong> POPIA Section 26 — health data, explicit consent required</div>
+            <div><strong>Downstream:</strong> Practitioner copilot skill → EHR record</div>
+            <div><strong>Retention:</strong> 6 years (HPCSA Health Professions Act requirement)</div>
+            <div><strong>Special handling:</strong> Red flag detection (blood, weight loss, nocturnal symptoms)</div>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(248,113,113,.2);background:rgba(248,113,113,.04)">
+          <div style="font-size:12px;font-weight:700;color:var(--coral);margin-bottom:8px">⚠️ Scope enforcement</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Meeting agent never generates diagnostic language in output. Clinical judgment fields in SOAP note are left blank for practitioner to complete. AI populates Subjective and Objective only — Assessment and Plan are practitioner responsibility.</div>
+        </div>
+      </div>
+      <div class="json-block">
+<span class="json-key">"summary_style"</span>: <span class="json-str">"SOAP"</span>,
+<span class="json-key">"routed_to"</span>: [
+  <span class="json-str">"practitioner_copilot"</span>,
+  <span class="json-str">"ehr_record"</span>,
+  <span class="json-str">"booking_agent"</span>
+],
+<span class="json-key">"soap_note"</span>: {
+  <span class="json-key">"subjective"</span>: <span class="json-str">"Patient reports bloating 3/10 (was 7/10). Clean adherence this week. One FODMAP exposure last week (cream pasta)."</span>,
+  <span class="json-key">"objective"</span>: <span class="json-str">"Week 3 Low FODMAP elimination. Patient-reported improvement across all tracked metrics."</span>,
+  <span class="json-key">"assessment"</span>: <span class="json-str">"[PRACTITIONER TO COMPLETE]"</span>,
+  <span class="json-key">"plan"</span>: <span class="json-str">"[PRACTITIONER TO COMPLETE]"</span>
+},
+<span class="json-key">"red_flags_detected"</span>: <span class="json-bool">false</span>,
+<span class="json-key">"retention_years"</span>: <span class="json-num">6</span>,
+<span class="json-key">"jurisdiction"</span>: <span class="json-str">"SA_POPIA_S26"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGAL -->
+  <div id="ind-legal" class="tab-content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--indigo-light);margin-bottom:10px">Configuration</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text-body)">
+            <div><strong>Summary style:</strong> Verbatim minutes + decisions log + undertakings tracker</div>
+            <div><strong>Consent mode:</strong> Legal privilege awareness — bot flags if meeting may be legally privileged</div>
+            <div><strong>Downstream:</strong> Matter management system / DMS (NetDocuments, iManage)</div>
+            <div><strong>Retention:</strong> Configurable per matter (7yr default)</div>
+            <div><strong>Special handling:</strong> Undertakings extracted as action items with party and deadline</div>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(245,158,11,.2);background:rgba(245,158,11,.04)">
+          <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:8px">Legal privilege safeguard</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">If the calendar invite or participant list suggests attorney-client privilege, bot announces: "This meeting may be subject to legal privilege. By continuing, all parties consent to recording." If meeting is internal-only (attorney + client), bot can be configured to store locally without any cloud transmission.</div>
+        </div>
+      </div>
+      <div class="json-block">
+<span class="json-key">"summary_style"</span>: <span class="json-str">"legal_minutes"</span>,
+<span class="json-key">"routed_to"</span>: [<span class="json-str">"matter_management"</span>],
+<span class="json-key">"minutes"</span>: {
+  <span class="json-key">"attendees"</span>: [<span class="json-str">"Adv. N. Dlamini"</span>, <span class="json-str">"S. van der Berg (client)"</span>],
+  <span class="json-key">"decisions"</span>: [
+    <span class="json-str">"Instruction accepted to oppose liquidation application"</span>,
+    <span class="json-str">"Hearing date: 14 May 2026"</span>
+  ],
+  <span class="json-key">"undertakings"</span>: [
+    {
+      <span class="json-key">"party"</span>: <span class="json-str">"Adv. Dlamini"</span>,
+      <span class="json-key">"task"</span>: <span class="json-str">"File opposing papers by 28 April"</span>,
+      <span class="json-key">"deadline"</span>: <span class="json-str">"2026-04-28"</span>
+    }
+  ]
+},
+<span class="json-key">"privilege_flag"</span>: <span class="json-bool">true</span>,
+<span class="json-key">"storage"</span>: <span class="json-str">"local_only"</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- SALES -->
+  <div id="ind-sales" class="tab-content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--indigo-light);margin-bottom:10px">Configuration</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text-body)">
+            <div><strong>Summary style:</strong> Sales brief — pain points, objections, next steps, deal signals</div>
+            <div><strong>Downstream:</strong> Salesforce / HubSpot opportunity auto-update</div>
+            <div><strong>CRM fields extracted:</strong> Stage, next action, decision maker, budget signals, timeline, competitors mentioned</div>
+            <div><strong>Sentiment detection:</strong> Positive / neutral / concern / objection flagged per speaker</div>
+            <div><strong>Coaching:</strong> Post-call rep coaching note (talk ratio, question rate, filler words)</div>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(16,185,129,.2);background:rgba(16,185,129,.04)">
+          <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:8px">Rep coaching note</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Talk ratio: 68% (target &lt;55%). Asked 3 discovery questions. "Um/uh" count: 14. Strong on product knowledge, missed buying signal at 14:32 — customer said "we'd need this before end of quarter." Suggest following up on timeline in next touchpoint.</div>
+        </div>
+      </div>
+      <div class="json-block">
+<span class="json-key">"summary_style"</span>: <span class="json-str">"sales_brief"</span>,
+<span class="json-key">"routed_to"</span>: [<span class="json-str">"salesforce_opportunity"</span>],
+<span class="json-key">"crm_update"</span>: {
+  <span class="json-key">"stage"</span>: <span class="json-str">"Evaluation"</span>,
+  <span class="json-key">"decision_maker"</span>: <span class="json-str">"CFO (not on call)"</span>,
+  <span class="json-key">"budget_signal"</span>: <span class="json-str">"mentioned R180k budget ceiling"</span>,
+  <span class="json-key">"timeline"</span>: <span class="json-str">"end of Q2 2026"</span>,
+  <span class="json-key">"next_step"</span>: <span class="json-str">"Send proposal by Friday"</span>,
+  <span class="json-key">"competitors"</span>: [<span class="json-str">"Salesforce"</span>],
+  <span class="json-key">"objections"</span>: [<span class="json-str">"Integration complexity with existing ERP"</span>]
+},
+<span class="json-key">"sentiment"</span>: <span class="json-str">"positive_with_concerns"</span>,
+<span class="json-key">"talk_ratio_rep"</span>: <span class="json-num">0.68</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RECRUITMENT -->
+  <div id="ind-recruit" class="tab-content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--indigo-light);margin-bottom:10px">Configuration</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text-body)">
+            <div><strong>Summary style:</strong> Interview scorecard — competency ratings, red flags, hire recommendation</div>
+            <div><strong>Downstream:</strong> ATS (Greenhouse, Lever, Workday)</div>
+            <div><strong>Bias guardrail:</strong> Flags if interviewer comments reference protected characteristics (age, gender, ethnicity, disability) — does not include in output</div>
+            <div><strong>Compliance:</strong> EEA (SA Employment Equity Act) aware — no discriminatory language recorded</div>
+          </div>
+        </div>
+        <div class="card" style="border-color:rgba(248,113,113,.2);background:rgba(248,113,113,.04)">
+          <div style="font-size:12px;font-weight:700;color:var(--coral);margin-bottom:8px">Bias detection active</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Any interviewer comment referencing protected characteristics under the Employment Equity Act is flagged and excluded from the scorecard. A compliance alert is sent to the HR admin. Interview recording access is restricted to hiring manager + HR only.</div>
+        </div>
+      </div>
+      <div class="json-block">
+<span class="json-key">"summary_style"</span>: <span class="json-str">"interview_scorecard"</span>,
+<span class="json-key">"routed_to"</span>: [<span class="json-str">"greenhouse_ats"</span>],
+<span class="json-key">"scorecard"</span>: {
+  <span class="json-key">"candidate"</span>: <span class="json-str">"Sipho M."</span>,
+  <span class="json-key">"role"</span>: <span class="json-str">"Senior AI Engineer"</span>,
+  <span class="json-key">"competencies"</span>: {
+    <span class="json-key">"technical_depth"</span>: <span class="json-num">4</span>,
+    <span class="json-key">"communication"</span>: <span class="json-num">5</span>,
+    <span class="json-key">"problem_solving"</span>: <span class="json-num">4</span>,
+    <span class="json-key">"culture_add"</span>: <span class="json-num">3</span>
+  },
+  <span class="json-key">"recommendation"</span>: <span class="json-str">"Advance to technical round"</span>,
+  <span class="json-key">"red_flags"</span>: [],
+  <span class="json-key">"bias_flags"</span>: []
+},
+<span class="json-key">"eea_compliant"</span>: <span class="json-bool">true</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXEC COACHING -->
+  <div id="ind-exec" class="tab-content">
+    <div class="grid-2">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--indigo-light);margin-bottom:10px">Configuration</div>
+          <div style="display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--text-body)">
+            <div><strong>Summary style:</strong> Coaching session brief — insights, commitments, patterns, themes</div>
+            <div><strong>Downstream:</strong> Coach dashboard, optional client portal share</div>
+            <div><strong>Longitudinal:</strong> Tracks themes across sessions — "leadership identity" mentioned 4 sessions in a row</div>
+            <div><strong>Confidentiality:</strong> Coach-client privilege mode — client must explicitly consent to any sharing</div>
+          </div>
+        </div>
+        <div class="card">
+          <div style="font-size:12px;font-weight:700;color:var(--indigo-light);margin-bottom:8px">Longitudinal theme tracking</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Across 6 sessions with this client: "imposter syndrome" mentioned in sessions 1, 3, 4, 6. "Delegation" theme emerging from session 4. Agent surfaces these patterns at the start of each new session so the coach can decide whether to address them explicitly.</div>
+        </div>
+      </div>
+      <div class="json-block">
+<span class="json-key">"summary_style"</span>: <span class="json-str">"coaching_brief"</span>,
+<span class="json-key">"routed_to"</span>: [<span class="json-str">"coach_dashboard"</span>],
+<span class="json-key">"session_brief"</span>: {
+  <span class="json-key">"key_insight"</span>: <span class="json-str">"Client expressed readiness to step into MD role — first time this has been stated positively vs. with anxiety"</span>,
+  <span class="json-key">"commitments"</span>: [
+    <span class="json-str">"Schedule difficult conversation with ops director this week"</span>,
+    <span class="json-str">"Delegate Q2 planning to team leads"</span>
+  ],
+  <span class="json-key">"recurring_themes"</span>: [
+    <span class="json-str">"imposter syndrome (sessions 1,3,4,6)"</span>,
+    <span class="json-str">"delegation (sessions 4,5,6 — improving)"</span>
+  ]
+},
+<span class="json-key">"confidentiality"</span>: <span class="json-str">"coach_only"</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── COMPLIANCE ─────────────────────────────────────────────── -->
+<section id="compliance" class="fade-up">
+  <div class="section-label">Compliance & safety</div>
+  <h2>Non-negotiable before the first word is recorded.</h2>
+  <p class="section-sub">Recording meetings without proper consent is illegal in most jurisdictions and exposes your practice and clients to significant risk. These are not features you turn on — they're defaults you can only make stricter.</p>
+
+  <div class="compliance-grid" style="margin-bottom:32px">
+    <div class="card">
+      <div class="compliance-check">
+        <div class="check-icon check-icon-green">✓</div>
+        <div>
+          <div class="check-label">Consent — always announced</div>
+          <div class="check-body">Bot announces itself within 8 seconds of joining. Configurable message. Consent event logged with timestamp and participant count. Bot leaves if host removes it — no silent recording.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="compliance-check">
+        <div class="check-icon check-icon-green">✓</div>
+        <div>
+          <div class="check-label">Data never leaves your region</div>
+          <div class="check-body">Transcripts and recordings stored in your own R2 bucket in your configured region. Recall.ai processes media in real time but does not retain it beyond the API response window. No third-party training on your data.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="compliance-check">
+        <div class="check-icon check-icon-green">✓</div>
+        <div>
+          <div class="check-label">Retention policy enforced</div>
+          <div class="check-body">You set the retention window (7 days / 30 days / 90 days / custom). Data is hard-deleted on schedule — not just hidden. Audit log maintained for the deletion event.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="compliance-check">
+        <div class="check-icon check-icon-amber">!</div>
+        <div>
+          <div class="check-label">POPIA Section 26 — health data</div>
+          <div class="check-body">Health meeting content (telehealth, HR medical) is special personal information. Explicit consent required — separate from general recording consent. Flagged automatically when healthcare practitioner account type is set.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="compliance-check">
+        <div class="check-icon check-icon-amber">!</div>
+        <div>
+          <div class="check-label">Legal privilege detection</div>
+          <div class="check-body">If calendar invite or participant list flags a legal matter, bot enters heightened consent mode and offers local-only storage (no cloud transmission) for attorney-client privilege protection.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="compliance-check">
+        <div class="check-icon check-icon-coral">🔒</div>
+        <div>
+          <div class="check-label">Access control per meeting</div>
+          <div class="check-body">Meeting records are scoped to the host's account by default. Sub-practice sharing requires explicit authorisation. All access logged. Partner admin can revoke access and trigger data deletion at any time.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Jurisdiction table -->
+  <h3 style="font-size:18px;font-weight:700;margin-bottom:16px;letter-spacing:-.02em">Jurisdiction mode</h3>
+  <div style="overflow-x:auto">
+    <table style="width:100%;border-collapse:collapse;font-size:13px">
+      <thead>
+        <tr style="border-bottom:2px solid var(--border)">
+          <th style="padding:10px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)">Jurisdiction</th>
+          <th style="padding:10px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)">Regulation</th>
+          <th style="padding:10px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)">Consent standard</th>
+          <th style="padding:10px 16px;text-align:left;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted)">Bot behaviour</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:14px 16px;font-weight:600;color:var(--text-heading)">South Africa</td>
+          <td style="padding:14px 16px;color:var(--text-body)">POPIA · ECTA · HPCSA (health)</td>
+          <td style="padding:14px 16px;color:var(--text-body)">Legitimate interest (internal) or explicit consent (client-facing)</td>
+          <td style="padding:14px 16px;color:var(--text-body)">Announce + 10s opt-out window. Health data: explicit consent gate.</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:14px 16px;font-weight:600;color:var(--text-heading)">European Union</td>
+          <td style="padding:14px 16px;color:var(--text-body)">GDPR Art. 6 + Art. 9 (sensitive)</td>
+          <td style="padding:14px 16px;color:var(--text-body)">Explicit consent required for all participants</td>
+          <td style="padding:14px 16px;color:var(--text-body)">Consent request sent to each participant before bot joins. No join without response.</td>
+        </tr>
+        <tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:14px 16px;font-weight:600;color:var(--text-heading)">United States</td>
+          <td style="padding:14px 16px;color:var(--text-body)">ECPA + state wiretapping laws (CA, IL, FL: two-party)</td>
+          <td style="padding:14px 16px;color:var(--text-body)">One-party (most states) or two-party (CA, IL, FL)</td>
+          <td style="padding:14px 16px;color:var(--text-body)">Two-party mode: bot requests explicit acknowledgment from all participants in flagged states.</td>
+        </tr>
+        <tr>
+          <td style="padding:14px 16px;font-weight:600;color:var(--text-heading)">United Kingdom</td>
+          <td style="padding:14px 16px;color:var(--text-body)">UK GDPR · Investigatory Powers Act</td>
+          <td style="padding:14px 16px;color:var(--text-body)">Legitimate interest + transparency</td>
+          <td style="padding:14px 16px;color:var(--text-body)">Announce + data subject rights notice. Privacy notice URL posted to meeting chat.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── PARTNER DEPLOYMENT ─────────────────────────────────────── -->
+<section id="deploy" class="fade-up">
+  <div class="section-label">Partner deployment</div>
+  <h2>Your brand. Our infrastructure. Live in a day.</h2>
+  <p class="section-sub">Partners configure and deploy the meeting agent under their own brand. The bot appears as "YourPractice AI Notetaker" — not 2nth.ai.</p>
+
+  <div class="grid-2">
+    <div class="config-shell">
+      <div class="config-topbar">⚙️ Meeting Agent Configuration · Partner Admin</div>
+      <div class="config-body">
+        <div class="config-row">
+          <span class="config-label">Bot display name</span>
+          <span class="config-value" style="color:#818CF8">EatFit AI Notetaker</span>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Platforms enabled</span>
+          <span class="config-value">Meet · Teams · Zoom</span>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Join mode</span>
+          <select class="config-select">
+            <option>Calendar auto-join</option>
+            <option>Invite only</option>
+            <option>API trigger</option>
+          </select>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Summary style</span>
+          <select class="config-select">
+            <option>SOAP (healthcare)</option>
+            <option>Executive brief</option>
+            <option>Legal minutes</option>
+            <option>Sales brief</option>
+          </select>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Downstream routing</span>
+          <select class="config-select">
+            <option>Practitioner copilot</option>
+            <option>Webhook</option>
+            <option>Email only</option>
+            <option>Slack channel</option>
+          </select>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Data retention</span>
+          <select class="config-select">
+            <option>6 years (HPCSA)</option>
+            <option>30 days</option>
+            <option>90 days</option>
+            <option>Custom</option>
+          </select>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Jurisdiction</span>
+          <select class="config-select">
+            <option>SA (POPIA)</option>
+            <option>EU (GDPR)</option>
+            <option>US (ECPA)</option>
+            <option>Multi-region</option>
+          </select>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Real-time summary</span>
+          <button class="config-toggle" id="rt-toggle" onclick="this.classList.toggle('off')"></button>
+        </div>
+        <div class="config-row">
+          <span class="config-label">Rep coaching notes</span>
+          <button class="config-toggle off" id="coach-toggle" onclick="this.classList.toggle('off')"></button>
+        </div>
+        <div class="config-row">
+          <span class="config-label">POPIA S26 mode</span>
+          <button class="config-toggle" id="popia-toggle" onclick="this.classList.toggle('off')"></button>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:16px">
+      <h3 style="font-size:17px;font-weight:700;letter-spacing:-.02em">What partners need to go live</h3>
+
+      <div class="card card-sm" style="border-left:3px solid var(--green)">
+        <div class="card-title">1. Recall.ai API key</div>
+        <div class="card-body">Sign up at recall.ai — $0.50/hr pay-as-you-go or custom plan. API key added to partner's 2nth.ai worker secrets. That's the only external dependency.</div>
+        <span class="tag tag-green">15 min setup</span>
+      </div>
+
+      <div class="card card-sm" style="border-left:3px solid var(--indigo)">
+        <div class="card-title">2. Calendar integration (optional)</div>
+        <div class="card-body">Connect Google Calendar or Microsoft 365 via Recall.ai Calendar API. Bot auto-joins any meeting with a video link in the invite. No manual inviting required.</div>
+        <span class="tag tag-indigo">Auto-join enabled</span>
+      </div>
+
+      <div class="card card-sm" style="border-left:3px solid var(--cyan)">
+        <div class="card-title">3. Configure downstream routing</div>
+        <div class="card-body">Choose where structured output goes — existing skills (practitioner copilot, booking agent), a webhook, email, or Slack. One config, applies to all meetings.</div>
+        <span class="tag tag-cyan">Works with existing skills</span>
+      </div>
+
+      <div class="card card-sm" style="border-left:3px solid var(--amber)">
+        <div class="card-title">4. POPIA / compliance review</div>
+        <div class="card-body">Review jurisdiction settings with your information officer. The consent flow is built in — you just need to confirm the lawful basis and retention period appropriate for your practice.</div>
+        <span class="tag tag-amber">Non-negotiable step</span>
+      </div>
+
+      <div style="margin-top:4px;display:flex;gap:12px">
+        <a href="https://www.recall.ai" target="_blank" class="btn-primary" style="font-size:13px">Get Recall.ai API →</a>
+        <a href="mailto:craig@2nth.ai" class="btn-outline" style="font-size:13px">Talk to Craig at 2nth.ai</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── CTA ───────────────────────────────────────────────────── -->
+<div style="background:var(--black);border-radius:var(--radius-lg);padding:48px;text-align:center;color:var(--white);margin:0 24px 72px" class="fade-up">
+  <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--indigo-light);margin-bottom:16px">Deploy for your clients</div>
+  <div style="font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.04em;margin-bottom:14px;line-height:1.2">Every client meeting.<br>Automatically documented.</div>
+  <div style="font-size:15px;color:#9898C8;max-width:480px;margin:0 auto 32px;line-height:1.7">Add the meeting agent to any 2nth.ai partner deployment. Healthcare, legal, sales, recruitment — the output adapts to the industry. Compliance is built in from day one.</div>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="#live-demo" class="btn-primary">See it in action →</a>
+    <a href="mailto:craig@2nth.ai" class="btn-outline" style="color:#fff;border-color:rgba(99,102,241,.4)">Get in touch</a>
+  </div>
+  <div style="margin-top:28px;font-size:12px;color:#3A3A6A">Meeting bot infrastructure by <a href="https://recall.ai" target="_blank" style="color:var(--cyan);text-decoration:none">Recall.ai</a> · AI processing by <a href="https://2nth.ai" target="_blank" style="color:var(--indigo-light);text-decoration:none">2nth.ai</a> · Cloudflare Workers AI · POPIA-compliant · Data stays in your region</div>
+</div>
+
+<footer>
+  <span>Meeting Agent · collab/meeting-agent · <a href="https://2nth.ai">2nth.ai</a> Skills · Powered by <a href="https://recall.ai">Recall.ai</a></span>
+</footer>
+
+<script>
+/* ── Theme ── */
+function toggleTheme(){
+  const html=document.documentElement;
+  html.setAttribute('data-theme',html.getAttribute('data-theme')==='dark'?'light':'dark');
+  localStorage.setItem('meeting-theme',html.getAttribute('data-theme'));
+}
+/* Default always light — toggle persists for session only */
+
+/* ── Industry tabs ── */
+function switchIndustry(name){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('ind-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ── Live demo ── */
+const liveLines=[
+  {time:'08:48',speaker:'Erica',color:'#2D8A6E',text:'So for Week 6 we'll start the lactose reintroduction challenge. 200ml full cream milk on day one, 400ml on day three.'},
+  {time:'08:55',speaker:'Thandi',color:'#6366F1',text:"That's good to know. I'll make sure I'm home those days just in case."},
+  {time:'09:02',speaker:'Erica',color:'#2D8A6E',text:"Smart thinking. I'll send you the updated meal plan today with the reintroduction schedule included."},
+  {time:'09:11',speaker:'Thandi',color:'#6366F1',text:'And should I keep doing the daily check-ins on WhatsApp through the reintroduction phase too?'},
+  {time:'09:18',speaker:'Erica',color:'#2D8A6E',text:"Yes, especially during reintroduction — we need to track symptom responses carefully. The AI tracks it and I'll see any spikes before our next session."},
+  {time:'09:28',speaker:'Thandi',color:'#6366F1',text:'Okay great. Same time in two weeks then?'},
+  {time:'09:33',speaker:'Erica',color:'#2D8A6E',text:'Same time — I'll have the booking agent send you the link shortly.'},
+];
+let demoRunning=false;
+let demoIdx=0;
+let wordInt;
+
+function startLiveDemo(btn){
+  if(demoRunning)return;
+  demoRunning=true;
+  btn.textContent='⏸ Running...';
+  btn.classList.add('active');
+  runLine();
+}
+
+function runLine(){
+  if(demoIdx>=liveLines.length){
+    setTimeout(()=>{
+      document.getElementById('intel-extra').style.display='flex';
+      setTimeout(()=>{ document.getElementById('post-meeting').style.display='block'; },1500);
+    },800);
+    return;
+  }
+  const typing=document.getElementById('transcript-typing');
+  typing.style.display='block';
+  const chat=document.getElementById('transcript-live');
+  chat.scrollTop=chat.scrollHeight;
+
+  setTimeout(()=>{
+    typing.style.display='none';
+    const line=liveLines[demoIdx];
+    const el=document.createElement('div');
+    el.className='transcript-line';
+    el.innerHTML=`<div class="tl-time">${line.time}</div><div class="tl-speaker" style="color:${line.color}">${line.speaker}</div><div class="tl-text">${line.text}</div>`;
+    chat.insertBefore(el,typing);
+    chat.scrollTop=chat.scrollHeight;
+    // update word count
+    const wc=document.getElementById('word-count');
+    wc.textContent=parseInt(wc.textContent)+(line.text.split(' ').length);
+    demoIdx++;
+    setTimeout(runLine, 2200);
+  }, 1100);
+}
+
+function jumpToSummary(){
+  demoIdx=liveLines.length;
+  const typing=document.getElementById('transcript-typing');
+  typing.style.display='none';
+  liveLines.forEach(line=>{
+    const chat=document.getElementById('transcript-live');
+    if(!document.querySelector(`[data-time="${line.time}"]`)){
+      const el=document.createElement('div');
+      el.className='transcript-line';
+      el.dataset.time=line.time;
+      el.innerHTML=`<div class="tl-time">${line.time}</div><div class="tl-speaker" style="color:${line.color}">${line.speaker}</div><div class="tl-text">${line.text}</div>`;
+      chat.insertBefore(el,typing);
+    }
+  });
+  document.getElementById('intel-extra').style.display='flex';
+  document.getElementById('post-meeting').style.display='block';
+  document.getElementById('transcript-live').scrollTop=9999;
+}
+
+function showInlineSummary(){
+  const btn=document.getElementById('summarise-btn');
+  btn.textContent='⏳ Generating...';
+  btn.disabled=true;
+  setTimeout(()=>{
+    const chat=document.getElementById('transcript-live');
+    const el=document.createElement('div');
+    el.style.cssText='background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.2);border-radius:8px;padding:10px 12px;margin:6px 0;font-size:11px;color:#C8C8F0;line-height:1.6;animation:fadeIn .3s ease forwards';
+    el.innerHTML='<strong style="color:#818CF8">🤖 EatFit AI Notetaker — summary so far:</strong><br>Dietitian consultation follow-up. Bloating improving significantly (7→3/10). Agreed to begin lactose reintroduction at Week 6. Action: Erica to send updated meal plan today. Follow-up in 2 weeks.';
+    chat.appendChild(el);
+    chat.scrollTop=chat.scrollHeight;
+    btn.textContent='✓ Summarised';
+  }, 1200);
+}
+
+/* ── Scroll animation ── */
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:0.07});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>

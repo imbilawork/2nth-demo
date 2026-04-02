@@ -76,21 +76,57 @@
 
     ::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--c-steel-700);border-radius:3px}
     @media(max-width:768px){.demos-grid{grid-template-columns:1fr}.footer-inner{flex-direction:column;gap:12px;text-align:center}.nav-links .nav-link{display:none}}
+
+    /* Auth bar */
+    .auth-user{display:flex;align-items:center;gap:8px}
+    .auth-avatar{width:30px;height:30px;border-radius:50%;background:rgba(6,182,212,.15);border:1px solid rgba(6,182,212,.3);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;color:#06b6d4}
+    .auth-email{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--c-steel-600)}
+    .auth-logout{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--c-steel-700);background:none;border:none;cursor:pointer;padding:4px 8px;transition:color .15s}
+    .auth-logout:hover{color:#ef4444}
+
+    /* Access denied banner */
+    .denied-banner{background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:12px;font-size:13px;color:#fca5a5}
+    .denied-banner strong{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+
+    /* Locked card overlay */
+    .demo-card.locked{position:relative;overflow:hidden}
+    .lock-overlay{position:absolute;inset:0;background:rgba(10,10,10,.85);backdrop-filter:blur(3px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;z-index:5;text-align:center;padding:24px}
+    .lock-icon{font-size:28px;opacity:.5}
+    .lock-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:#f59e0b}
+    .lock-desc{font-size:13px;color:#a1a1aa;line-height:1.5}
+    .lock-btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;background:#06b6d4;color:#0a0a0a;padding:8px 18px;border-radius:3px;font-weight:700;border:none;cursor:pointer;transition:background .15s}
+    .lock-btn:hover{background:#22d3ee}
+    .lock-btn.requested{background:none;color:#10b981;border:1px solid rgba(16,185,129,.3);cursor:default}
+
+    /* Request modal */
+    .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);z-index:100;display:flex;align-items:center;justify-content:center;padding:24px}
+    .modal{background:#111114;border:1px solid hsla(0,0%,100%,.1);border-radius:10px;padding:32px;width:100%;max-width:420px}
+    .modal-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;color:#fafafa;margin-bottom:6px}
+    .modal-desc{font-size:14px;color:#71717a;margin-bottom:20px;line-height:1.5}
+    .modal textarea{width:100%;background:#1c1c1e;border:1px solid hsla(0,0%,100%,.1);border-radius:5px;padding:10px 14px;font-size:14px;color:#fafafa;font-family:'Barlow',sans-serif;outline:none;resize:vertical;min-height:80px;transition:border-color .15s}
+    .modal textarea:focus{border-color:#06b6d4}
+    .modal textarea::placeholder{color:#3f3f46}
+    .modal-actions{display:flex;gap:10px;margin-top:14px}
+    .modal-submit{flex:1;padding:11px;background:#06b6d4;color:#0a0a0a;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;border:none;border-radius:5px;cursor:pointer}
+    .modal-submit:hover{background:#22d3ee}
+    .modal-cancel{padding:11px 18px;background:none;color:#52525b;border:1px solid hsla(0,0%,100%,.08);border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer}
+    .modal-cancel:hover{background:#1c1c1e}
   </style>
 </head>
 <body>
 
 <nav>
   <div class="nav-inner">
-    <a href="https://2nth.ai" class="nav-brand"><span>2</span>NTH</a>
+    <a href="https://2nth-site.pages.dev" class="nav-brand"><span>2</span>NTH</a>
     <div class="nav-links">
-      <a href="https://2nth.ai" class="nav-link">Home</a>
+      <a href="https://2nth-site.pages.dev" class="nav-link">Home</a>
       <a href="/" class="nav-link active">Demos</a>
-      <a href="https://2nth-skills.pages.dev" class="nav-link">Skills</a>
+      <a href="https://2nth-skills-hub.pages.dev" class="nav-link">Skills</a>
       <button onclick="toggleTheme()" class="tbtn" title="Toggle theme">
         <svg id="icon-sun" class="hidden" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72l1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
         <svg id="icon-moon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
       </button>
+      <div id="auth-slot"></div>
     </div>
   </div>
 </nav>
@@ -106,6 +142,9 @@
 </section>
 
 <section class="section">
+  <div id="denied-banner" class="denied-banner" style="display:none">
+    <strong>Access Required</strong>&nbsp;— You need demo access granted to view this. Use the Request Access button on the card below.
+  </div>
   <div class="sec-label">01 — DEMOS</div>
   <div class="sec-title">CLIENT DEMONSTRATIONS</div>
   <div class="sec-desc">Interactive prototypes built for specific industries and clients. Click through to explore the full experience.</div>
@@ -221,25 +260,69 @@
       </div>
     </a>
 
-    <!-- Apex Advisory -->
-    <a href="/apex-advisory/" class="demo-card">
+    <!-- EatFit SA — client restricted -->
+    <a href="/erica.html" class="demo-card" data-restricted="erica">
       <div class="demo-card-hdr">
-        <div class="demo-icon" style="background:#f59e0b;color:#0f0a00">A</div>
+        <div class="demo-icon" style="background:#2D8A6E">E</div>
         <span class="demo-tag demo-tag-live">LIVE</span>
       </div>
-      <div class="demo-name">APEX ADVISORY</div>
-      <div class="demo-client">Services Consulting — Twenty CRM</div>
-      <div class="demo-desc">A consulting firm running Twenty CRM in full agent mode. Pipeline intelligence, meeting prep, delivery risk, auto note-taking — all via natural language to the Twenty GraphQL API and MCP tools.</div>
+      <div class="demo-name">EATFIT SA · AI PRACTICE</div>
+      <div class="demo-client">Erica Jankovich RD(SA) — IBS & Gut Health</div>
+      <div class="demo-desc">State-registered dietitian with 25 years of IBS expertise. Concept demo showing Low FODMAP meal plans, WhatsApp patient booking, gut symptom tracking, HPCSA-compliant SOAP notes, and an AI Q&A agent for the EatFit training programme.</div>
       <div class="demo-meta">
-        <span class="demo-meta-tag">Twenty CRM</span>
-        <span class="demo-meta-tag">GraphQL</span>
-        <span class="demo-meta-tag">MCP</span>
-        <span class="demo-meta-tag">Consulting</span>
-        <span class="demo-meta-tag">4 Domains</span>
+        <span class="demo-meta-tag">Dietitian</span>
+        <span class="demo-meta-tag">Low FODMAP</span>
+        <span class="demo-meta-tag">WhatsApp</span>
+        <span class="demo-meta-tag">HPCSA</span>
+        <span class="demo-meta-tag">hlth skills</span>
       </div>
       <div class="demo-footer">
         <span class="demo-link">LAUNCH DEMO &rarr;</span>
-        <span class="demo-stat">Agent mode · Write access</span>
+        <span class="demo-stat">6 AI skills · POPIA compliant</span>
+      </div>
+    </a>
+
+    <!-- Wellness Practice Skills -->
+    <a href="/wellness.html" class="demo-card">
+      <div class="demo-card-hdr">
+        <div class="demo-icon" style="background:#4A7C59">W</div>
+        <span class="demo-tag demo-tag-live">LIVE</span>
+      </div>
+      <div class="demo-name">WELLNESS PRACTICE SKILLS</div>
+      <div class="demo-client">hlth Domain — Yoga · Pilates · Dietitian</div>
+      <div class="demo-desc">Interactive showcase of the 6 health practitioner skills: client intake (PAR-Q), programme architect, nutrition advisor (Low FODMAP), booking & scheduling, progress coach, and practitioner copilot. All with SA regulatory context.</div>
+      <div class="demo-meta">
+        <span class="demo-meta-tag">Yoga</span>
+        <span class="demo-meta-tag">Pilates</span>
+        <span class="demo-meta-tag">Nutrition</span>
+        <span class="demo-meta-tag">hlth domain</span>
+        <span class="demo-meta-tag">SOAP Notes</span>
+      </div>
+      <div class="demo-footer">
+        <span class="demo-link">LAUNCH DEMO &rarr;</span>
+        <span class="demo-stat">6 skills · Live agent demos</span>
+      </div>
+    </a>
+
+    <!-- Meeting Agent -->
+    <a href="/meeting-agent.html" class="demo-card">
+      <div class="demo-card-hdr">
+        <div class="demo-icon" style="background:#6366F1">M</div>
+        <span class="demo-tag demo-tag-live">LIVE</span>
+      </div>
+      <div class="demo-name">MEETING AGENT</div>
+      <div class="demo-client">collab Domain — Recall.ai · Teams · Meet · Zoom</div>
+      <div class="demo-desc">AI-powered meeting bot that joins Teams, Meet, and Zoom via Recall.ai. Real-time transcription, speaker diarization, structured summaries, action item extraction, and POPIA-compliant consent flow. Routes output to CRM, EHR, or task tools.</div>
+      <div class="demo-meta">
+        <span class="demo-meta-tag">Recall.ai</span>
+        <span class="demo-meta-tag">MS Teams</span>
+        <span class="demo-meta-tag">Google Meet</span>
+        <span class="demo-meta-tag">collab domain</span>
+        <span class="demo-meta-tag">POPIA</span>
+      </div>
+      <div class="demo-footer">
+        <span class="demo-link">LAUNCH DEMO &rarr;</span>
+        <span class="demo-stat">6 platforms · 5 industry modes</span>
       </div>
     </a>
 
@@ -258,7 +341,7 @@
         <span class="demo-meta-tag">Custom</span>
       </div>
       <div class="demo-footer">
-        <a href="https://2nth.ai/join.html" class="demo-link" style="opacity:.6">GET IN TOUCH &rarr;</a>
+        <a href="https://2nth-site.pages.dev/join.html" class="demo-link" style="opacity:.6">GET IN TOUCH &rarr;</a>
         <span class="demo-stat"></span>
       </div>
     </div>
@@ -270,18 +353,13 @@
   <div class="footer-inner">
     <div class="footer-brand">&copy; 2026 2NTH.AI — Demos</div>
     <div class="footer-links">
-      <a href="https://2nth.ai">2nth.ai</a>
-      <a href="https://2nth-skills.pages.dev">Skills</a>
+      <a href="https://2nth-site.pages.dev">2nth.ai</a>
+      <a href="https://2nth-skills-hub.pages.dev">Skills</a>
       <a href="https://github.com/imbilawork">GitHub</a>
     </div>
   </div>
 </footer>
 
-<script src="https://2nth.ai/app-switcher.js"></script>
-<script src="https://2nth.ai/auth-bar.js"></script>
-<script>window._browseGate={required:true}</script>
-<script src="https://2nth.ai/browse-gate.js"></script>
-<script>window._asSwitcher.inject('.nav-links');window._authBar.inject('.nav-links');</script>
 <script>
 function toggleTheme(){
   document.documentElement.classList.toggle('light');
@@ -291,6 +369,154 @@ function toggleTheme(){
   document.getElementById('icon-moon').classList.toggle('hidden',l);
 }
 (function(){var l=document.documentElement.classList.contains('light');document.getElementById('icon-sun').classList.toggle('hidden',!l);document.getElementById('icon-moon').classList.toggle('hidden',l)})();
+
+// ── Auth + access gating ──────────────────────────────────────────────────────
+let _user = null;
+
+async function initAuth() {
+  try {
+    const res = await fetch('/api/auth/session');
+    const { user } = await res.json();
+    _user = user;
+  } catch {}
+
+  renderAuthBar();
+  applyAccessGates();
+  checkDeniedParam();
+}
+
+function renderAuthBar() {
+  const slot = document.getElementById('auth-slot');
+  if (!slot) return;
+  if (!_user) {
+    slot.innerHTML = `<a href="/signin.html" style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;background:#06b6d4;color:#0a0a0a;padding:5px 12px;border-radius:3px;font-weight:700;text-decoration:none">SIGN IN</a>`;
+    return;
+  }
+  const initials = _user.email.slice(0,2).toUpperCase();
+  slot.innerHTML = `
+    <div class="auth-user">
+      <span class="auth-email">${_user.email}</span>
+      <div class="auth-avatar">${initials}</div>
+      <button class="auth-logout" onclick="logout()">Sign out</button>
+    </div>`;
+}
+
+async function logout() {
+  await fetch('/api/auth/logout', { method: 'POST' });
+  location.href = '/signin.html';
+}
+
+function canAccess(slug) {
+  if (!_user) return false;
+  if (_user.role === 'admin') return true;
+  return Array.isArray(_user.demos) && _user.demos.includes(slug);
+}
+
+function applyAccessGates() {
+  document.querySelectorAll('[data-restricted]').forEach(card => {
+    const slug = card.getAttribute('data-restricted');
+    if (canAccess(slug)) return;
+
+    card.classList.add('locked');
+    card.removeAttribute('href');
+
+    const overlay = document.createElement('div');
+    overlay.className = 'lock-overlay';
+    overlay.innerHTML = `
+      <div class="lock-icon">🔒</div>
+      <div class="lock-label">Client Access Required</div>
+      <div class="lock-desc">This demo is restricted to invited clients. Request access and we'll review within 24hrs.</div>
+      <button class="lock-btn" id="req-btn-${slug}" onclick="openRequestModal('${slug}')">Request Access →</button>`;
+    card.appendChild(overlay);
+  });
+}
+
+function checkDeniedParam() {
+  const slug = new URLSearchParams(location.search).get('denied');
+  if (slug) {
+    document.getElementById('denied-banner').style.display = 'flex';
+    // clean the URL
+    history.replaceState(null, '', '/');
+  }
+}
+
+// ── Request access modal ──────────────────────────────────────────────────────
+let _requestingSlug = null;
+
+function openRequestModal(slug) {
+  _requestingSlug = slug;
+  const existing = document.getElementById('request-modal');
+  if (existing) existing.remove();
+
+  const bg = document.createElement('div');
+  bg.id = 'request-modal';
+  bg.className = 'modal-bg';
+  bg.innerHTML = `
+    <div class="modal">
+      <div class="modal-title">Request Demo Access</div>
+      <div class="modal-desc">Tell us a little about why you'd like access to the <strong style="color:#fafafa">${slug}</strong> demo. We'll follow up within 24 hours.</div>
+      <textarea id="req-message" placeholder="e.g. I'm a registered dietitian exploring AI tools for my practice..." rows="4"></textarea>
+      <div class="modal-actions">
+        <button class="modal-submit" onclick="submitRequest()">Send Request →</button>
+        <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+      </div>
+      <div id="req-status" style="margin-top:12px;font-size:13px;display:none"></div>
+    </div>`;
+  bg.addEventListener('click', e => { if (e.target === bg) closeModal(); });
+  document.body.appendChild(bg);
+}
+
+function closeModal() {
+  const m = document.getElementById('request-modal');
+  if (m) m.remove();
+  _requestingSlug = null;
+}
+
+async function submitRequest() {
+  const message = document.getElementById('req-message')?.value?.trim() || '';
+  const statusEl = document.getElementById('req-status');
+  const btn = document.querySelector('.modal-submit');
+  if (btn) btn.disabled = true;
+
+  try {
+    const res = await fetch('/api/auth/request-access', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ demo: _requestingSlug, message }),
+    });
+    const data = await res.json();
+    if (res.ok) {
+      if (statusEl) {
+        statusEl.style.display = 'block';
+        statusEl.style.color = '#10b981';
+        statusEl.textContent = '✓ Request sent. We\'ll be in touch within 24 hours.';
+      }
+      // Update the button
+      const reqBtn = document.getElementById(`req-btn-${_requestingSlug}`);
+      if (reqBtn) {
+        reqBtn.textContent = '✓ Access Requested';
+        reqBtn.className = 'lock-btn requested';
+      }
+      setTimeout(closeModal, 2000);
+    } else {
+      if (statusEl) {
+        statusEl.style.display = 'block';
+        statusEl.style.color = '#fca5a5';
+        statusEl.textContent = data.error || 'Something went wrong.';
+      }
+      if (btn) btn.disabled = false;
+    }
+  } catch {
+    if (statusEl) {
+      statusEl.style.display = 'block';
+      statusEl.style.color = '#fca5a5';
+      statusEl.textContent = 'Network error — try again.';
+    }
+    if (btn) btn.disabled = false;
+  }
+}
+
+initAuth();
 </script>
 </body>
 </html>

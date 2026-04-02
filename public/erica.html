@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Erica Jankovich · AI-First Practice · Powered by 2nth.ai</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300..800;1,9..40,300..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── Brand tokens ──────────────────────────────────────────── */
+:root {
+  --teal:        #2D8A6E;
+  --teal-light:  #3AA882;
+  --teal-dark:   #1F6352;
+  --amber:       #E6922A;
+  --amber-light: #F5A942;
+  --coral:       #C4704A;
+  --sage:        #5A9E7C;
+  --gut:         #8B5E3C;
+  --black:       #0A0A0A;
+  --white:       #FFFFFF;
+  --radius-sm:   6px;
+  --radius-md:   10px;
+  --radius-lg:   16px;
+}
+
+[data-theme="light"] {
+  --bg:           #F8FAFA;
+  --bg-card:      #FFFFFF;
+  --bg-subtle:    #F0F6F4;
+  --bg-mock:      #0E1512;
+  --border:       rgba(45,138,110,.12);
+  --border-strong:rgba(45,138,110,.28);
+  --text-primary: #0A0A0A;
+  --text-body:    #3D4A42;
+  --text-muted:   #6B7E74;
+  --text-heading: #0A0A0A;
+}
+
+[data-theme="dark"] {
+  --bg:           #080E0C;
+  --bg-card:      #111915;
+  --bg-subtle:    #172118;
+  --bg-mock:      #060D0A;
+  --border:       rgba(45,138,110,.18);
+  --border-strong:rgba(45,138,110,.35);
+  --text-primary: #E8F0EC;
+  --text-body:    #9DB8AA;
+  --text-muted:   #5E7A6A;
+  --text-heading: #E8F0EC;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text-primary);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+/* ── Nav ──────────────────────────────────────────────────── */
+nav{position:sticky;top:0;z-index:100;background:var(--bg);border-bottom:1px solid var(--border);padding:0 24px;display:flex;align-items:center;justify-content:space-between;height:56px;backdrop-filter:blur(12px)}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:28px;height:28px;background:var(--teal);border-radius:6px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:11px;color:#fff;letter-spacing:-.03em}
+.nav-title{font-size:13px;font-weight:600;color:var(--text-primary);letter-spacing:-.02em}
+.nav-badge{font-size:11px;background:rgba(45,138,110,.12);color:var(--teal);padding:2px 8px;border-radius:20px;font-weight:600;border:1px solid rgba(45,138,110,.2)}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-link{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .15s}
+.nav-link:hover{color:var(--teal)}
+.theme-btn{background:none;border:1px solid var(--border-strong);border-radius:var(--radius-sm);padding:5px 10px;cursor:pointer;font-size:12px;color:var(--text-muted);font-family:inherit;transition:all .15s}
+.theme-btn:hover{border-color:var(--teal);color:var(--teal)}
+
+/* ── Spectrum bar ──────────────────────────────────────────── */
+.spectrum{height:3px;background:linear-gradient(90deg,var(--black),var(--teal),var(--amber),var(--teal-dark),var(--black))}
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.hero{padding:80px 24px 64px;text-align:center;max-width:820px;margin:0 auto}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(45,138,110,.1);border:1px solid rgba(45,138,110,.2);border-radius:20px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--teal);margin-bottom:28px;letter-spacing:.02em;text-transform:uppercase}
+.hero-dot{width:7px;height:7px;background:var(--teal);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+h1{font-size:clamp(36px,6vw,62px);font-weight:800;letter-spacing:-.04em;line-height:1.1;color:var(--text-heading);margin-bottom:22px}
+h1 .name{color:var(--teal)}
+h1 .sub{display:block;font-size:.58em;font-weight:400;color:var(--text-muted);letter-spacing:-.02em;margin-top:10px}
+.hero-body{font-size:17px;color:var(--text-body);max-width:560px;margin:0 auto 36px;line-height:1.75}
+.hero-actions{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-bottom:56px}
+.btn-primary{background:var(--teal);color:#fff;font-weight:700;font-size:14px;padding:12px 26px;border-radius:var(--radius-md);text-decoration:none;border:none;cursor:pointer;transition:background .15s;letter-spacing:-.01em;font-family:inherit}
+.btn-primary:hover{background:var(--teal-light)}
+.btn-outline{background:transparent;color:var(--text-primary);font-weight:500;font-size:14px;padding:11px 26px;border-radius:var(--radius-md);text-decoration:none;border:1px solid var(--border-strong);transition:all .15s;font-family:inherit;cursor:pointer}
+.btn-outline:hover{border-color:var(--teal);color:var(--teal)}
+.btn-amber{background:var(--amber);color:#fff;font-weight:700;font-size:14px;padding:12px 26px;border-radius:var(--radius-md);text-decoration:none;border:none;cursor:pointer;transition:background .15s;font-family:inherit}
+.btn-amber:hover{background:var(--amber-light)}
+
+/* ── Stats strip ──────────────────────────────────────────── */
+.stats{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap;padding:28px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.stat-val{font-size:32px;font-weight:800;letter-spacing:-.04em;color:var(--teal)}
+.stat-label{font-size:12px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;font-weight:500;margin-top:2px}
+
+/* ── Section scaffold ─────────────────────────────────────── */
+section{padding:72px 24px;max-width:1040px;margin:0 auto}
+.section-label{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:12px}
+h2{font-size:clamp(26px,4vw,38px);font-weight:800;letter-spacing:-.04em;color:var(--text-heading);margin-bottom:14px;line-height:1.2}
+.section-sub{font-size:16px;color:var(--text-body);max-width:580px;line-height:1.7;margin-bottom:44px}
+.divider{border:none;border-top:1px solid var(--border);margin:0}
+
+/* ── Grid ──────────────────────────────────────────────────── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+@media(max-width:700px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr}}
+
+/* ── Cards ──────────────────────────────────────────────────── */
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;transition:border-color .2s}
+.card:hover{border-color:var(--teal)}
+.card-icon{width:40px;height:40px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+.card-title{font-size:15px;font-weight:700;color:var(--text-heading);margin-bottom:6px;letter-spacing:-.02em}
+.card-body{font-size:13px;color:var(--text-body);line-height:1.6}
+.tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:20px;margin-top:10px}
+.tag-teal{background:rgba(45,138,110,.12);color:var(--teal);border:1px solid rgba(45,138,110,.2)}
+.tag-amber{background:rgba(230,146,42,.12);color:var(--amber);border:1px solid rgba(230,146,42,.2)}
+.tag-coral{background:rgba(196,112,74,.12);color:var(--coral);border:1px solid rgba(196,112,74,.2)}
+
+/* ── Chat mock ──────────────────────────────────────────────── */
+.chat-shell{background:var(--bg-mock);border-radius:var(--radius-lg);overflow:hidden;border:1px solid rgba(45,138,110,.15)}
+.chat-header{background:rgba(45,138,110,.12);border-bottom:1px solid rgba(45,138,110,.15);padding:12px 16px;display:flex;align-items:center;gap:10px}
+.chat-avatar{width:32px;height:32px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0}
+.chat-name{font-size:13px;font-weight:600;color:#E8F0EC}
+.chat-status{font-size:11px;color:#5E7A6A}
+.chat-status-dot{display:inline-block;width:6px;height:6px;background:#3AA882;border-radius:50%;margin-right:4px}
+.chat-body{padding:16px;display:flex;flex-direction:column;gap:10px;min-height:280px}
+.msg{max-width:78%;padding:10px 14px;border-radius:var(--radius-md);font-size:13px;line-height:1.55}
+.msg-agent{background:rgba(45,138,110,.15);color:#C8E8D8;border-radius:var(--radius-md) var(--radius-md) var(--radius-md) 4px;align-self:flex-start}
+.msg-user{background:rgba(230,146,42,.2);color:#F5D8A0;border-radius:var(--radius-md) var(--radius-md) 4px var(--radius-md);align-self:flex-end}
+.msg-time{font-size:10px;opacity:.5;margin-top:4px}
+.msg-label{font-size:10px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--teal);margin-bottom:4px}
+.chat-input{padding:12px 16px;border-top:1px solid rgba(45,138,110,.12);display:flex;align-items:center;gap:8px}
+.chat-input-box{flex:1;background:rgba(45,138,110,.08);border:1px solid rgba(45,138,110,.18);border-radius:var(--radius-md);padding:8px 12px;font-size:12px;color:#9DB8AA;font-family:inherit}
+.chat-send{background:var(--teal);color:#fff;border:none;border-radius:var(--radius-sm);padding:8px 14px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:background .15s}
+.chat-send:hover{background:var(--teal-light)}
+
+/* ── Tabs ───────────────────────────────────────────────────── */
+.tab-row{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:24px;background:var(--bg-subtle);padding:4px;border-radius:var(--radius-md)}
+.tab-btn{flex:1;min-width:100px;background:none;border:none;padding:8px 14px;font-size:12px;font-weight:600;color:var(--text-muted);border-radius:var(--radius-sm);cursor:pointer;font-family:inherit;transition:all .15s;letter-spacing:-.01em}
+.tab-btn.active{background:var(--bg-card);color:var(--teal);border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.tab-content{display:none}
+.tab-content.active{display:block}
+
+/* ── Skills pills ───────────────────────────────────────────── */
+.skill-pill{display:flex;align-items:flex-start;gap:14px;padding:18px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);transition:border-color .2s}
+.skill-pill:hover{border-color:var(--teal)}
+.skill-pill-icon{font-size:22px;flex-shrink:0;width:40px;height:40px;background:rgba(45,138,110,.1);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center}
+.skill-pill-name{font-size:14px;font-weight:700;color:var(--text-heading);margin-bottom:4px;letter-spacing:-.02em}
+.skill-pill-why{font-size:12px;color:var(--text-muted);line-height:1.5}
+
+/* ── Roadmap ──────────────────────────────────────────────────── */
+.roadmap{display:flex;flex-direction:column;gap:0}
+.rm-phase{display:grid;grid-template-columns:120px 1fr;gap:0;position:relative}
+.rm-phase:not(:last-child) .rm-line::after{content:'';position:absolute;left:59px;top:48px;width:2px;height:calc(100% - 24px);background:var(--border)}
+.rm-left{padding:20px 0;display:flex;flex-direction:column;align-items:center;gap:0;position:relative}
+.rm-node{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0;border:3px solid var(--bg)}
+.rm-line{position:relative;padding-bottom:24px}
+.rm-right{padding:20px 0 20px 24px;border-left:2px solid var(--border)}
+.rm-phase:last-child .rm-right{border-left:2px solid transparent}
+.rm-phase-label{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px}
+.rm-phase-title{font-size:16px;font-weight:700;color:var(--text-heading);margin-bottom:10px;letter-spacing:-.02em}
+.rm-items{display:flex;flex-direction:column;gap:6px}
+.rm-item{font-size:13px;color:var(--text-body);display:flex;align-items:flex-start;gap:8px}
+.rm-check{color:var(--teal);font-size:13px;flex-shrink:0;margin-top:1px}
+.rm-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-top:8px;display:inline-block;letter-spacing:.03em}
+.rm-tag-live{background:rgba(45,138,110,.15);color:var(--teal);border:1px solid rgba(45,138,110,.25)}
+.rm-tag-soon{background:rgba(230,146,42,.12);color:var(--amber);border:1px solid rgba(230,146,42,.2)}
+.rm-tag-later{background:rgba(107,126,116,.1);color:var(--text-muted);border:1px solid rgba(107,126,116,.2)}
+
+/* ── Automation table ──────────────────────────────────────── */
+.auto-table{width:100%;border-collapse:collapse;font-size:13px}
+.auto-table th{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);padding:10px 16px;border-bottom:2px solid var(--border);text-align:left}
+.auto-table td{padding:14px 16px;border-bottom:1px solid var(--border);vertical-align:top}
+.auto-table tr:last-child td{border-bottom:none}
+.auto-table .manual{color:var(--text-muted);text-decoration:line-through}
+.auto-table .ai{color:var(--teal);font-weight:600}
+.auto-table .saving{color:var(--amber);font-weight:700;font-size:12px}
+
+/* ── Meal plan ──────────────────────────────────────────────── */
+.meal-day{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;margin-bottom:16px}
+.meal-day-header{background:rgba(45,138,110,.08);padding:12px 18px;font-size:13px;font-weight:700;color:var(--teal);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.meal-day-macro{font-size:11px;font-weight:500;color:var(--text-muted)}
+.meal-row{padding:12px 18px;border-bottom:1px solid var(--border);display:grid;grid-template-columns:80px 1fr auto;gap:12px;align-items:start}
+.meal-row:last-child{border-bottom:none}
+.meal-time{font-size:11px;font-weight:700;color:var(--amber);letter-spacing:.03em;text-transform:uppercase}
+.meal-name{font-size:13px;color:var(--text-body)}
+.meal-macros{font-size:11px;color:var(--text-muted);text-align:right;white-space:nowrap}
+.fodmap-badge{display:inline-block;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:1px 7px;border-radius:10px;margin-top:3px;background:rgba(45,138,110,.12);color:var(--teal);border:1px solid rgba(45,138,110,.2)}
+
+/* ── SOAP note ──────────────────────────────────────────────── */
+.soap-note{background:var(--bg-mock);border-radius:var(--radius-lg);padding:24px;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.7;color:#9DB8AA;border:1px solid rgba(45,138,110,.15)}
+.soap-section{margin-bottom:18px}
+.soap-key{color:var(--teal);font-weight:700;font-size:11px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.soap-val{color:#C8E8D8}
+.soap-header{color:#5E7A6A;font-size:11px;margin-bottom:16px;border-bottom:1px solid rgba(45,138,110,.1);padding-bottom:12px}
+
+/* ── Symptom tracker ────────────────────────────────────────── */
+.symptom-chart{display:flex;flex-direction:column;gap:12px}
+.symptom-row{display:grid;grid-template-columns:120px 1fr 40px;gap:12px;align-items:center}
+.symptom-label{font-size:12px;color:var(--text-muted)}
+.symptom-bar-bg{background:rgba(45,138,110,.1);border-radius:4px;height:8px;overflow:hidden}
+.symptom-bar{height:100%;border-radius:4px;transition:width .6s}
+.symptom-val{font-size:12px;font-weight:700;text-align:right}
+.symptom-trend{font-size:11px;color:var(--text-muted);text-align:center;margin-top:4px}
+.trend-up{color:var(--coral)}
+.trend-down{color:var(--teal)}
+
+/* ── B2B module ─────────────────────────────────────────────── */
+.b2b-card{background:var(--black);border:1px solid rgba(45,138,110,.2);border-radius:var(--radius-lg);padding:28px;color:var(--white)}
+.b2b-eyebrow{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.b2b-title{font-size:22px;font-weight:800;letter-spacing:-.04em;margin-bottom:10px;line-height:1.2}
+.b2b-body{font-size:14px;color:#9DB8AA;line-height:1.7;margin-bottom:20px}
+.b2b-points{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.b2b-point{font-size:13px;color:#C8E8D8;display:flex;align-items:flex-start;gap:8px}
+.b2b-check{color:var(--teal);flex-shrink:0}
+
+/* ── CTA section ────────────────────────────────────────────── */
+.cta-section{background:var(--black);border-radius:var(--radius-lg);padding:48px;text-align:center;color:var(--white);margin:0 24px 72px}
+.cta-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:16px}
+.cta-title{font-size:clamp(24px,4vw,36px);font-weight:800;letter-spacing:-.04em;margin-bottom:14px;line-height:1.2}
+.cta-body{font-size:15px;color:#9DB8AA;max-width:480px;margin:0 auto 32px;line-height:1.7}
+.cta-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-whatsapp{background:#25D366;color:#fff;font-weight:700;font-size:14px;padding:12px 26px;border-radius:var(--radius-md);text-decoration:none;border:none;cursor:pointer;transition:background .15s;font-family:inherit}
+.cta-whatsapp:hover{background:#1AB855}
+
+/* ── Footer ─────────────────────────────────────────────────── */
+footer{padding:28px 24px;border-top:1px solid var(--border);text-align:center;font-size:12px;color:var(--text-muted)}
+footer a{color:var(--teal);text-decoration:none}
+
+/* ── Scroll animation ───────────────────────────────────────── */
+.fade-up{opacity:0;transform:translateY(20px);transition:opacity .5s,transform .5s}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+
+/* ── Highlight ──────────────────────────────────────────────── */
+.hl{color:var(--teal);font-weight:700}
+.hl-amber{color:var(--amber);font-weight:700}
+
+/* ── Scroll typing animation ────────────────────────────────── */
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+.cursor{display:inline-block;width:2px;height:14px;background:var(--teal);margin-left:2px;vertical-align:middle;animation:blink 1s infinite}
+</style>
+</head>
+<body>
+
+<div class="spectrum"></div>
+
+<nav>
+  <a href="#" class="nav-brand">
+    <div class="nav-logo">2N</div>
+    <div>
+      <div class="nav-title">EatFit SA · AI Practice</div>
+    </div>
+  </a>
+  <div style="display:flex;align-items:center;gap:8px">
+    <span class="nav-badge">Concept Demo</span>
+  </div>
+  <div class="nav-right">
+    <a href="#skills" class="nav-link">Skills</a>
+    <a href="#demos" class="nav-link">Demos</a>
+    <a href="#roadmap" class="nav-link">Roadmap</a>
+    <button class="theme-btn" onclick="toggleTheme()">◐ Theme</button>
+  </div>
+</nav>
+
+<!-- ─── HERO ──────────────────────────────────────────────────── -->
+<div class="hero fade-up">
+  <div class="hero-eyebrow">
+    <span class="hero-dot"></span>
+    Built for Erica Jankovich RD(SA) · EatFit SA
+  </div>
+  <h1>
+    <span class="name">Erica,</span> your AI-first<br>dietitian practice.
+    <span class="sub">25 years of clinical expertise · scaled by intelligent agents</span>
+  </h1>
+  <p class="hero-body">
+    You've spent a career translating complex gut science into life-changing results. Here's how an AI-first approach puts that expertise to work 24/7 — for every patient, every referral, every training dietitian in your network.
+  </p>
+  <div class="hero-actions">
+    <a href="#demos" class="btn-primary">See it in action →</a>
+    <a href="#roadmap" class="btn-outline">View your roadmap</a>
+  </div>
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-val">24/7</div>
+      <div class="stat-label">Patient support</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">~8h</div>
+      <div class="stat-label">Admin saved per week</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">∞</div>
+      <div class="stat-label">Programmes delivered</div>
+    </div>
+    <div class="stat">
+      <div class="stat-val">HPCSA</div>
+      <div class="stat-label">Compliant records</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ─── THE OPPORTUNITY ───────────────────────────────────────── -->
+<section id="opportunity" class="fade-up">
+  <div class="section-label">The opportunity</div>
+  <h2>Right now, you do this manually.</h2>
+  <p class="section-sub">Every intake form, every meal plan draft, every reminder WhatsApp, every SOAP note — takes time away from high-value clinical work. Here's what AI handles instead.</p>
+
+  <div style="overflow-x:auto">
+    <table class="auto-table">
+      <thead>
+        <tr>
+          <th>Task</th>
+          <th>Manual (today)</th>
+          <th>With AI agent</th>
+          <th>Time saved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:var(--text-heading)">Patient intake & history</td>
+          <td class="manual">Email form → manual review → file → flag</td>
+          <td class="ai">Conversational intake on WhatsApp → structured JSON → auto-flagged contraindications</td>
+          <td class="saving">45 min/patient</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-heading)">Low FODMAP meal plan</td>
+          <td class="manual">Manual draft from template → adjust for restrictions → format → send</td>
+          <td class="ai">AI generates phase-specific plan in seconds → you review & approve → auto-delivered</td>
+          <td class="saving">90 min/plan</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-heading)">Appointment reminders</td>
+          <td class="manual">Manual WhatsApp messages before each session</td>
+          <td class="ai">Automated 24hr + 1hr reminders with prep instructions</td>
+          <td class="saving">20 min/day</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-heading)">Consultation SOAP notes</td>
+          <td class="manual">Written post-session → typed up → filed</td>
+          <td class="ai">Dictate brief notes → AI formats SOAP → HPCSA-compliant record saved</td>
+          <td class="saving">30 min/session</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-heading)">Symptom diary follow-up</td>
+          <td class="manual">Ask patient to track → hope they remember → review verbally</td>
+          <td class="ai">Daily WhatsApp check-in → structured log → trend visualised before next session</td>
+          <td class="saving">20 min/session</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-heading)">Referral letters</td>
+          <td class="manual">Write from scratch → format → send</td>
+          <td class="ai">Dictate context → AI drafts to GP/gastro → you review → send</td>
+          <td class="saving">25 min/letter</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--text-heading)">Training programme delivery</td>
+          <td class="manual">Manual email sequences to dietitian learners</td>
+          <td class="ai">AI-guided programme with Q&A agent, progress tracking, CPD logging</td>
+          <td class="saving">3 hr/cohort</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── SKILLS STACK ───────────────────────────────────────────── -->
+<section id="skills" class="fade-up">
+  <div class="section-label">Your AI skills stack</div>
+  <h2>Six agents. One practice.</h2>
+  <p class="section-sub">Each skill is a purpose-built AI agent. You configure which ones to deploy. They talk to each other. Every interaction is logged for your clinical record.</p>
+
+  <div class="grid-2" style="gap:16px">
+    <div class="skill-pill">
+      <div class="skill-pill-icon">📋</div>
+      <div>
+        <div class="skill-pill-name">GI Client Intake</div>
+        <div class="skill-pill-why">Conversational GI history, IBS symptom questionnaire, food sensitivity mapping, FODMAP exposure baseline, red flag screening (blood, weight loss, nocturnal symptoms). POPIA-compliant data capture. Contraindication matrix for renal, diabetic, oncology patients — flags for your review.</div>
+        <span class="tag tag-teal">Live on WhatsApp</span>
+      </div>
+    </div>
+
+    <div class="skill-pill">
+      <div class="skill-pill-icon">🥗</div>
+      <div>
+        <div class="skill-pill-name">Nutrition Advisor — Low FODMAP</div>
+        <div class="skill-pill-why">Generates phase-specific Low FODMAP plans (elimination, reintroduction, personalisation). Handles halaal, gluten-free, dairy-free overlays. Calculates macros using your preferred method. All plans flagged for your review before delivery — scope boundary maintained per HPCSA/ADSA guidelines.</div>
+        <span class="tag tag-teal">Practitioner-gated</span>
+      </div>
+    </div>
+
+    <div class="skill-pill">
+      <div class="skill-pill-icon">📈</div>
+      <div>
+        <div class="skill-pill-name">Gut Health Progress Coach</div>
+        <div class="skill-pill-why">Daily symptom diary via WhatsApp (bloating, pain, BM score, energy, adherence). Logs Bristol Stool Scale entries. Detects flare patterns and surfacing triggers before your next session. Monthly trend summary delivered to you and optionally to the patient's GP.</div>
+        <span class="tag tag-teal">Daily tracking</span>
+      </div>
+    </div>
+
+    <div class="skill-pill">
+      <div class="skill-pill-icon">📝</div>
+      <div>
+        <div class="skill-pill-name">Practitioner Copilot</div>
+        <div class="skill-pill-why">You dictate post-session notes — AI formats into HPCSA-compliant SOAP structure. Flags medication changes, new diagnoses, or GI red flags for the record. Drafts referral letters to gastroenterologists, GPs, and physios. Tracks your ADSA CPD hours and renewal deadlines.</div>
+        <span class="tag tag-amber">HPCSA compliant</span>
+      </div>
+    </div>
+
+    <div class="skill-pill">
+      <div class="skill-pill-icon">📅</div>
+      <div>
+        <div class="skill-pill-name">Booking & Scheduling</div>
+        <div class="skill-pill-why">Patients book consultations on WhatsApp — AI checks availability, confirms, sends preparation instructions (food diary ready, meds list, recent bloods if relevant). 24hr + 1hr reminders. Package tracking (6-session IBS programme, training cohort slots).</div>
+        <span class="tag tag-teal">WhatsApp native</span>
+      </div>
+    </div>
+
+    <div class="skill-pill">
+      <div class="skill-pill-icon">🎓</div>
+      <div>
+        <div class="skill-pill-name">Dietitian Training Agent <span style="font-size:10px;color:var(--amber)">(B2B)</span></div>
+        <div class="skill-pill-why">Your EatFit training programme — delivered by AI. Learner Q&A agent answers questions between modules, tracks completion, issues CPD certificates, manages your approved dietitian network. Scales your training business without scaling your admin.</div>
+        <span class="tag tag-amber">EatFit Programmes</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── LIVE DEMOS ─────────────────────────────────────────────── -->
+<section id="demos" class="fade-up">
+  <div class="section-label">Live agent demos</div>
+  <h2>Watch your agents work.</h2>
+  <p class="section-sub">These are real agent interactions — the kind your patients and learners would experience from day one.</p>
+
+  <div class="tab-row">
+    <button class="tab-btn active" onclick="switchTab('booking')">Booking</button>
+    <button class="tab-btn" onclick="switchTab('intake')">Intake</button>
+    <button class="tab-btn" onclick="switchTab('fodmap')">Meal Plan</button>
+    <button class="tab-btn" onclick="switchTab('symptom')">Symptom Diary</button>
+    <button class="tab-btn" onclick="switchTab('soap')">SOAP Note</button>
+    <button class="tab-btn" onclick="switchTab('training')">Training</button>
+  </div>
+
+  <!-- BOOKING TAB -->
+  <div id="tab-booking" class="tab-content active">
+    <div class="grid-2">
+      <div class="chat-shell">
+        <div class="chat-header">
+          <div class="chat-avatar">E</div>
+          <div>
+            <div class="chat-name">EatFit SA · Erica's Practice</div>
+            <div class="chat-status"><span class="chat-status-dot"></span>Available</div>
+          </div>
+        </div>
+        <div class="chat-body" id="booking-chat">
+          <div class="msg msg-user">Hi, I need to book a consultation with Erica</div>
+          <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Hi! I'd love to help you book. Are you a new patient or returning?</div>
+          <div class="msg msg-user">New patient — I have IBS and heard Erica specialises in it</div>
+          <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>You're in the right place — Erica is one of SA's leading IBS dietitians.<br><br>For new patients I'd suggest our <strong style="color:#E8C878">Initial IBS Consultation (60 min)</strong>. She has availability:<br><br>📅 Thursday 3 April · 10:00am<br>📅 Friday 4 April · 2:00pm<br>📅 Monday 7 April · 9:00am<br><br>Which works for you?</div>
+          <div class="msg msg-user">Thursday 10am</div>
+          <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Booked ✓<br><br><strong style="color:#E8C878">Initial IBS Consultation</strong><br>📅 Thursday 3 April · 10:00am<br>📍 Telehealth (Zoom link to follow)<br><br>Before your session, I'll send you a short questionnaire — please complete it at least 24 hours before. It helps Erica prepare specifically for your case.<br><br>We'll remind you tomorrow and again on Thursday morning. See you then! 🌿</div>
+        </div>
+        <div class="chat-input">
+          <input class="chat-input-box" type="text" placeholder="Type a message..." id="booking-input" onkeydown="if(event.key==='Enter')sendBooking()">
+          <button class="chat-send" onclick="sendBooking()">Send</button>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">Booking agent: what it handles</h3>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div class="card" style="padding:14px">
+            <div style="font-size:13px;font-weight:600;color:var(--text-heading);margin-bottom:4px">New vs returning patient routing</div>
+            <div style="font-size:12px;color:var(--text-muted)">New patients → initial intake questionnaire. Returning → pre-session symptom check. Automatically.</div>
+          </div>
+          <div class="card" style="padding:14px">
+            <div style="font-size:13px;font-weight:600;color:var(--text-heading);margin-bottom:4px">Package tracking</div>
+            <div style="font-size:12px;color:var(--text-muted)">Tracks 6-session IBS programme usage. Prompts renewal at session 5. "You have 1 session remaining — would you like to renew?"</div>
+          </div>
+          <div class="card" style="padding:14px">
+            <div style="font-size:13px;font-weight:600;color:var(--text-heading);margin-bottom:4px">Pre-session prep instructions</div>
+            <div style="font-size:12px;color:var(--text-muted)">Sends relevant prep: 3-day food diary, medication list, recent blood results. Specific to the session type.</div>
+          </div>
+          <div class="card" style="padding:14px">
+            <div style="font-size:13px;font-weight:600;color:var(--text-heading);margin-bottom:4px">No-show follow-up</div>
+            <div style="font-size:12px;color:var(--text-muted)">Missed appointment → "We missed you today. Shall we reschedule?" → auto-offers next 3 slots.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTAKE TAB -->
+  <div id="tab-intake" class="tab-content">
+    <div class="grid-2">
+      <div class="chat-shell">
+        <div class="chat-header">
+          <div class="chat-avatar">E</div>
+          <div>
+            <div class="chat-name">EatFit SA · GI Intake</div>
+            <div class="chat-status"><span class="chat-status-dot"></span>Completing pre-consultation questionnaire</div>
+          </div>
+        </div>
+        <div class="chat-body">
+          <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Hi Thandi! I'm going to ask you a few questions before your session with Erica — it'll take about 5 minutes and helps her prepare specifically for you.<br><br>First: how long have you been experiencing your digestive symptoms?</div>
+          <div class="msg msg-user">About 3 years — mostly bloating and irregular bowel movements</div>
+          <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Got it. Are these symptoms fairly consistent, or do they tend to flare with certain foods or situations?</div>
+          <div class="msg msg-user">Worse with bread and onions definitely. Also stress makes it worse</div>
+          <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>That's helpful — bread and onions are both high in FODMAPs which Erica specialises in. Quick check:<br><br>Have you ever noticed symptoms with any of these?<br>• Milk / cream / soft cheese<br>• Apples, pears, stone fruit<br>• Beans or lentils<br>• Garlic</div>
+          <div class="msg msg-user">Definitely milk and garlic yes</div>
+          <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Thank you. One more section — any of the following? These help Erica rule out other conditions:<br><br>• Blood in stool<br>• Unintended weight loss<br>• Night-time symptoms that wake you<br>• Family history of bowel cancer or IBD</div>
+          <div class="msg msg-user">No to all of those</div>
+          <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>All done ✓ Your responses have been sent to Erica and flagged: <strong style="color:#E8C878">probable multi-FODMAP sensitivity</strong> — fructans (wheat, onion, garlic) + lactose. No red flags. She'll review before Thursday.<br><br>See you at 10am! 🌿</div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:17px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">What Erica sees before the session</h3>
+        <div class="card" style="margin-bottom:16px">
+          <div class="soap-header">PRE-SESSION BRIEF · Thandi M. · Thu 3 Apr 10:00</div>
+          <div style="font-size:13px;color:var(--text-body);line-height:1.7">
+            <div style="margin-bottom:8px"><span class="hl">Presenting symptoms:</span> Bloating, irregular bowel — 3yr duration. Worse postprandially.</div>
+            <div style="margin-bottom:8px"><span class="hl">Identified triggers:</span> Wheat/bread (fructans), onions (fructans), garlic (fructans), milk/cream (lactose).</div>
+            <div style="margin-bottom:8px"><span class="hl">AI classification:</span> Probable multi-FODMAP sensitivity — fructan + lactose subgroup.</div>
+            <div style="margin-bottom:8px"><span class="hl">Red flags screened:</span> <span style="color:var(--teal)">None identified.</span></div>
+            <div style="margin-bottom:8px"><span class="hl">Suggested focus:</span> Begin 6-week Low FODMAP elimination phase. Confirm lactose subtype via reintroduction protocol.</div>
+            <div style="color:var(--text-muted);font-size:12px">⚠️ No medical diagnoses — clinical judgment required</div>
+          </div>
+        </div>
+        <div class="card" style="padding:14px;background:rgba(45,138,110,.06)">
+          <div style="font-size:12px;color:var(--text-muted)">POPIA note: Gut health data is classified as <strong>special personal information</strong> under POPIA Section 26. All intake data is encrypted at rest, accessible only to Erica and any sub-practice members she authorises.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FODMAP MEAL PLAN TAB -->
+  <div id="tab-fodmap" class="tab-content">
+
+    <!-- Phase 2 banner + channel note -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;background:rgba(45,138,110,.12);color:var(--teal);border:1px solid rgba(45,138,110,.3);padding:3px 9px;border-radius:20px;font-weight:700;letter-spacing:.03em">Phase 2 · First pass</span>
+        <span style="font-size:12px;color:var(--text-muted)">Clinical — meal plans & symptom tracking</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:11px;color:var(--text-muted)">Channel:</span>
+        <span style="font-size:11px;background:rgba(45,138,110,.1);color:var(--teal);border:1px solid rgba(45,138,110,.25);padding:2px 8px;border-radius:20px;font-weight:600">Web app ✓</span>
+        <span style="font-size:11px;background:rgba(0,0,0,.04);color:var(--text-muted);border:1px solid var(--border);padding:2px 8px;border-radius:20px;font-weight:600">WhatsApp · add-on</span>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap:20px;align-items:start">
+
+      <!-- Left: meal plan days -->
+      <div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px">
+          <div style="font-size:13px;color:var(--text-muted)">CLIENT: Thandi M. &nbsp;|&nbsp; PHASE: Low FODMAP Elimination · Week 1 &nbsp;|&nbsp; Dairy-free · Halaal</div>
+          <div style="display:flex;gap:6px">
+            <button onclick="showMealDay('mon')" id="day-mon" style="font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid rgba(45,138,110,.3);background:rgba(45,138,110,.1);color:var(--teal);cursor:pointer;font-weight:600;font-family:inherit">Mon</button>
+            <button onclick="showMealDay('tue')" id="day-tue" style="font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-family:inherit">Tue</button>
+            <button onclick="showMealDay('wed')" id="day-wed" style="font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text-muted);cursor:pointer;font-family:inherit">Wed</button>
+          </div>
+        </div>
+
+        <div id="mealday-mon" class="meal-day">
+          <div class="meal-day-header">Monday <span class="meal-day-macro">~1,780 kcal · P 82g · C 218g · F 58g · Fibre 26g</span></div>
+          <div class="meal-row"><div class="meal-time">Breakfast<br>07:00</div><div class="meal-name">Oats with lactose-free milk, unripe banana, chia seeds, pumpkin seeds<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">420 kcal<br>P 14g · C 62g · F 14g</div></div>
+          <div class="meal-row"><div class="meal-time">Snack<br>10:00</div><div class="meal-name">Rice crackers × 3, peanut butter (2 tbsp), strawberries<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">280 kcal<br>P 8g · C 28g · F 16g</div></div>
+          <div class="meal-row"><div class="meal-time">Lunch<br>13:00</div><div class="meal-name">Grilled chicken breast, brown rice, baby spinach + olive oil + lemon, cherry tomatoes, cucumber<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">540 kcal<br>P 42g · C 54g · F 14g</div></div>
+          <div class="meal-row"><div class="meal-time">Snack<br>16:00</div><div class="meal-name">Lactose-free yoghurt, kiwifruit × 2, sunflower seeds<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">210 kcal<br>P 9g · C 26g · F 8g</div></div>
+          <div class="meal-row"><div class="meal-time">Dinner<br>19:00</div><div class="meal-name">Baked salmon, roasted potato wedges, steamed green beans + carrots, garlic-infused olive oil (FODMAP-safe — no actual garlic)<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">530 kcal<br>P 38g · C 48g · F 16g</div></div>
+        </div>
+
+        <div id="mealday-tue" class="meal-day" style="display:none">
+          <div class="meal-day-header">Tuesday <span class="meal-day-macro">~1,810 kcal · P 86g · C 210g · F 62g · Fibre 28g</span></div>
+          <div class="meal-row"><div class="meal-time">Breakfast<br>07:00</div><div class="meal-name">Scrambled eggs (2) on gluten-free toast, baby spinach, 5 cherry tomatoes<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">390 kcal<br>P 18g · C 34g · F 18g</div></div>
+          <div class="meal-row"><div class="meal-time">Snack<br>10:00</div><div class="meal-name">Handful of walnuts + 2 clementines<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">260 kcal<br>P 6g · C 22g · F 16g</div></div>
+          <div class="meal-row"><div class="meal-time">Lunch<br>13:00</div><div class="meal-name">Tuna (canned in spring water) with rice, cucumber, carrot sticks, olive oil dressing<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">510 kcal<br>P 40g · C 48g · F 14g</div></div>
+          <div class="meal-row"><div class="meal-time">Snack<br>16:00</div><div class="meal-name">Corn thins × 4 + 30g cheddar (standard — not low-lactose needed, hard cheese is low FODMAP)<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">230 kcal<br>P 10g · C 24g · F 10g</div></div>
+          <div class="meal-row"><div class="meal-time">Dinner<br>19:00</div><div class="meal-name">Beef mince stir-fry with rice noodles, bok choy, carrots, tamari sauce, sesame oil, spring onion tops only (green part — low FODMAP)<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">540 kcal<br>P 38g · C 52g · F 18g</div></div>
+        </div>
+
+        <div id="mealday-wed" class="meal-day" style="display:none">
+          <div class="meal-day-header">Wednesday <span class="meal-day-macro">~1,750 kcal · P 79g · C 205g · F 60g · Fibre 27g</span></div>
+          <div class="meal-row"><div class="meal-time">Breakfast<br>07:00</div><div class="meal-name">Lactose-free smoothie: banana (unripe), frozen blueberries, almond milk, chia seeds, almond butter<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">410 kcal<br>P 10g · C 56g · F 18g</div></div>
+          <div class="meal-row"><div class="meal-time">Snack<br>10:00</div><div class="meal-name">Boiled egg × 1, rice crackers × 3, sliced cucumber<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">220 kcal<br>P 10g · C 22g · F 10g</div></div>
+          <div class="meal-row"><div class="meal-time">Lunch<br>13:00</div><div class="meal-name">Chicken and rice soup (home-made — no onion, garlic-infused oil base), carrots, potato, fresh parsley<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">490 kcal<br>P 36g · C 52g · F 12g</div></div>
+          <div class="meal-row"><div class="meal-time">Snack<br>16:00</div><div class="meal-name">Kiwifruit × 2 + lactose-free yoghurt<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">200 kcal<br>P 8g · C 28g · F 6g</div></div>
+          <div class="meal-row"><div class="meal-time">Dinner<br>19:00</div><div class="meal-name">Grilled lamb chops, roasted pumpkin (½ cup — safe portion), steamed broccolini (½ cup — safe), quinoa<br><span class="fodmap-badge">Low FODMAP ✓</span></div><div class="meal-macros">570 kcal<br>P 42g · C 46g · F 20g</div></div>
+        </div>
+      </div>
+
+      <!-- Right: approval workflow -->
+      <div style="display:flex;flex-direction:column;gap:12px">
+
+        <div class="card" style="padding:16px;border-left:3px solid var(--amber)">
+          <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:10px">Practitioner review queue</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px">
+              <span style="color:var(--text-body)">Thandi M. · Week 1 plan</span>
+              <span style="background:rgba(230,146,42,.12);color:var(--amber);border:1px solid rgba(230,146,42,.3);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">Awaiting review</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px">
+              <span style="color:var(--text-body)">Sarah K. · Week 3 plan</span>
+              <span style="background:rgba(45,138,110,.1);color:var(--teal);border:1px solid rgba(45,138,110,.25);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">Approved ✓</span>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px">
+              <span style="color:var(--text-body)">James P. · Reintro phase</span>
+              <span style="background:rgba(45,138,110,.1);color:var(--teal);border:1px solid rgba(45,138,110,.25);padding:2px 8px;border-radius:20px;font-size:11px;font-weight:600">Approved ✓</span>
+            </div>
+          </div>
+          <div style="margin-top:12px;display:flex;gap:8px">
+            <button style="flex:1;font-size:12px;font-weight:600;padding:7px 0;border-radius:var(--radius-sm);background:var(--teal);color:#fff;border:none;cursor:pointer;font-family:inherit">Approve & send</button>
+            <button style="flex:1;font-size:12px;font-weight:600;padding:7px 0;border-radius:var(--radius-sm);background:transparent;color:var(--text-muted);border:1px solid var(--border);cursor:pointer;font-family:inherit">Edit first</button>
+          </div>
+        </div>
+
+        <div class="card" style="padding:16px">
+          <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px">Phase schedule · Thandi M.</div>
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--teal);display:inline-block;flex-shrink:0"></span>
+              <span style="color:var(--text-body)"><strong>Weeks 1–6:</strong> Strict elimination phase</span>
+              <span style="margin-left:auto;color:var(--teal);font-size:11px;font-weight:600">Active</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--border-strong);display:inline-block;flex-shrink:0"></span>
+              <span style="color:var(--text-muted)"><strong>Week 7:</strong> Lactose reintroduction (flag: likely trigger)</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--border-strong);display:inline-block;flex-shrink:0"></span>
+              <span style="color:var(--text-muted)"><strong>Week 9:</strong> Fructan reintroduction</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px">
+              <span style="width:8px;height:8px;border-radius:50%;background:var(--border-strong);display:inline-block;flex-shrink:0"></span>
+              <span style="color:var(--text-muted)"><strong>Week 13+:</strong> Personalised FODMAP threshold</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="padding:14px;background:rgba(230,146,42,.04)">
+          <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px">AI cannot do</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.7">
+            Diagnose IBS or IBD<br>
+            Prescribe mebeverine, loperamide, or buscopan<br>
+            Manage renal or oncology diets without RD<br>
+            Send any plan before Erica approves it
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- SYMPTOM DIARY TAB -->
+  <div id="tab-symptom" class="tab-content">
+
+    <!-- Phase 2 banner + channel note -->
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:11px;background:rgba(45,138,110,.12);color:var(--teal);border:1px solid rgba(45,138,110,.3);padding:3px 9px;border-radius:20px;font-weight:700;letter-spacing:.03em">Phase 2 · First pass</span>
+        <span style="font-size:12px;color:var(--text-muted)">Daily symptom diary · trigger detection · pre-session summary</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <span style="font-size:11px;color:var(--text-muted)">Channel:</span>
+        <span style="font-size:11px;background:rgba(45,138,110,.1);color:var(--teal);border:1px solid rgba(45,138,110,.25);padding:2px 8px;border-radius:20px;font-weight:600">Web app ✓</span>
+        <span style="font-size:11px;background:rgba(0,0,0,.04);color:var(--text-muted);border:1px solid var(--border);padding:2px 8px;border-radius:20px;font-weight:600">WhatsApp · add-on</span>
+      </div>
+    </div>
+
+    <!-- Row 1: trend + daily check-in -->
+    <div class="grid-2" style="margin-bottom:16px">
+      <div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">Thandi M. · Week 3 symptom trend</h3>
+        <div class="card" style="margin-bottom:12px">
+          <div class="symptom-chart">
+            <div class="symptom-row">
+              <div class="symptom-label">Bloating</div>
+              <div class="symptom-bar-bg"><div class="symptom-bar" style="width:35%;background:var(--teal)"></div></div>
+              <div class="symptom-val trend-down">3.5/10 ↓</div>
+            </div>
+            <div class="symptom-trend">Was 7.2/10 at intake · <span class="trend-down">improving</span></div>
+            <div class="symptom-row" style="margin-top:8px">
+              <div class="symptom-label">Abdominal pain</div>
+              <div class="symptom-bar-bg"><div class="symptom-bar" style="width:25%;background:var(--teal)"></div></div>
+              <div class="symptom-val trend-down">2.5/10 ↓</div>
+            </div>
+            <div class="symptom-trend">Was 5.8/10 at intake · <span class="trend-down">improving</span></div>
+            <div class="symptom-row" style="margin-top:8px">
+              <div class="symptom-label">BM regularity</div>
+              <div class="symptom-bar-bg"><div class="symptom-bar" style="width:70%;background:var(--sage)"></div></div>
+              <div class="symptom-val" style="color:var(--sage)">7.0/10 ↑</div>
+            </div>
+            <div class="symptom-trend">Was 3.4/10 at intake · <span class="trend-down">improving</span></div>
+            <div class="symptom-row" style="margin-top:8px">
+              <div class="symptom-label">Energy</div>
+              <div class="symptom-bar-bg"><div class="symptom-bar" style="width:68%;background:var(--amber)"></div></div>
+              <div class="symptom-val" style="color:var(--amber)">6.8/10 ↑</div>
+            </div>
+            <div class="symptom-trend">Was 4.2/10 at intake · <span class="trend-down">improving</span></div>
+            <div class="symptom-row" style="margin-top:8px">
+              <div class="symptom-label">Adherence</div>
+              <div class="symptom-bar-bg"><div class="symptom-bar" style="width:86%;background:var(--teal)"></div></div>
+              <div class="symptom-val" style="color:var(--teal)">86%</div>
+            </div>
+            <div class="symptom-trend">Low FODMAP adherence · <span class="trend-down">high compliance</span></div>
+          </div>
+        </div>
+        <div class="card" style="padding:14px;background:rgba(230,146,42,.06)">
+          <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:6px">⚠️ AI flagged for Erica's attention</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Day 16: Bloating spike 8/10 after restaurant meal — probable inadvertent FODMAP exposure (cream sauce). Not a clinical emergency. Logged + queued for discussion at next session.</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">Daily check-in · Day 18</h3>
+        <div class="chat-shell">
+          <div class="chat-header">
+            <div class="chat-avatar">E</div>
+            <div>
+              <div class="chat-name">EatFit Progress Coach</div>
+              <div class="chat-status"><span class="chat-status-dot"></span>Day 18 of 42 · Elimination phase</div>
+            </div>
+          </div>
+          <div class="chat-body">
+            <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Good morning Thandi 🌿 Day 18 check-in. How's the gut today? (1–10)</div>
+            <div class="msg msg-user">7 today — much better than last week!</div>
+            <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Great score — you're on an upward trend 📈<br><br>Any bloating in the last 24hrs?</div>
+            <div class="msg msg-user">A little after dinner but not bad</div>
+            <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Logged ✓ What did you have for dinner?</div>
+            <div class="msg msg-user">Chicken pasta with cream sauce</div>
+            <div class="msg msg-agent"><span class="msg-label">EatFit AI</span>Good catch — cream is lactose, which we're avoiding in Phase 1. Next time try coconut cream or garlic-infused olive oil — same richness, no FODMAP hit 👌<br><br>I've flagged this food log for Erica. You're doing really well overall!</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: trigger log + pre-session summary -->
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">AI trigger detection log · Weeks 1–3</h3>
+        <div class="card" style="padding:0;overflow:hidden">
+          <table style="width:100%;border-collapse:collapse;font-size:12px">
+            <thead>
+              <tr style="background:rgba(45,138,110,.07)">
+                <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-weight:600">Day</th>
+                <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-weight:600">Food logged</th>
+                <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-weight:600">Symptom</th>
+                <th style="padding:8px 12px;text-align:left;color:var(--text-muted);font-weight:600">Signal</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-top:1px solid var(--border)">
+                <td style="padding:8px 12px;color:var(--text-muted)">D3</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Regular yoghurt (dairy)</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Bloating 6/10</td>
+                <td style="padding:8px 12px"><span style="color:var(--amber);font-weight:600">⚠ Lactose</span></td>
+              </tr>
+              <tr style="border-top:1px solid var(--border);background:rgba(0,0,0,.015)">
+                <td style="padding:8px 12px;color:var(--text-muted)">D8</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Apple (whole)</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Pain 4/10</td>
+                <td style="padding:8px 12px"><span style="color:var(--amber);font-weight:600">⚠ Fructose</span></td>
+              </tr>
+              <tr style="border-top:1px solid var(--border)">
+                <td style="padding:8px 12px;color:var(--text-muted)">D12</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Store-bought bread (wheat)</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Bloating 5/10</td>
+                <td style="padding:8px 12px"><span style="color:var(--amber);font-weight:600">⚠ Fructan</span></td>
+              </tr>
+              <tr style="border-top:1px solid var(--border);background:rgba(0,0,0,.015)">
+                <td style="padding:8px 12px;color:var(--text-muted)">D16</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Restaurant cream pasta</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Bloating 8/10</td>
+                <td style="padding:8px 12px"><span style="color:var(--coral);font-weight:600">🔴 Spike</span></td>
+              </tr>
+              <tr style="border-top:1px solid var(--border)">
+                <td style="padding:8px 12px;color:var(--text-muted)">D18</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Chicken pasta, cream sauce</td>
+                <td style="padding:8px 12px;color:var(--text-body)">Mild bloating</td>
+                <td style="padding:8px 12px"><span style="color:var(--amber);font-weight:600">⚠ Lactose</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="padding:10px 12px;font-size:11px;color:var(--text-muted);border-top:1px solid var(--border)">Pattern detected: <strong style="color:var(--text-body)">Lactose</strong> appears in 3 of 5 flagged events. <strong style="color:var(--text-body)">Fructan</strong> (wheat) in 2. Consistent with intake classification.</div>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="font-size:15px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">Pre-session summary · AI-generated for Erica</h3>
+        <div class="card" style="padding:0;overflow:hidden">
+          <div class="soap-header" style="padding:10px 14px">PRE-SESSION BRIEF · Thandi M. · Session 4 · Tue 8 Apr 10:00</div>
+          <div style="padding:14px;font-size:12px;color:var(--text-body);line-height:1.8">
+            <div style="margin-bottom:8px"><span class="hl">Week 3 summary:</span> Positive trajectory across all tracked metrics. Bloating 3.5/10 (intake: 7.2). Pain 2.5/10 (intake: 5.8). BM regularity 7.0/10 (intake: 3.4). Energy improving.</div>
+            <div style="margin-bottom:8px"><span class="hl">Adherence:</span> 86% — high compliance. 5 FODMAP incidents logged (3 inadvertent, 2 patient-initiated).</div>
+            <div style="margin-bottom:8px"><span class="hl">Trigger pattern:</span> Lactose confirmed as primary trigger (3/5 incidents). Fructan (wheat) secondary (2/5). No new FODMAP exposures. Consistent with intake classification.</div>
+            <div style="margin-bottom:8px"><span class="hl">Flagged for discussion:</span> Day 16 restaurant spike (cream pasta). Day 18 repeat lactose exposure. Consider reinforcing label-reading strategies for eating out.</div>
+            <div style="margin-bottom:8px"><span class="hl">Suggested agenda:</span> Review trigger log · confirm lactose as reintroduction priority · advance to Week 4 elimination · set reintroduction date (Week 7).</div>
+            <div style="color:var(--text-muted);font-size:11px">⚠️ AI summary only — clinical judgment required. Not a diagnosis.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOAP NOTES TAB -->
+  <div id="tab-soap" class="tab-content">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">You dictate. AI formats.</h3>
+        <div class="card" style="margin-bottom:16px;padding:16px;background:rgba(45,138,110,.06)">
+          <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px">Your voice/text input:</div>
+          <div style="font-size:13px;color:var(--text-body);line-height:1.7;font-style:italic">"Thandi, session 3 of 6 on the IBS programme. Good progress — bloating down from 7 to 3.5. She had one spike on day 16 after cream pasta at a restaurant — inadvertent lactose exposure. We reviewed label reading for eating out. Energy notably improved, she says work performance is better. Adherence 86% which is excellent. Plan: continue elimination phase two more weeks, then begin lactose reintroduction challenge. Asked her to do a 3-day food diary before next session."</div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">HPCSA-compliant SOAP record:</h3>
+        <div class="soap-note">
+          <div class="soap-header">DATE: 2026-04-03 | CLIENT: Thandi M. | SESSION: 3/6<br>PRACTITIONER: Erica Jankovich RD(SA) | PROGRAMME: IBS — Low FODMAP</div>
+          <div class="soap-section">
+            <div class="soap-key">Subjective</div>
+            <div class="soap-val">Patient reports notable improvement in IBS symptoms since last session. Bloating score reduced from 7.0/10 (intake) to 3.5/10 (current). Single symptom spike noted on Day 16 — attributed to inadvertent lactose exposure (cream pasta, restaurant meal). Energy levels "notably improved" — patient reports improved work performance as associated benefit. No new symptoms or concerns reported.</div>
+          </div>
+          <div class="soap-section">
+            <div class="soap-key">Objective</div>
+            <div class="soap-val">Session 3 of 6-session IBS programme, Low FODMAP Elimination Phase (Day 18).
+Adherence: 86% (high — patient-reported via daily check-in log).
+FODMAP exposure incident: inadvertent lactose (cream sauce). Discussed and logged.
+Education provided: reading restaurant menus and ingredient labels for hidden FODMAPs.
+Energy 6.8/10 (was 4.2/10 at intake).</div>
+          </div>
+          <div class="soap-section">
+            <div class="soap-key">Assessment</div>
+            <div class="soap-val">Excellent response to Low FODMAP elimination protocol. Symptom trajectory positive across all tracked metrics. Lactose identified as probable subtype trigger (corroborates intake history). Adherence high. Patient demonstrating good nutrition literacy and motivation. On track to complete elimination phase as planned.</div>
+          </div>
+          <div class="soap-section" style="margin-bottom:0">
+            <div class="soap-key">Plan</div>
+            <div class="soap-val">1. Continue strict Low FODMAP elimination for 2 further weeks.
+2. Begin lactose reintroduction challenge at Week 6 (200ml full-cream milk, Day 1; 400ml, Day 3).
+3. Patient to complete 3-day food diary before Session 4.
+4. Review eating-out strategies at next session.
+5. No medication changes indicated. No referral required at this stage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRAINING TAB -->
+  <div id="tab-training" class="tab-content">
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">EatFit for IBS · Training agent</h3>
+        <div class="chat-shell">
+          <div class="chat-header">
+            <div class="chat-avatar">E</div>
+            <div>
+              <div class="chat-name">EatFit Training · Module 3</div>
+              <div class="chat-status"><span class="chat-status-dot"></span>Dietitian learner Q&A</div>
+            </div>
+          </div>
+          <div class="chat-body">
+            <div class="msg msg-user">In the reintroduction phase, should we test one FODMAP subgroup at a time even if the patient suspects multiple triggers?</div>
+            <div class="msg msg-agent"><span class="msg-label">EatFit Training AI</span>Yes — this is one of the most important protocol points. You test one FODMAP subgroup at a time, even when multiple are suspected. Here's why:<br><br>• If you introduce fructans and lactose simultaneously and symptoms occur, you can't determine which triggered the response<br>• The reintroduction protocol is specifically designed to isolate variables<br>• Kings College London protocol (Monash-aligned) confirms: 3-day test per subgroup, 3-day wash between<br><br>Erica covers this in detail in Module 4 — particularly the patient communication aspect. Would you like me to pull up that section?</div>
+            <div class="msg msg-user">Yes please, and what about polyols — when do we test those?</div>
+            <div class="msg msg-agent"><span class="msg-label">EatFit Training AI</span>Polyols (sorbitol and mannitol) are tested last in the standard protocol — they tend to cause osmotic diarrhea even at lower thresholds, so there's clinical value in establishing other subgroup responses first.<br><br>Module 4, Section 3 covers the polyol testing sequence. I've queued it for your next session. Your progress: <strong style="color:#E8C878">Module 3 complete ✓</strong> — 6 CPD points logged for ADSA.<br><br>Great question — this comes up a lot in practice. Erica will cover a case study in Module 5 where a patient had both sorbitol AND fructan sensitivity. Worth watching. 🎓</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:12px;letter-spacing:-.02em">Your training programme · AI-powered</h3>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="card" style="padding:14px">
+            <div style="font-size:13px;font-weight:700;color:var(--text-heading);margin-bottom:4px">Learner Q&A between modules</div>
+            <div style="font-size:12px;color:var(--text-muted)">AI answers questions grounded in your course content — not generic internet answers. Learners stay engaged without waiting for your reply.</div>
+          </div>
+          <div class="card" style="padding:14px">
+            <div style="font-size:13px;font-weight:700;color:var(--text-heading);margin-bottom:4px">Automated CPD tracking</div>
+            <div style="font-size:12px;color:var(--text-muted)">Tracks completion and issues CPD certificates mapped to ADSA credit hours. Learners always know where they stand.</div>
+          </div>
+          <div class="card" style="padding:14px">
+            <div style="font-size:13px;font-weight:700;color:var(--text-heading);margin-bottom:4px">Approved dietitian network</div>
+            <div style="font-size:12px;color:var(--text-muted)">Graduates added to your referral network. Patients searching for an IBS dietitian can be matched to trained practitioners in your approved circle.</div>
+          </div>
+          <div class="card" style="padding:14px">
+            <div style="font-size:13px;font-weight:700;color:var(--text-heading);margin-bottom:4px">Scale without scaling admin</div>
+            <div style="font-size:12px;color:var(--text-muted)">Run 10 learners or 100 — the agent handles Q&A, progress tracking, cohort management, and reminders at no extra effort from you.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── ROADMAP ────────────────────────────────────────────────── -->
+<section id="roadmap" class="fade-up">
+  <div class="section-label">Your build roadmap</div>
+  <h2>From today to your full AI practice.</h2>
+  <p class="section-sub">A phased build — each phase delivers immediate value before the next begins. You're live from week one.</p>
+
+  <div class="grid-2">
+    <div class="roadmap">
+
+      <div class="rm-phase">
+        <div class="rm-left rm-line">
+          <div class="rm-node" style="background:var(--teal);box-shadow:0 0 0 3px rgba(45,138,110,.25)">✓</div>
+        </div>
+        <div class="rm-right">
+          <div class="rm-phase-label" style="color:var(--teal)">Month 1 · Weeks 1–4 · <strong>Complete</strong></div>
+          <div class="rm-phase-title">Foundation — bookings & intake</div>
+          <div class="rm-items">
+            <div class="rm-item"><span class="rm-check">✓</span>WhatsApp booking agent — new & returning patients</div>
+            <div class="rm-item"><span class="rm-check">✓</span>GI intake questionnaire — FODMAP trigger mapping</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Pre-session brief delivered to you 30min before</div>
+            <div class="rm-item"><span class="rm-check">✓</span>24hr + 1hr appointment reminders with prep instructions</div>
+            <div class="rm-item"><span class="rm-check">✓</span>POPIA consent flow — health data special consent</div>
+          </div>
+          <span class="rm-tag rm-tag-live">✓ Phase 1 delivered</span>
+        </div>
+      </div>
+
+      <div class="rm-phase" style="background:rgba(45,138,110,.04);border-radius:var(--radius-md);padding:12px 0 12px 0;margin-left:-8px;padding-left:8px">
+        <div class="rm-left rm-line">
+          <div class="rm-node" style="background:var(--teal-dark);animation:pulse 2s infinite;box-shadow:0 0 0 4px rgba(45,138,110,.2)">2</div>
+        </div>
+        <div class="rm-right">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px">
+            <div class="rm-phase-label" style="margin-bottom:0;color:var(--teal-dark)">Month 2 · Weeks 5–8 · <strong>Building now — first pass</strong></div>
+            <span style="font-size:10px;background:rgba(45,138,110,.15);color:var(--teal);border:1px solid rgba(45,138,110,.3);padding:2px 7px;border-radius:20px;font-weight:700;letter-spacing:.03em">ACTIVE</span>
+          </div>
+          <div class="rm-phase-title">Clinical — meal plans & symptom tracking</div>
+          <div class="rm-items">
+            <div class="rm-item"><span class="rm-check">✓</span>Low FODMAP meal plan generator (elimination phase) · <span style="color:var(--teal);font-size:11px">web app first pass</span></div>
+            <div class="rm-item"><span class="rm-check">✓</span>Daily gut symptom diary · <span style="color:var(--teal);font-size:11px">web app first pass</span></div>
+            <div class="rm-item"><span class="rm-check">✓</span>Trigger food detection & pattern flagging</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Pre-session trend summary delivered to you</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Reintroduction phase scheduler (Weeks 7–12)</div>
+            <div class="rm-item" style="opacity:.6"><span style="color:var(--amber);font-weight:700;margin-right:6px">+</span>WhatsApp as additional channel — add-on once web flow is stable</div>
+          </div>
+          <span class="rm-tag rm-tag-soon" style="background:rgba(45,138,110,.12);color:var(--teal);border-color:rgba(45,138,110,.3)">Deliverable: patient-facing diet AI · web app</span>
+        </div>
+      </div>
+
+      <div class="rm-phase">
+        <div class="rm-left rm-line">
+          <div class="rm-node" style="background:var(--amber)">3</div>
+        </div>
+        <div class="rm-right">
+          <div class="rm-phase-label">Month 3 · Weeks 9–12</div>
+          <div class="rm-phase-title">Records — SOAP notes & copilot</div>
+          <div class="rm-items">
+            <div class="rm-item"><span class="rm-check">✓</span>Voice/text → SOAP note generator</div>
+            <div class="rm-item"><span class="rm-check">✓</span>HPCSA-compliant clinical record storage (6yr retention)</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Referral letter drafting — GP, gastro, FODMAP specialist</div>
+            <div class="rm-item"><span class="rm-check">✓</span>ADSA CPD logging & renewal reminders</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Client history lookup — "What's the history on Thandi?"</div>
+          </div>
+          <span class="rm-tag rm-tag-soon">Deliverable: AI practice management</span>
+        </div>
+      </div>
+
+      <div class="rm-phase">
+        <div class="rm-left">
+          <div class="rm-node" style="background:var(--coral)">4</div>
+        </div>
+        <div class="rm-right" style="border-left:2px solid transparent">
+          <div class="rm-phase-label">Month 4–6 · Scale</div>
+          <div class="rm-phase-title">Training — EatFit Programmes × AI</div>
+          <div class="rm-items">
+            <div class="rm-item"><span class="rm-check">✓</span>AI Q&A agent for EatFit learners (course-grounded)</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Automated CPD certificate issuance (ADSA-mapped)</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Approved dietitian network management</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Patient → trained dietitian matching (referral network)</div>
+            <div class="rm-item"><span class="rm-check">✓</span>Revenue dashboard — programme sales + consultation revenue</div>
+          </div>
+          <span class="rm-tag rm-tag-later">Deliverable: B2B AI training platform</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- What stays human -->
+    <div>
+      <h3 style="font-size:17px;font-weight:700;margin-bottom:16px;letter-spacing:-.02em;color:var(--text-heading)">What always stays human</h3>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card" style="padding:16px;border-left:3px solid var(--teal)">
+          <div style="font-size:14px;font-weight:700;color:var(--text-heading);margin-bottom:6px">Clinical diagnosis & medical judgment</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">AI never diagnoses. You remain the registered dietitian. Every meal plan requires your review and approval before delivery. AI is your clinical assistant — not your replacement.</div>
+        </div>
+        <div class="card" style="padding:16px;border-left:3px solid var(--amber)">
+          <div style="font-size:14px;font-weight:700;color:var(--text-heading);margin-bottom:6px">Therapeutic relationships</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">The consultation itself — the trust, the reading of the patient, the clinical intuition you've built over 25 years — that's yours. AI handles the before and after so you can be fully present in the room.</div>
+        </div>
+        <div class="card" style="padding:16px;border-left:3px solid var(--coral)">
+          <div style="font-size:14px;font-weight:700;color:var(--text-heading);margin-bottom:6px">Complex medical nutrition therapy</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">Renal, oncology, eating disorders — these require full practitioner oversight. AI flags these patients and routes to your review. Scope is enforced, not just advised.</div>
+        </div>
+        <div class="card" style="padding:16px;border-left:3px solid var(--sage)">
+          <div style="font-size:14px;font-weight:700;color:var(--text-heading);margin-bottom:6px">Teaching & mentoring</div>
+          <div style="font-size:12px;color:var(--text-muted);line-height:1.6">The EatFit training programme is yours — your 25 years, your clinical cases, your frameworks. AI delivers it at scale and handles Q&A between sessions. You remain the authority.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── B2B MODULE ────────────────────────────────────────────── -->
+<section id="b2b" class="fade-up">
+  <div class="section-label">The second business inside EatFit SA</div>
+  <h2>Your training practice, on AI rails.</h2>
+  <p class="section-sub">You already run a B2B training programme for registered dietitians. An AI agent makes this a scalable product — not just a service.</p>
+  <div class="b2b-card">
+    <div class="b2b-eyebrow">EatFit Programmes · AI-powered delivery</div>
+    <div class="b2b-title">Scale your IP without scaling your time.</div>
+    <div class="b2b-body">You've built specialised knowledge — Low FODMAP protocols, GI dietitian training, a referral network. Right now, that knowledge only scales as far as your calendar allows. An AI delivery layer changes that equation.</div>
+    <div class="b2b-points">
+      <div class="b2b-point"><span class="b2b-check">✓</span>Learner AI handles Q&A between modules — grounded in your course material only, not the internet</div>
+      <div class="b2b-point"><span class="b2b-check">✓</span>Automated cohort management: enrolment, progress, completion, certificates</div>
+      <div class="b2b-point"><span class="b2b-check">✓</span>CPD hours logged and ADSA certificates issued automatically on module completion</div>
+      <div class="b2b-point"><span class="b2b-check">✓</span>Your approved dietitian network becomes searchable — patients find a trained FODMAP practitioner near them</div>
+      <div class="b2b-point"><span class="b2b-check">✓</span>Programme revenue tracked in your dashboard alongside consultation income</div>
+    </div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap">
+      <a href="#roadmap" class="btn-primary" style="text-decoration:none">See Phase 4 in roadmap →</a>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ─── CTA ───────────────────────────────────────────────────── -->
+<div class="cta-section fade-up">
+  <div class="cta-eyebrow">Ready to start</div>
+  <div class="cta-title">Your AI practice starts<br>next week.</div>
+  <div class="cta-body">Phase 1 takes less than a week to deploy — you'll have a live WhatsApp booking agent and GI intake questionnaire running before your next patient arrives. Craig can walk you through everything.</div>
+  <div class="cta-actions">
+    <a href="https://wa.me/27828127214" class="cta-whatsapp" target="_blank">Chat on WhatsApp</a>
+    <a href="mailto:craig@2nth.ai" class="btn-outline" style="color:#fff;border-color:rgba(45,138,110,.4)">Email Craig at 2nth.ai</a>
+  </div>
+  <div style="margin-top:28px;font-size:12px;color:#5E7A6A">Powered by <a href="https://2nth.ai" target="_blank" style="color:var(--teal);text-decoration:none">2nth.ai</a> · Cloudflare Workers AI · POPIA-compliant · HPCSA-aware · No data leaves SA</div>
+</div>
+
+<footer>
+  <span>EatFit SA × 2nth.ai · Concept proposal · <a href="https://eatfitsa.com">eatfitsa.com</a> · Powered by <a href="https://2nth.ai">2nth.ai</a></span>
+</footer>
+
+<script>
+/* ── Theme ── */
+function toggleTheme(){
+  const html=document.documentElement;
+  html.setAttribute('data-theme',html.getAttribute('data-theme')==='dark'?'light':'dark');
+  localStorage.setItem('imbila-theme',html.getAttribute('data-theme'));
+}
+(function(){
+  const t=localStorage.getItem('imbila-theme');
+  if(t)document.documentElement.setAttribute('data-theme',t);
+})();
+
+/* ── Tabs ── */
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+/* ── Booking chat ── */
+const bookingReplies=[
+  "Thanks! We'll look forward to seeing you then. Is there anything specific you'd like to focus on in your first session?",
+  "Great! Erica specialises in exactly that. I'll make a note for her to discuss low FODMAP strategies with you.",
+  "Noted — Erica will have your full profile before the session. You're in good hands! 🌿",
+  "I've logged that. It'll be included in your pre-session brief to Erica.",
+  "That's helpful context. Erica will cover this in your consultation."
+];
+let brIdx=0;
+function sendBooking(){
+  const input=document.getElementById('booking-input');
+  const chat=document.getElementById('booking-chat');
+  if(!input.value.trim())return;
+  const userMsg=document.createElement('div');
+  userMsg.className='msg msg-user';
+  userMsg.textContent=input.value;
+  chat.appendChild(userMsg);
+  const v=input.value;
+  input.value='';
+  setTimeout(()=>{
+    const agentMsg=document.createElement('div');
+    agentMsg.className='msg msg-agent';
+    agentMsg.innerHTML='<span class="msg-label">EatFit AI</span>'+bookingReplies[brIdx%bookingReplies.length];
+    chat.appendChild(agentMsg);
+    chat.scrollTop=chat.scrollHeight;
+    brIdx++;
+  },900);
+  chat.scrollTop=chat.scrollHeight;
+}
+
+/* ── Meal day switcher ── */
+function showMealDay(day) {
+  ['mon','tue','wed'].forEach(d => {
+    document.getElementById('mealday-'+d).style.display = d === day ? '' : 'none';
+    const btn = document.getElementById('day-'+d);
+    if (d === day) {
+      btn.style.background = 'rgba(45,138,110,.1)';
+      btn.style.color = 'var(--teal)';
+      btn.style.borderColor = 'rgba(45,138,110,.3)';
+      btn.style.fontWeight = '600';
+    } else {
+      btn.style.background = 'transparent';
+      btn.style.color = 'var(--text-muted)';
+      btn.style.borderColor = 'var(--border)';
+      btn.style.fontWeight = 'normal';
+    }
+  });
+}
+
+/* ── Scroll animation ── */
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible')}});
+},{threshold:0.08});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
