@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2nth.ai × ScanMan — AI Vision Proposal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Barlow',sans-serif;background:#f0f4f0;color:#0a0a0a;-webkit-font-smoothing:antialiased;padding:40px 20px}
+    @media print{body{background:#fff;padding:0}}
+
+    .page{max-width:800px;margin:0 auto;background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.08)}
+    @media print{.page{box-shadow:none;border-radius:0;max-width:100%}}
+
+    /* Cover */
+    .cover{background:#0a0a0a;padding:0;position:relative;overflow:hidden;min-height:220px;display:flex;flex-direction:column;justify-content:flex-end}
+    .cover-stripe{position:absolute;top:0;right:0;width:220px;height:100%;background:linear-gradient(135deg,#3DAA35 0%,#2E7D32 60%,#1B5E20 100%);clip-path:polygon(60px 0,100% 0,100% 100%,0 100%)}
+    .cover-stripe-2{position:absolute;top:0;right:0;width:120px;height:100%;background:linear-gradient(135deg,#6ABF6988 0%,#3DAA3566 100%);clip-path:polygon(40px 0,100% 0,100% 100%,0 100%)}
+    .cover-inner{position:relative;z-index:2;padding:40px 48px}
+    .cover-logos{display:flex;align-items:center;gap:20px;margin-bottom:32px}
+    .cover-brand{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:.06em;color:#fafafa}
+    .cover-brand span{color:#3DAA35}
+    .cover-x{font-family:'JetBrains Mono',monospace;font-size:18px;color:#52525b;margin:0 4px}
+    .scanman-logo{height:40px;filter:brightness(0) invert(1)}
+    .cover-title{font-family:'Bebas Neue',sans-serif;font-size:42px;letter-spacing:.04em;color:#fafafa;line-height:1.05;margin-bottom:12px}
+    .cover-title span{color:#3DAA35}
+    .cover-sub{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#52525b}
+
+    /* Meta bar */
+    .meta-bar{background:#111;padding:14px 48px;display:flex;gap:40px;flex-wrap:wrap}
+    .meta-item{display:flex;flex-direction:column;gap:3px}
+    .meta-key{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#3f3f46}
+    .meta-val{font-family:'JetBrains Mono',monospace;font-size:11px;color:#3DAA35;font-weight:600}
+
+    /* Body */
+    .body{padding:48px}
+
+    /* Section */
+    .section{margin-bottom:40px}
+    .section-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#3DAA35;margin-bottom:14px;display:flex;align-items:center;gap:10px}
+    .section-label::after{content:'';flex:1;height:1px;background:#e4e4e7}
+    .section-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.04em;color:#0a0a0a;margin-bottom:10px}
+    .section-body{font-size:14px;color:#52525b;line-height:1.75}
+
+    /* Problem / opportunity cards */
+    .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+    .card{background:#f9fafb;border:1px solid #e4e4e7;border-radius:6px;padding:20px}
+    .card-icon{font-size:22px;margin-bottom:10px}
+    .card-title{font-size:14px;font-weight:700;color:#0a0a0a;margin-bottom:6px}
+    .card-body{font-size:13px;color:#71717a;line-height:1.6}
+    .card.highlight{background:#f0faf0;border-color:#a7d9a5}
+    .card.highlight .card-title{color:#2E7D32}
+
+    /* Scope table */
+    .scope-table{width:100%;border-collapse:collapse;margin-top:16px}
+    .scope-table thead tr{background:#0a0a0a}
+    .scope-table thead th{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:#a1a1aa;padding:10px 14px;text-align:left;font-weight:500}
+    .scope-table thead th:last-child{text-align:right}
+    .scope-table tbody tr{border-bottom:1px solid #f4f4f5}
+    .scope-table tbody tr:hover{background:#f9fafb}
+    .scope-table tbody td{padding:14px;font-size:13px;color:#27272a;vertical-align:top}
+    .scope-table tbody td:last-child{text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;white-space:nowrap;color:#2E7D32}
+    .scope-phase{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;background:#f0faf0;color:#2E7D32;border:1px solid #a7d9a5;border-radius:2px;padding:2px 6px;display:inline-block;margin-bottom:4px}
+    .scope-name{font-weight:600;color:#0a0a0a;margin-bottom:3px}
+    .scope-desc{font-size:12px;color:#71717a;line-height:1.5}
+
+    /* Totals */
+    .totals{display:flex;justify-content:flex-end;margin-top:24px}
+    .totals-box{width:300px}
+    .total-row{display:flex;justify-content:space-between;padding:8px 0;font-size:13px;color:#52525b;border-bottom:1px solid #f4f4f5}
+    .total-row span:last-child{font-family:'JetBrains Mono',monospace;font-size:12px}
+    .total-row.grand{border:none;border-top:2px solid #0a0a0a;padding-top:14px;margin-top:4px}
+    .total-row.grand span{font-size:16px;font-weight:700;color:#0a0a0a}
+    .total-row.grand span:last-child{color:#2E7D32;font-size:15px}
+
+    /* Timeline */
+    .timeline{margin-top:16px;display:flex;flex-direction:column;gap:0}
+    .tl-row{display:flex;gap:20px;padding:14px 0;border-bottom:1px solid #f4f4f5}
+    .tl-row:last-child{border-bottom:none}
+    .tl-week{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:#3DAA35;font-weight:600;min-width:70px;padding-top:2px}
+    .tl-content{font-size:13px;color:#27272a;line-height:1.6}
+    .tl-content strong{color:#0a0a0a;font-weight:600}
+
+    /* Why 2nth */
+    .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+    .pillar{text-align:center;padding:20px 14px;border:1px solid #e4e4e7;border-radius:6px}
+    .pillar-num{font-family:'Bebas Neue',sans-serif;font-size:36px;color:#3DAA35;line-height:1}
+    .pillar-label{font-size:12px;font-weight:600;color:#0a0a0a;margin:6px 0 4px}
+    .pillar-desc{font-size:11px;color:#71717a;line-height:1.5}
+
+    /* CTA footer */
+    .cta-bar{background:#0a0a0a;padding:36px 48px;display:flex;justify-content:space-between;align-items:center;gap:24px}
+    .cta-text{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:.04em;color:#fafafa}
+    .cta-text span{color:#3DAA35}
+    .cta-contact{text-align:right}
+    .cta-name{font-size:15px;font-weight:600;color:#fafafa}
+    .cta-email{font-family:'JetBrains Mono',monospace;font-size:11px;color:#3DAA35;margin-top:3px}
+    .cta-note{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:#3f3f46;margin-top:6px}
+
+    /* Print bar */
+    .print-bar{max-width:800px;margin:0 auto 16px;display:flex;justify-content:flex-end;gap:10px}
+    .print-btn{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;padding:8px 18px;border-radius:4px;border:none;cursor:pointer}
+    .print-btn.primary{background:#3DAA35;color:#fff;font-weight:700}
+    .print-btn.secondary{background:#fff;color:#52525b;border:1px solid #e4e4e7}
+    @media print{.print-bar{display:none}}
+  </style>
+</head>
+<body>
+
+<div class="print-bar">
+  <button class="print-btn secondary" onclick="window.close()">Close</button>
+  <button class="print-btn primary" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<div class="page">
+
+  <!-- Cover -->
+  <div class="cover">
+    <div class="cover-stripe"></div>
+    <div class="cover-stripe-2"></div>
+    <div class="cover-inner">
+      <div class="cover-logos">
+        <div class="cover-brand"><span>2</span>NTH.AI</div>
+        <div class="cover-x">×</div>
+        <img src="https://images.squarespace-cdn.com/content/v1/5e81a77917f8c1370e2fc67d/1586948268405-BYVBV8OVE7WVIV9IZ4RU/scanman-logo+trans-02.png" class="scanman-logo" alt="ScanMan">
+      </div>
+      <div class="cover-title">AI Vision<br><span>Roadmap</span></div>
+      <div class="cover-sub">Platform Proposal · April 2026</div>
+    </div>
+  </div>
+
+  <!-- Meta -->
+  <div class="meta-bar">
+    <div class="meta-item">
+      <span class="meta-key">Prepared For</span>
+      <span class="meta-val">ScanMan</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-key">Prepared By</span>
+      <span class="meta-val">Craig Leppan · 2nth.ai</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-key">Date</span>
+      <span class="meta-val">7 April 2026</span>
+    </div>
+    <div class="meta-item">
+      <span class="meta-key">Ref</span>
+      <span class="meta-val">SM-AI-2026-001</span>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- Opportunity -->
+    <div class="section">
+      <div class="section-label">The Opportunity</div>
+      <div class="section-title">Warehouse Intelligence, Amplified</div>
+      <div class="section-body">ScanMan already delivers proven WMS capability across large warehouse environments — reducing costs, improving inventory accuracy, and strengthening management control. The next frontier is embedding AI agents directly into those workflows: real-time anomaly detection, natural-language stock queries, predictive replenishment, and operator copilots that work alongside your existing scanning infrastructure.</div>
+      <div class="cards" style="margin-top:20px">
+        <div class="card">
+          <div class="card-icon">📦</div>
+          <div class="card-title">Today's Challenge</div>
+          <div class="card-body">WMS data is rich but static. Operators react to exceptions rather than being guided proactively. Reports require manual interpretation and are always a step behind.</div>
+        </div>
+        <div class="card highlight">
+          <div class="card-icon">⚡</div>
+          <div class="card-title">The AI Opportunity</div>
+          <div class="card-body">Edge AI agents that classify, route, and surface insights at scan time — zero latency, no round-trips. Your WMS becomes a live intelligence layer, not just a record system.</div>
+        </div>
+        <div class="card highlight">
+          <div class="card-icon">🤖</div>
+          <div class="card-title">Natural Language Interface</div>
+          <div class="card-body">"Show me all bins below reorder threshold in Zone C" — spoken or typed, answered instantly from live D1 data. No report builder, no SQL, no wait.</div>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔗</div>
+          <div class="card-title">Platform Integration</div>
+          <div class="card-body">Built on Cloudflare Workers — the same edge infrastructure your WMS can deploy to. Integrates via API with existing scan hardware, mobile apps, and ERP connectors.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scope -->
+    <div class="section">
+      <div class="section-label">Scope of Work</div>
+      <div class="section-title">Phase 1 — Demo &amp; Roadmap</div>
+      <div class="section-body">A focused engagement to build a working AI demo on ScanMan's domain context and produce a concrete AI product roadmap for integration into the core WMS platform.</div>
+
+      <table class="scope-table">
+        <thead>
+          <tr>
+            <th>Deliverable</th>
+            <th>Fee (ZAR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="scope-phase">Discovery</div>
+              <div class="scope-name">AI Readiness &amp; Domain Mapping</div>
+              <div class="scope-desc">Workshop to map ScanMan's data model, scan events, and workflow touchpoints to AI opportunity areas. Output: annotated domain map + priority matrix.</div>
+            </td>
+            <td>Included</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="scope-phase">Demo</div>
+              <div class="scope-name">Working Prototype — WMS AI Agent</div>
+              <div class="scope-desc">Live demo: natural-language stock queries, scan anomaly alerts, and operator copilot. Built on Cloudflare Workers AI + Claude via AI Gateway. Deployable to scanman.co.za subdomain.</div>
+            </td>
+            <td>R 15,000</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="scope-phase">Roadmap</div>
+              <div class="scope-name">AI Product Roadmap Document</div>
+              <div class="scope-desc">12-month phased roadmap: Phase 1 demo → Phase 2 embedded agent → Phase 3 predictive intelligence. Includes architecture diagrams, tech stack recommendations, and integration points.</div>
+            </td>
+            <td>R 5,000</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="totals">
+        <div class="totals-box">
+          <div class="total-row">
+            <span>Subtotal</span>
+            <span>R 20,000.00</span>
+          </div>
+          <div class="total-row">
+            <span>VAT (0% — pending registration)</span>
+            <span>R 0.00</span>
+          </div>
+          <div class="total-row grand">
+            <span>Total</span>
+            <span>R 20,000.00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline -->
+    <div class="section">
+      <div class="section-label">Timeline</div>
+      <div class="section-title">4-Week Delivery</div>
+      <div class="timeline">
+        <div class="tl-row">
+          <div class="tl-week">Week 1</div>
+          <div class="tl-content"><strong>Discovery workshop</strong> — data model review, workflow mapping, stakeholder interviews</div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-week">Week 2</div>
+          <div class="tl-content"><strong>Agent build</strong> — WMS AI agent prototype on Cloudflare Workers AI + Claude</div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-week">Week 3</div>
+          <div class="tl-content"><strong>Demo refinement</strong> — ScanMan domain tuning, UI polish, internal review</div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-week">Week 4</div>
+          <div class="tl-content"><strong>Roadmap delivery</strong> — written roadmap document, presentation, and handover</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why 2nth -->
+    <div class="section">
+      <div class="section-label">Why 2nth.ai</div>
+      <div class="section-title">Edge-First AI, Built for Operators</div>
+      <div class="section-body" style="margin-bottom:16px">2nth.ai specialises in deploying AI agents on Cloudflare's edge infrastructure — the same stack that powers global WMS-scale operations. No data leaves the edge. No round-trips to external APIs for classification. Intent routing happens at scan time.</div>
+      <div class="pillars">
+        <div class="pillar">
+          <div class="pillar-num">0ms</div>
+          <div class="pillar-label">Edge Latency</div>
+          <div class="pillar-desc">Workers AI classifies at the edge — no round-trips, no delays at scan time</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">D1</div>
+          <div class="pillar-label">SQLite at Edge</div>
+          <div class="pillar-desc">Live inventory queries against edge-replicated SQLite — fast everywhere</div>
+        </div>
+        <div class="pillar">
+          <div class="pillar-num">RAG</div>
+          <div class="pillar-label">Domain Context</div>
+          <div class="pillar-desc">Vectorize embeddings trained on ScanMan's WMS domain — precise, relevant answers</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA Footer -->
+  <div class="cta-bar">
+    <div class="cta-text">Ready to build the<br><span>intelligent warehouse?</span></div>
+    <div class="cta-contact">
+      <div class="cta-name">Craig Leppan</div>
+      <div class="cta-email">craig@2nth.ai</div>
+      <div class="cta-note">Ref: SM-AI-2026-001</div>
+    </div>
+  </div>
+
+</div>
+
+<script src="https://2nth-beta.pages.dev/env-banner.js"></script>
+</body>
+</html>
