@@ -9,9 +9,13 @@ const SESSION_COOKIE = 'demo_session';
 // Demos open to any signed-in user (null = open)
 // Demos with an array = restricted to those email domains or explicit emails
 const DEMO_ACCESS = {
-  '/wellness.html':      null,
-  '/meeting-agent.html': null,
-  '/erica.html':         'client',  // requires demo granted or admin
+  '/wellness.html':                 null,
+  '/meeting-agent.html':            null,
+  '/erica.html':                    'client',
+  '/silvergro.html':                'client',
+  '/silvergro-architecture.html':   'client',
+  '/silvergro-feedstock.html':      'client',
+  '/karan-beef.html':               'client',
 };
 
 function getCookie(header, name) {
@@ -25,11 +29,13 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   const path = url.pathname;
 
-  // Always allow: sign-in page, API routes, static assets
+  // Always allow: sign-in page, API routes, static assets, and public demos
+  const PUBLIC_PAGES = ['/spinscience.html'];
   if (
-    path === '/signin.html' ||
+    path === '/signin.html' || path === '/signin' ||
     path.startsWith('/api/') ||
-    path.match(/\.(css|js|svg|png|jpg|ico|woff2?|ttf)$/)
+    path.match(/\.(css|js|svg|png|jpg|ico|woff2?|ttf)$/) ||
+    PUBLIC_PAGES.includes(path)
   ) {
     return next();
   }
@@ -48,7 +54,7 @@ export async function onRequest(context) {
   // No session → redirect to sign-in
   if (!user) {
     const returnUrl = encodeURIComponent(path + url.search);
-    return Response.redirect(`${url.origin}/signin.html?return=${returnUrl}`, 302);
+    return Response.redirect(`${url.origin}/signin?return=${returnUrl}`, 302);
   }
 
   // Per-demo access check
